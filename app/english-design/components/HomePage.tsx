@@ -1,0 +1,144 @@
+"use client";
+import { useEffect, useState } from "react";
+import { ScrollArea } from "@mantine/core";
+import { loadFont } from "../../components/SelectFont";
+import { useSearchParams } from "next/navigation";
+import { EnglishLongVideo } from "./EnglishLongVideo";
+import { useEnglishVideo } from "../store-provider";
+import { flatten, uniq } from "lodash";
+import { SetConfigModal } from "./SetConfigModal";
+import { CopyConfigModal } from "./CopyConfigModal";
+import { ActionButton } from "./ActionButton";
+import { EnglishShortVideo } from "./EnglishShortVideo";
+import { VoiceScriptModal } from "./VoiceScriptModal";
+import { ViewContentModal } from "./ViewContentModal";
+import { SlideManagement } from "./SlideManagement";
+import { SetMainConfigModal } from "./SetMainConfigModal";
+
+export default function HomePage() {
+  const {
+    getAll,
+    // contentIndex,
+    slides,
+    setContentIndex,
+    scale,
+    zoom,
+    setConfigModalOpened,
+    setCopyConfigModalOpened,
+    currentSlide,
+    setSlides,
+  } = useEnglishVideo((state) => state);
+  const params = useSearchParams();
+  const [isView, setIsView] = useState<boolean>(
+    JSON.parse(params.get("view") || "false")
+  );
+  const [copyValue, setCopyValue] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const styleData = localStorage.getItem("style");
+      const isView = JSON.parse(params.get("view") || "false");
+      if (styleData) {
+        zoom(isView ? 1 : 0.5);
+      } else {
+        zoom(isView ? 1 : 0.5);
+      }
+    }
+    setContentIndex(parseInt(params.get("index") ?? "0"));
+    const fonts: Array<string> = [];
+    flatten(slides.map((item) => item.shapes)).forEach((shape) => {
+      shape.styles.forEach((item) => {
+        if (item.name === "fontFamily" && item.value) {
+          fonts.push(item.value);
+        }
+      });
+    });
+    uniq(fonts).forEach((font) => {
+      loadFont(`https://fonts.googleapis.com/css?family=${font}`);
+    });
+    setConfigModalOpened(false);
+    setCopyConfigModalOpened(false);
+    if (!slides?.length) {
+      setSlides([
+        {
+          uuid: "MAIN",
+          type: "Long",
+          position: "Main",
+          contentIndex: 0,
+          shapes: [],
+          contents: [],
+          difficultWords: [],
+          voiceScriptItems: [],
+          startIndex: 0,
+          endIndex: null,
+          splitedContent: null,
+          isSelected: true,
+          maxChars: 500,
+          currentMaxIndex: 0,
+        },
+      ]);
+    }
+  }, []);
+
+  useEffect(() => {
+    (window as any).nextContent = function () {
+      setContentIndex(currentSlide()!.contentIndex + 1);
+    };
+    (window as any).gotoContent = function (contentIndex: number) {
+      setContentIndex(contentIndex);
+    };
+  }, [slides]);
+
+  useEffect(() => {
+    setCopyValue(
+      btoa(
+        encodeURIComponent(
+          JSON.stringify({
+            state: getAll(),
+            version: 0,
+          })
+        )
+      )
+    );
+  }, [currentSlide()]);
+
+  return (
+    !!currentSlide() && (
+      <>
+        <SetMainConfigModal copyValue={copyValue}></SetMainConfigModal>
+        <SetConfigModal copyValue={copyValue}></SetConfigModal>
+        <CopyConfigModal copyValue={copyValue}></CopyConfigModal>
+        <VoiceScriptModal></VoiceScriptModal>
+        <ViewContentModal></ViewContentModal>
+        <div className="tw-flex tw-flex-1 tw-w-screen tw-h-screen">
+          <div
+            className={`${
+              isView ? "tw-w-full" : "tw-w-[calc(100vw_-_496px)]"
+            } tw-h-full tw-flex tw-flex-col`}
+          >
+            <ScrollArea type="never" className="tw-w-full tw-h-full tw-flex-1">
+              {currentSlide()!.type === "Long" && (
+                <EnglishLongVideo
+                  scale={scale.toString()}
+                  isView={isView}
+                ></EnglishLongVideo>
+              )}
+              {currentSlide()!.type === "Short" && (
+                <EnglishShortVideo
+                  scale={scale.toString()}
+                  isView={isView}
+                ></EnglishShortVideo>
+              )}
+            </ScrollArea>
+            <SlideManagement
+              isView={isView}
+              direcrion="horizontal"
+              align={{ left: 0, right: 496 }}
+            ></SlideManagement>
+          </div>
+          <ActionButton isView={isView}></ActionButton>
+        </div>
+      </>
+    )
+  );
+}
