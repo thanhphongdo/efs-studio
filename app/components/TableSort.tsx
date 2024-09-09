@@ -184,8 +184,8 @@ export default function TableSort() {
                 .addAscending('storyId')
                 .addAscending('episodeNum')
                 .find();
-            const data = schedules.map(item => item.toJSON());
-            setRecords(schedules.map(item => item.toJSON()));
+            const data = schedules.map((item: any) => item.toJSON());
+            setRecords(schedules.map((item: any) => item.toJSON()));
         }
     }
 
