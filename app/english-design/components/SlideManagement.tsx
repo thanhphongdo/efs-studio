@@ -190,13 +190,26 @@ export const SlideManagement = (props: {
                       <Menu.Item
                         onClick={(e) => {
                           e.stopPropagation();
+                          const shapes = [
+                            ...slide.shapes.map((item) => ({
+                              ...item,
+                              uuid: v4(),
+                            })),
+                          ];
                           const newSlide: SlideItem = {
                             uuid: v4(),
                             contentIndex: 0,
-                            shapes: [...slide.shapes],
+                            shapes,
                             contents: [...slide.contents],
                             difficultWords: [...slide.difficultWords],
-                            voiceScriptItems: [...slide.voiceScriptItems],
+                            voiceScriptItems: [
+                              ...slide.voiceScriptItems.map((item) => ({
+                                ...item,
+                                voiceId: v4(),
+                                id: shapes.find((s) => s.key === item.key)!
+                                  .uuid,
+                              })),
+                            ],
                             type: "Long",
                             position: "Before",
                             startIndex: 0,
@@ -221,13 +234,26 @@ export const SlideManagement = (props: {
                       <Menu.Item
                         onClick={(e) => {
                           e.stopPropagation();
+                          const shapes = [
+                            ...slide.shapes.map((item) => ({
+                              ...item,
+                              uuid: v4(),
+                            })),
+                          ];
                           const newSlide: SlideItem = {
                             uuid: v4(),
                             contentIndex: 0,
-                            shapes: [...slide.shapes],
+                            shapes,
                             contents: [...slide.contents],
                             difficultWords: [...slide.difficultWords],
-                            voiceScriptItems: [...slide.voiceScriptItems],
+                            voiceScriptItems: [
+                              ...slide.voiceScriptItems.map((item) => ({
+                                ...item,
+                                voiceId: v4(),
+                                id: shapes.find((s) => s.key === item.key)!
+                                  .uuid,
+                              })),
+                            ],
                             type: "Long",
                             position: "After",
                             startIndex: 0,
