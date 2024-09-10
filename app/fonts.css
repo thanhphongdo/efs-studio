@@ -1,6 +1,6 @@
 @font-face {
     font-family: Font1;
-    src: url(http://localhost:3300/fonts/font-001.ttf);
+    src: url(/fonts/font-001.ttf);
 }
 
 .font-1 {
@@ -9,7 +9,7 @@
 
 @font-face {
     font-family: Font2;
-    src: url(http://localhost:3300/fonts/font-002.ttf);
+    src: url(/fonts/font-002.ttf);
 }
 
 .font-2 {
@@ -18,7 +18,7 @@
 
 @font-face {
     font-family: Font3;
-    src: url(http://localhost:3300/fonts/font-003.ttf);
+    src: url(/fonts/font-003.ttf);
 }
 
 .font-3 {
@@ -27,7 +27,7 @@
 
 @font-face {
     font-family: Font4;
-    src: url(http://localhost:3300/fonts/font-004.ttf);
+    src: url(/fonts/font-004.ttf);
 }
 
 .font-4 {
@@ -36,7 +36,7 @@
 
 @font-face {
     font-family: Font5;
-    src: url(http://localhost:3300/fonts/font-005.ttf);
+    src: url(/fonts/font-005.ttf);
 }
 
 .font-5 {
@@ -45,7 +45,7 @@
 
 @font-face {
     font-family: Font6;
-    src: url(http://localhost:3300/fonts/font-006.ttf);
+    src: url(/fonts/font-006.ttf);
 }
 
 .font-6 {
@@ -54,7 +54,7 @@
 
 @font-face {
     font-family: Font7;
-    src: url(http://localhost:3300/fonts/font-007.ttf);
+    src: url(/fonts/font-007.ttf);
 }
 
 .font-7 {
@@ -63,7 +63,7 @@
 
 @font-face {
     font-family: Font8;
-    src: url(http://localhost:3300/fonts/font-008.ttf);
+    src: url(/fonts/font-008.ttf);
 }
 
 .font-8 {
@@ -72,7 +72,7 @@
 
 @font-face {
     font-family: Font9;
-    src: url(http://localhost:3300/fonts/font-009.ttf);
+    src: url(/fonts/font-009.ttf);
 }
 
 .font-9 {
@@ -81,7 +81,7 @@
 
 @font-face {
     font-family: Font10;
-    src: url(http://localhost:3300/fonts/font-010.ttf);
+    src: url(/fonts/font-010.ttf);
 }
 
 .font-10 {
@@ -90,7 +90,7 @@
 
 @font-face {
     font-family: Font11;
-    src: url(http://localhost:3300/fonts/font-011.ttf);
+    src: url(/fonts/font-011.ttf);
 }
 
 .font-11 {
@@ -99,7 +99,7 @@
 
 @font-face {
     font-family: Font12;
-    src: url(http://localhost:3300/fonts/font-012.otf);
+    src: url(/fonts/font-012.otf);
 }
 
 .font-12 {
@@ -108,7 +108,7 @@
 
 @font-face {
     font-family: Font13;
-    src: url(http://localhost:3300/fonts/font-013.ttf);
+    src: url(/fonts/font-013.ttf);
 }
 
 .font-13 {
@@ -117,7 +117,7 @@
 
 @font-face {
     font-family: Font14;
-    src: url(http://localhost:3300/fonts/font-014.ttf);
+    src: url(/fonts/font-014.ttf);
 }
 
 .font-14 {
@@ -126,7 +126,7 @@
 
 @font-face {
     font-family: Font15;
-    src: url(http://localhost:3300/fonts/font-015.ttf);
+    src: url(/fonts/font-015.ttf);
 }
 
 .font-15 {
@@ -135,7 +135,7 @@
 
 @font-face {
     font-family: Font16;
-    src: url(http://localhost:3300/fonts/font-016.ttf);
+    src: url(/fonts/font-016.ttf);
 }
 
 .font-16 {
@@ -144,7 +144,7 @@
 
 @font-face {
     font-family: Font17;
-    src: url(http://localhost:3300/fonts/font-017.ttf);
+    src: url(/fonts/font-017.ttf);
 }
 
 .font-17 {
@@ -153,7 +153,7 @@
 
 @font-face {
     font-family: Font18;
-    src: url(http://localhost:3300/fonts/font-018.ttf);
+    src: url(/fonts/font-018.ttf);
 }
 
 .font-18 {
@@ -162,7 +162,7 @@
 
 @font-face {
     font-family: Font19;
-    src: url(http://localhost:3300/fonts/font-019.ttf);
+    src: url(/fonts/font-019.ttf);
 }
 
 .font-19 {
@@ -171,7 +171,7 @@
 
 @font-face {
     font-family: Font20;
-    src: url(http://localhost:3300/fonts/font-020.ttf);
+    src: url(/fonts/font-020.ttf);
 }
 
 .font-20 {
@@ -180,7 +180,7 @@
 
 @font-face {
     font-family: Font21;
-    src: url(http://localhost:3300/fonts/font-021.ttf);
+    src: url(/fonts/font-021.ttf);
 }
 
 .font-21 {
@@ -189,7 +189,7 @@
 
 @font-face {
     font-family: Font22;
-    src: url(http://localhost:3300/fonts/font-022.ttf);
+    src: url(/fonts/font-022.ttf);
 }
 
 .font-22 {
@@ -198,7 +198,7 @@
 
 @font-face {
     font-family: Font23;
-    src: url(http://localhost:3300/fonts/font-023.ttf);
+    src: url(/fonts/font-023.ttf);
 }
 
 .font-23 {
@@ -207,7 +207,7 @@
 
 @font-face {
     font-family: Font24;
-    src: url(http://localhost:3300/fonts/font-024.ttf);
+    src: url(/fonts/font-024.ttf);
 }
 
 .font-24 {
@@ -216,7 +216,7 @@
 
 @font-face {
     font-family: Font25;
-    src: url(http://localhost:3300/fonts/font-025.ttf);
+    src: url(/fonts/font-025.ttf);
 }
 
 .font-25 {
@@ -225,7 +225,7 @@
 
 @font-face {
     font-family: Font26;
-    src: url(http://localhost:3300/fonts/font-026.ttf);
+    src: url(/fonts/font-026.ttf);
 }
 
 .font-26 {
@@ -234,7 +234,7 @@
 
 @font-face {
     font-family: Font27;
-    src: url(http://localhost:3300/fonts/font-027.otf);
+    src: url(/fonts/font-027.otf);
 }
 
 .font-27 {
@@ -243,7 +243,7 @@
 
 @font-face {
     font-family: Font28;
-    src: url(http://localhost:3300/fonts/font-028.otf);
+    src: url(/fonts/font-028.otf);
 }
 
 .font-28 {
@@ -252,7 +252,7 @@
 
 @font-face {
     font-family: Font29;
-    src: url(http://localhost:3300/fonts/font-029.ttf);
+    src: url(/fonts/font-029.ttf);
 }
 
 .font-29 {
@@ -261,7 +261,7 @@
 
 @font-face {
     font-family: Font30;
-    src: url(http://localhost:3300/fonts/font-030.ttf);
+    src: url(/fonts/font-030.ttf);
 }
 
 .font-30 {
@@ -270,7 +270,7 @@
 
 @font-face {
     font-family: Font31;
-    src: url(http://localhost:3300/fonts/font-031.ttf);
+    src: url(/fonts/font-031.ttf);
 }
 
 .font-31 {
@@ -279,7 +279,7 @@
 
 @font-face {
     font-family: Font32;
-    src: url(http://localhost:3300/fonts/font-032.ttf);
+    src: url(/fonts/font-032.ttf);
 }
 
 .font-32 {
@@ -288,7 +288,7 @@
 
 @font-face {
     font-family: Font33;
-    src: url(http://localhost:3300/fonts/font-033.ttf);
+    src: url(/fonts/font-033.ttf);
 }
 
 .font-33 {
@@ -297,7 +297,7 @@
 
 @font-face {
     font-family: Font34;
-    src: url(http://localhost:3300/fonts/font-034.ttf);
+    src: url(/fonts/font-034.ttf);
 }
 
 .font-34 {
@@ -306,7 +306,7 @@
 
 @font-face {
     font-family: Font35;
-    src: url(http://localhost:3300/fonts/font-035.ttf);
+    src: url(/fonts/font-035.ttf);
 }
 
 .font-35 {
@@ -315,7 +315,7 @@
 
 @font-face {
     font-family: Font36;
-    src: url(http://localhost:3300/fonts/font-036.ttf);
+    src: url(/fonts/font-036.ttf);
 }
 
 .font-36 {
@@ -324,7 +324,7 @@
 
 @font-face {
     font-family: Font37;
-    src: url(http://localhost:3300/fonts/font-037.ttf);
+    src: url(/fonts/font-037.ttf);
 }
 
 .font-37 {
@@ -333,7 +333,7 @@
 
 @font-face {
     font-family: Font38;
-    src: url(http://localhost:3300/fonts/font-038.ttf);
+    src: url(/fonts/font-038.ttf);
 }
 
 .font-38 {
@@ -342,7 +342,7 @@
 
 @font-face {
     font-family: Font39;
-    src: url(http://localhost:3300/fonts/font-039.ttf);
+    src: url(/fonts/font-039.ttf);
 }
 
 .font-39 {
@@ -351,7 +351,7 @@
 
 @font-face {
     font-family: Font40;
-    src: url(http://localhost:3300/fonts/font-040.ttf);
+    src: url(/fonts/font-040.ttf);
 }
 
 .font-40 {
@@ -360,7 +360,7 @@
 
 @font-face {
     font-family: Font41;
-    src: url(http://localhost:3300/fonts/font-041.ttf);
+    src: url(/fonts/font-041.ttf);
 }
 
 .font-41 {
@@ -369,7 +369,7 @@
 
 @font-face {
     font-family: Font42;
-    src: url(http://localhost:3300/fonts/font-042.ttf);
+    src: url(/fonts/font-042.ttf);
 }
 
 .font-42 {
@@ -378,7 +378,7 @@
 
 @font-face {
     font-family: Font43;
-    src: url(http://localhost:3300/fonts/font-043.ttf);
+    src: url(/fonts/font-043.ttf);
 }
 
 .font-43 {
@@ -387,7 +387,7 @@
 
 @font-face {
     font-family: Font44;
-    src: url(http://localhost:3300/fonts/font-044.ttf);
+    src: url(/fonts/font-044.ttf);
 }
 
 .font-44 {
@@ -396,7 +396,7 @@
 
 @font-face {
     font-family: Font45;
-    src: url(http://localhost:3300/fonts/font-045.otf);
+    src: url(/fonts/font-045.otf);
 }
 
 .font-45 {
@@ -405,7 +405,7 @@
 
 @font-face {
     font-family: Font46;
-    src: url(http://localhost:3300/fonts/font-046.ttf);
+    src: url(/fonts/font-046.ttf);
 }
 
 .font-46 {
@@ -414,7 +414,7 @@
 
 @font-face {
     font-family: Font47;
-    src: url(http://localhost:3300/fonts/font-047.ttf);
+    src: url(/fonts/font-047.ttf);
 }
 
 .font-47 {
@@ -423,7 +423,7 @@
 
 @font-face {
     font-family: Font48;
-    src: url(http://localhost:3300/fonts/font-048.ttf);
+    src: url(/fonts/font-048.ttf);
 }
 
 .font-48 {
@@ -432,7 +432,7 @@
 
 @font-face {
     font-family: Font49;
-    src: url(http://localhost:3300/fonts/font-049.ttf);
+    src: url(/fonts/font-049.ttf);
 }
 
 .font-49 {
@@ -441,7 +441,7 @@
 
 @font-face {
     font-family: Font50;
-    src: url(http://localhost:3300/fonts/font-050.ttf);
+    src: url(/fonts/font-050.ttf);
 }
 
 .font-50 {
@@ -450,7 +450,7 @@
 
 @font-face {
     font-family: Font51;
-    src: url(http://localhost:3300/fonts/font-051.ttf);
+    src: url(/fonts/font-051.ttf);
 }
 
 .font-51 {
@@ -459,7 +459,7 @@
 
 @font-face {
     font-family: Font52;
-    src: url(http://localhost:3300/fonts/font-052.ttf);
+    src: url(/fonts/font-052.ttf);
 }
 
 .font-52 {
@@ -468,7 +468,7 @@
 
 @font-face {
     font-family: Font53;
-    src: url(http://localhost:3300/fonts/font-053.ttf);
+    src: url(/fonts/font-053.ttf);
 }
 
 .font-53 {
@@ -477,7 +477,7 @@
 
 @font-face {
     font-family: Font54;
-    src: url(http://localhost:3300/fonts/font-054.ttf);
+    src: url(/fonts/font-054.ttf);
 }
 
 .font-54 {
@@ -486,7 +486,7 @@
 
 @font-face {
     font-family: Font55;
-    src: url(http://localhost:3300/fonts/font-055.ttf);
+    src: url(/fonts/font-055.ttf);
 }
 
 .font-55 {
@@ -495,7 +495,7 @@
 
 @font-face {
     font-family: Font56;
-    src: url(http://localhost:3300/fonts/font-056.ttf);
+    src: url(/fonts/font-056.ttf);
 }
 
 .font-56 {
@@ -504,7 +504,7 @@
 
 @font-face {
     font-family: Font57;
-    src: url(http://localhost:3300/fonts/font-057.ttf);
+    src: url(/fonts/font-057.ttf);
 }
 
 .font-57 {
@@ -513,7 +513,7 @@
 
 @font-face {
     font-family: Font58;
-    src: url(http://localhost:3300/fonts/font-058.ttf);
+    src: url(/fonts/font-058.ttf);
 }
 
 .font-58 {
@@ -522,7 +522,7 @@
 
 @font-face {
     font-family: Font59;
-    src: url(http://localhost:3300/fonts/font-059.ttf);
+    src: url(/fonts/font-059.ttf);
 }
 
 .font-59 {
@@ -531,7 +531,7 @@
 
 @font-face {
     font-family: Font60;
-    src: url(http://localhost:3300/fonts/font-060.ttf);
+    src: url(/fonts/font-060.ttf);
 }
 
 .font-60 {
@@ -540,7 +540,7 @@
 
 @font-face {
     font-family: Font61;
-    src: url(http://localhost:3300/fonts/font-061.otf);
+    src: url(/fonts/font-061.otf);
 }
 
 .font-61 {
@@ -549,7 +549,7 @@
 
 @font-face {
     font-family: Font62;
-    src: url(http://localhost:3300/fonts/font-062.otf);
+    src: url(/fonts/font-062.otf);
 }
 
 .font-62 {
@@ -558,7 +558,7 @@
 
 @font-face {
     font-family: Font63;
-    src: url(http://localhost:3300/fonts/font-063.otf);
+    src: url(/fonts/font-063.otf);
 }
 
 .font-63 {
@@ -567,7 +567,7 @@
 
 @font-face {
     font-family: Font64;
-    src: url(http://localhost:3300/fonts/font-064.ttf);
+    src: url(/fonts/font-064.ttf);
 }
 
 .font-64 {

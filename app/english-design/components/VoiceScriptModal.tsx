@@ -97,7 +97,7 @@ const VoiceScriptList = () => {
                           className="tw-p-1 tw-rounded-md tw-bg-slate-500 tw-text-green-600 tw-cursor-pointer tw-mb-[2px]"
                           onClick={() => {
                             const audio = new Audio(
-                              `http://localhost:3300/voices/voice-${voice.voice}.mp3`
+                              `/voices/voice-${voice.voice}.mp3`
                             );
                             audio.play();
                           }}
@@ -178,7 +178,7 @@ const VoiceScriptList = () => {
               className="tw-p-1 tw-rounded-md tw-bg-slate-500 tw-text-green-600 tw-cursor-pointer tw-mb-[2px]"
               onClick={() => {
                 const audio = new Audio(
-                  `http://localhost:3300/voices/voice-${currentVoiceItem.voice}.mp3`
+                  `/voices/voice-${currentVoiceItem.voice}.mp3`
                 );
                 audio.play();
               }}
