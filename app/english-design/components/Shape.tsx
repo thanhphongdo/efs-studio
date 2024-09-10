@@ -22,6 +22,7 @@ export const Shape = (props: {
   const {
     isEditting,
     addShape,
+    deleteShape,
     getShape,
     updateFocus,
     updateShape,
@@ -191,25 +192,27 @@ export const Shape = (props: {
             zIndex: shape.zIndex * 10,
           }}
         >
-          <div
-            ref={shapeRef}
-            className={`tw-w-full tw-h-full tw-flex tw-bg-center tw-bg-cover tw-bg-no-repeat ${
-              shape.classes || ""
-            }`}
-            style={{
-              ...getShapeStylesComputed(props.slideUUID, shape.uuid),
-              display: shape.type === "Hidden" ? "none" : "block",
-            }}
-          >
-            {shape.type === "Conversation" && content?.speechs && (
-              <Conversation
-                speechs={content.speechs}
-                shape={shape}
-              ></Conversation>
-            )}
-            {shape.type === "Normal" &&
-              (content?.[shape.key] || shape?.exampleValue || shape.key)}
-          </div>
+          {!shape.hidden && (
+            <div
+              ref={shapeRef}
+              className={`tw-w-full tw-h-full tw-flex tw-bg-center tw-bg-cover tw-bg-no-repeat ${
+                shape.classes || ""
+              }`}
+              style={{
+                ...getShapeStylesComputed(props.slideUUID, shape.uuid),
+                display: shape.hidden ? "none" : "block",
+              }}
+            >
+              {shape.type === "Conversation" && content?.speechs && (
+                <Conversation
+                  speechs={content.speechs}
+                  shape={shape}
+                ></Conversation>
+              )}
+              {shape.type === "Normal" &&
+                (content?.[shape.key] || shape?.exampleValue || shape.key)}
+            </div>
+          )}
         </div>
         {!props.isView && (
           <div
@@ -246,12 +249,65 @@ export const Shape = (props: {
                   )
                 )}
                 <div
-                  className="tw-absolute tw-bg-gray-800 tw-bg-transparent tw-border-2 tw-border-gray-900 tw-border-dashed"
+                  className="tw-absolute tw-bg-gray-800 tw-bg-transparent tw-border-2 tw-border-gray-900 tw-border-dashed focus-visible:tw-outline-none"
                   style={{
                     width: shape.width + 4,
                     height: shape.height + 4,
                     top: -2,
                     left: -2,
+                  }}
+                  tabIndex={1}
+                  onKeyDown={(e) => {
+                    e.preventDefault();
+                    switch (e.key) {
+                      case "ArrowUp":
+                        updateShape({
+                          ...shape,
+                          top: shape.top - 2,
+                        });
+                        break;
+                      case "ArrowDown":
+                        updateShape({
+                          ...shape,
+                          top: shape.top + 2,
+                        });
+                        break;
+                      case "ArrowLeft":
+                        updateShape({
+                          ...shape,
+                          left: shape.left - 2,
+                        });
+                        break;
+                      case "ArrowRight":
+                        updateShape({
+                          ...shape,
+                          left: shape.left + 2,
+                        });
+                        break;
+                      case "Backspace":
+                        deleteShape(shape.uuid);
+                        break;
+                      case "d":
+                        if ((e.ctrlKey || e.metaKey) && e.shiftKey) {
+                          deleteShape(shape.uuid);
+                          return;
+                        }
+                        if ((e.ctrlKey || e.metaKey) && !e.shiftKey) {
+                          addShape({
+                            ...shape,
+                            uuid: v4(),
+                            left: shape.left + 20,
+                            top: shape.top + 20,
+                          });
+                          return;
+                        }
+                        break;
+                      default:
+                        break;
+                    }
+                  }}
+                  onKeyUp={(e) => {
+                    e.preventDefault();
                   }}
                 ></div>
               </>

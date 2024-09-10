@@ -4,6 +4,7 @@ import {
   JsonInput,
   Modal,
   NumberInput,
+  Select,
   Textarea,
   TextInput,
   Title,
@@ -25,6 +26,7 @@ export function SetMainConfigModal(props: { copyValue: string }) {
     videoThumbnail,
     endVideoThumbnail,
     mainConfigModalOpened,
+    music,
     currentSlide,
     setVideoTitle,
     setEndVideoTitle,
@@ -38,6 +40,7 @@ export function SetMainConfigModal(props: { copyValue: string }) {
     getAll,
     setAll,
     zoom,
+    setMusic,
   } = useEnglishVideo((state) => state);
 
   const hasConversation = () => {
@@ -104,6 +107,31 @@ export function SetMainConfigModal(props: { copyValue: string }) {
             defaultValue={endVideoTitle}
             onChange={(e) => setEndVideoTitle(e.target.value)}
           ></Textarea>
+          <div className="tw-grid tw-grid-cols-2 tw-gap-2">
+            <div className="tw-relative">
+              <Select
+                label="Music"
+                data={Array.from({ length: 7 }).map(
+                  (item, index) =>
+                    `music-${(index + 1).toString().padStart(3, "0")}.mp3`
+                )}
+                defaultValue={music?.name}
+                onChange={(name) => setMusic(name!, music?.volumex!)}
+              />
+            </div>
+            <div className="tw-relative">
+              <NumberInput
+                label="Volumex"
+                defaultValue={music?.volumex ?? undefined}
+                step={0.05}
+                decimalScale={2}
+                fixedDecimalScale
+                onChange={(volumex) =>
+                  setMusic(music?.name!, parseFloat(volumex.toString()))
+                }
+              />
+            </div>
+          </div>
           <div className="tw-grid tw-grid-cols-2 tw-gap-2">
             <div className="tw-relative">
               <TextInput

@@ -233,6 +233,7 @@ export type Shape = {
   isCollapse?: boolean;
   isFocus?: boolean;
   isActive?: boolean;
+  hidden?: boolean;
 };
 
 export type VoiceItem = {
@@ -284,6 +285,10 @@ export type EnglishVideoState = {
   scale: number;
   voiceScriptItems: Array<VoiceScriptItem>;
   slides: Array<SlideItem>;
+  music?: {
+    name: string;
+    volumex: number;
+  };
 };
 
 export type EnglishVideoActions = {
@@ -333,6 +338,7 @@ export type EnglishVideoActions = {
   setVoiceScriptModalOpened: (value: boolean) => void;
   setViewContentModalOpened: (value: boolean) => void;
   setCopyType: (value: "Video" | "Speech") => void;
+  setMusic: (name: string, volumex: number) => void;
   zoom: (scale: number) => void;
   setVideoType: (slideUUID: string, type: VideoType) => void;
   setSlide: (slides: SlideItem) => void;
@@ -347,6 +353,7 @@ export type EnglishVideoActions = {
   ) => void;
   removeSlide: (uuid: string) => void;
   selectSlide: (slide: SlideItem) => void;
+  swapSlides: (slideIndex1: number, slideIndex2: number) => void;
   getBeforeSlide: () => Array<SlideItem>;
   getAfterSlide: () => Array<SlideItem>;
   getMainSlide: () => SlideItem;
@@ -367,7 +374,24 @@ export const defaultInitState: EnglishVideoState = {
   copyType: "Video",
   scale: 0.5,
   voiceScriptItems: [],
-  slides: [],
+  slides: [
+    {
+      uuid: "MAIN",
+      contentIndex: 0,
+      shapes: [],
+      contents: [],
+      difficultWords: [],
+      voiceScriptItems: [],
+      type: "Long",
+      position: "Main",
+      startIndex: 0,
+      endIndex: null,
+      splitedContent: null,
+      maxChars: 300,
+      isSelected: true,
+      currentMaxIndex: 0,
+    },
+  ],
 };
 
 export const initEnglishVideo = (): EnglishVideoState => {
@@ -647,6 +671,8 @@ export const createEnglishVideo = (
         setViewContentModalOpened: (opened) =>
           set((state) => ({ ...state, viewContentModalOpened: opened })),
         setCopyType: (type) => set((state) => ({ ...state, copyType: type })),
+        setMusic: (name, volumex) =>
+          set((state) => ({ ...state, music: { name, volumex } })),
         zoom: (scale) => set((state) => ({ ...state, scale })),
         setVideoType: (slideUUID, type) =>
           set((state) => ({
@@ -732,6 +758,17 @@ export const createEnglishVideo = (
               })),
             ],
           })),
+        swapSlides: (slideIndex1, slideIndex2) => {
+          const slides = [...get().slides];
+          const bkSlide1 = slides[slideIndex1];
+          slides[slideIndex1] = {
+            ...slides[slideIndex2],
+          };
+          slides[slideIndex2] = {
+            ...bkSlide1,
+          };
+          set((state) => ({ ...state, slides }));
+        },
         getBeforeSlide: () =>
           get().slides.filter((slide) => slide.position === "Before"),
         getAfterSlide: () =>

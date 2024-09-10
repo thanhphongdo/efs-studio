@@ -19,6 +19,7 @@ import { openConfirmModal } from "@mantine/modals";
 
 export function ActionButton(props: { isView: boolean }) {
   const {
+    slides,
     getAll,
     addShape,
     getShapes,
@@ -35,6 +36,7 @@ export function ActionButton(props: { isView: boolean }) {
     setAll,
     setVideoType,
     currentSlide,
+    getMainSlide,
   } = useEnglishVideo((state) => state);
 
   const historyListKey = "history_list";
@@ -182,7 +184,9 @@ export function ActionButton(props: { isView: boolean }) {
           </Button>
           <Button
             color="red"
-            disabled={!getShapes().length}
+            disabled={
+              slides.length === 1 && getMainSlide()?.shapes.length === 0
+            }
             onClick={() => {
               openConfirmModal({
                 modalId: "reset-config",

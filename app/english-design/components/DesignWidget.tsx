@@ -130,8 +130,8 @@ export const DesignWidget = () => {
               {!!shape.isActive && (
                 <div className="tw-grid tw-grid-cols-2 tw-gap-4">
                   <div className="tw-w-full tw-flex tw-flex-col tw-gap-2 tw-pt-1 tw-col-span-2">
-                    <div className="tw-grid tw-grid-cols-3 tw-gap-2">
-                      <div className="tw-col-span-2 tw-flex tw-flex-col tw-gap-2">
+                    <div className="tw-grid tw-grid-cols-7 tw-gap-2">
+                      <div className="tw-col-span-4 tw-flex tw-flex-col tw-gap-2">
                         <div className="tw-text-sm">Key</div>
                         <div className="tw-flex tw-gap-4 tw-items-end">
                           <TextInput
@@ -149,7 +149,7 @@ export const DesignWidget = () => {
                           />
                         </div>
                       </div>
-                      <div className="tw-flex tw-flex-col tw-gap-2">
+                      <div className="tw-col-span-2 tw-flex tw-flex-col tw-gap-2">
                         <div className="tw-text-sm">Type</div>
                         <Select
                           defaultValue={shape.type || "Normal"}
@@ -166,6 +166,20 @@ export const DesignWidget = () => {
                             });
                           }}
                         ></Select>
+                      </div>
+                      <div className="tw-flex tw-flex-col tw-gap-2">
+                        <div className="tw-text-sm tw-text-center">Hidden</div>
+                        <div className="tw-w-full tw-h-full tw-flex tw-items-center tw-justify-center">
+                          <Checkbox
+                            defaultChecked={shape.hidden}
+                            onChange={(e) =>
+                              updateShape({
+                                ...shape,
+                                hidden: e.currentTarget.checked,
+                              })
+                            }
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
