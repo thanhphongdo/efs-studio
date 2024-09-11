@@ -107,6 +107,8 @@ export default function Conversation(props: {
                   }
                   if (
                     hasMargin &&
+                    wordVn &&
+                    word &&
                     (wordVn.length >= word.length * 2 || forceMargin)
                   ) {
                     forceMargin = false;
