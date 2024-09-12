@@ -10,17 +10,50 @@ import {
 } from "@mantine/core";
 import { useEnglishVideo } from "../store-provider";
 import { uniq } from "lodash";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { IconScanEye } from "@tabler/icons-react";
 import { SlideManagement } from "./SlideManagement";
 import { SlideVoiceScriptConfig } from "./VoiceScriptModal";
+import { useDebouncedValue } from "@mantine/hooks";
 
-export function SlideContentConfig() {
+export const SlideContentConfig = memo(() => {
   const { currentSlide, setSlide, setViewContentModalOpened } = useEnglishVideo(
     (state) => state
   );
 
   const [conversation, setConversation] = useState<string>("");
+
+  const [contents, setContents] = useState(
+    JSON.stringify(currentSlide()!.contents, null, 4)
+  );
+  const [contentsDebounced] = useDebouncedValue(contents, 200);
+
+  const [styles, setStyles] = useState(
+    JSON.stringify(currentSlide()!.styles, null, 4)
+  );
+  const [stylesDebounced] = useDebouncedValue(styles, 200);
+
+  useEffect(() => {
+    if (contentsDebounced) {
+      try {
+        setSlide({
+          ...currentSlide()!,
+          contents: JSON.parse(contentsDebounced),
+        });
+      } catch (e) {}
+    }
+  }, [contentsDebounced]);
+
+  useEffect(() => {
+    if (stylesDebounced) {
+      try {
+        setSlide({
+          ...currentSlide()!,
+          styles: JSON.parse(stylesDebounced),
+        });
+      } catch (e) {}
+    }
+  }, [stylesDebounced]);
 
   const convertConversation = (conversation: string = "") => {
     function splitCharacters(conversation: string) {
@@ -154,14 +187,9 @@ export function SlideContentConfig() {
                 label="Contents"
                 rows={36}
                 className="tw-w-full"
-                defaultValue={JSON.stringify(currentSlide()!.contents, null, 4)}
+                defaultValue={contents}
                 onChange={(value) => {
-                  try {
-                    setSlide({
-                      ...currentSlide()!,
-                      contents: JSON.parse(value),
-                    });
-                  } catch (e) {}
+                  setContents(value);
                 }}
               ></JsonInput>
               <div
@@ -176,15 +204,9 @@ export function SlideContentConfig() {
                 label="Styles"
                 rows={36}
                 className="tw-w-full"
-                defaultValue={JSON.stringify(currentSlide()!.contents, null, 4)}
+                defaultValue={styles}
                 onChange={(value) => {
-                  console.log(123);
-                  try {
-                    setSlide({
-                      ...currentSlide()!,
-                      contents: JSON.parse(value),
-                    });
-                  } catch (e) {}
+                  setStyles(value);
                 }}
               ></JsonInput>
               <div
@@ -276,7 +298,7 @@ export function SlideContentConfig() {
       </div>
     </div>
   );
-}
+});
 
 export function SetConfigModal(props: { copyValue: string }) {
   const { configModalOpened, currentSlide, setConfigModalOpened } =

@@ -175,7 +175,6 @@ export function SlideVoiceScriptConfig() {
               .shapes.filter((shape) => !!shape.key)
               .map((shape) => {
                 const voiceScripts: VoiceScriptItem["voices"] = [];
-                console.log(shape.type);
                 switch (shape.type) {
                   case "Normal":
                   case "Hidden":

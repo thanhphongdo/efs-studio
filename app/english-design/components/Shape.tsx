@@ -177,6 +177,10 @@ export const Shape = (props: {
     }
   };
 
+  const shapeStyles = !!shape
+    ? getShapeStylesComputed(props.slideUUID, shape.uuid)
+    : {};
+
   return (
     !!shape && (
       <>
@@ -185,11 +189,13 @@ export const Shape = (props: {
           ref={dragItemRef}
           className={`tw-absolute tw-select-none tw-cursor-grab`}
           style={{
-            left: shape.left,
-            top: shape.top,
+            // left: shape.left,
+            // top: shape.top,
             width: shape.width,
             height: shape.height,
             zIndex: shape.zIndex * 10,
+            left: shapeStyles.left ?? shape.left,
+            top: shapeStyles.top ?? shape.top,
           }}
         >
           {!shape.hidden && (
@@ -199,7 +205,7 @@ export const Shape = (props: {
                 shape.classes || ""
               }`}
               style={{
-                ...getShapeStylesComputed(props.slideUUID, shape.uuid),
+                ...shapeStyles,
                 display: shape.hidden ? "none" : "block",
               }}
             >
@@ -231,8 +237,10 @@ export const Shape = (props: {
           <div
             className={`tw-absolute tw-select-none tw-cursor-grab`}
             style={{
-              left: shape.left,
-              top: shape.top,
+              // left: shape.left,
+              // top: shape.top,
+              left: shapeStyles.left ?? shape.left,
+              top: shapeStyles.top ?? shape.top,
               width: shape.width,
               height: shape.height,
               zIndex: shape.zIndex * 1000,

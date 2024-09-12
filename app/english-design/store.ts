@@ -254,6 +254,9 @@ export type SlideItem = {
   contentIndex: number;
   shapes: Array<Shape>;
   contents: Array<{ [key: string]: any }>;
+  styles: Array<
+    Record<string, { [name in keyof CSSProperties]: CSSProperties[name] }>
+  >;
   difficultWords: Array<{
     en: string;
     vi: string;
@@ -383,6 +386,7 @@ export const defaultInitState: EnglishVideoState = {
       contentIndex: 0,
       shapes: [],
       contents: [],
+      styles: [],
       difficultWords: [],
       voiceScriptItems: [],
       type: "Long",
@@ -558,13 +562,14 @@ export const createEnglishVideo = (
             : {};
         },
         getShapeStylesComputed: (slideUUID, uuid) => {
-          const styles = get()
+          const shape = get()
             .getShapes(slideUUID)
-            .find((s) => s.uuid === uuid)?.styles;
+            .find((s) => s.uuid === uuid);
+          const styles = shape?.styles;
           const style = styles
             ? Object.fromEntries(styles.map((s) => [s.name, s.value]))
             : {};
-          return Object.keys(style)
+          const computedStyles = Object.keys(style)
             .map((styleName) => {
               let value = style[styleName];
               switch (styleName) {
@@ -603,6 +608,13 @@ export const createEnglishVideo = (
                 [item.styleName]: item.value,
               };
             }, {});
+          const contentIndex = get().getSlide(slideUUID)!.contentIndex;
+          return {
+            ...computedStyles,
+            ...((get().getSlide(slideUUID)?.styles?.[contentIndex] ?? {})[
+              shape?.key!
+            ] ?? {}),
+          };
         },
         updateShapeStyles: (uuid, styleName, value) => {
           const currentSlide = get().currentSlide()!;
