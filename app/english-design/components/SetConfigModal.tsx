@@ -148,26 +148,51 @@ export function SlideContentConfig() {
           />
         </div>
         {!hasConversation() && (
-          <div className="tw-w-full tw-relative">
-            <JsonInput
-              label="Contents"
-              rows={36}
-              className="tw-w-full"
-              defaultValue={JSON.stringify(currentSlide()!.contents, null, 4)}
-              onChange={(value) => {
-                try {
-                  setSlide({
-                    ...currentSlide()!,
-                    contents: JSON.parse(value),
-                  });
-                } catch (e) {}
-              }}
-            ></JsonInput>
-            <div
-              className="tw-absolute tw-top-7 tw-right-2 tw-cursor-pointer tw-p-1"
-              onClick={() => setViewContentModalOpened(true)}
-            >
-              <IconScanEye />
+          <div className="tw-grid tw-grid-cols-2 tw-gap-4">
+            <div className="tw-w-full tw-relative">
+              <JsonInput
+                label="Contents"
+                rows={36}
+                className="tw-w-full"
+                defaultValue={JSON.stringify(currentSlide()!.contents, null, 4)}
+                onChange={(value) => {
+                  try {
+                    setSlide({
+                      ...currentSlide()!,
+                      contents: JSON.parse(value),
+                    });
+                  } catch (e) {}
+                }}
+              ></JsonInput>
+              <div
+                className="tw-absolute tw-top-7 tw-right-2 tw-cursor-pointer tw-p-1"
+                onClick={() => setViewContentModalOpened(true)}
+              >
+                <IconScanEye />
+              </div>
+            </div>
+            <div className="tw-w-full tw-relative">
+              <JsonInput
+                label="Styles"
+                rows={36}
+                className="tw-w-full"
+                defaultValue={JSON.stringify(currentSlide()!.contents, null, 4)}
+                onChange={(value) => {
+                  console.log(123);
+                  try {
+                    setSlide({
+                      ...currentSlide()!,
+                      contents: JSON.parse(value),
+                    });
+                  } catch (e) {}
+                }}
+              ></JsonInput>
+              <div
+                className="tw-absolute tw-top-7 tw-right-2 tw-cursor-pointer tw-p-1"
+                onClick={() => setViewContentModalOpened(true)}
+              >
+                <IconScanEye />
+              </div>
             </div>
           </div>
         )}
@@ -267,6 +292,8 @@ export function SetConfigModal(props: { copyValue: string }) {
     !rendered && setRendered(true);
   }, [rendered]);
 
+  const [activeTab, setActiveTab] = useState<"contents" | "voices">("contents");
+
   return (
     <Modal
       opened={configModalOpened}
@@ -288,21 +315,22 @@ export function SetConfigModal(props: { copyValue: string }) {
           <Tabs
             className="tw-w-full tw-h-[calc(100vh_-_96px)]"
             color="teal"
-            defaultValue="first"
+            value={activeTab}
+            onChange={(tab: any) => setActiveTab(tab)}
           >
             <Tabs.List>
-              <Tabs.Tab value="first">Content Config</Tabs.Tab>
-              <Tabs.Tab value="second" color="blue">
+              <Tabs.Tab value="contents">Content Config</Tabs.Tab>
+              <Tabs.Tab value="voices" color="blue">
                 Voice Script Config
               </Tabs.Tab>
             </Tabs.List>
 
-            <Tabs.Panel value="first" pt="xs">
+            <Tabs.Panel value="contents" pt="xs">
               <SlideContentConfig />
             </Tabs.Panel>
 
-            <Tabs.Panel value="second" pt="xs" className="tw-h-full">
-              <SlideVoiceScriptConfig />
+            <Tabs.Panel value="voices" pt="xs" className="tw-h-full">
+              {activeTab === "voices" && <SlideVoiceScriptConfig />}
             </Tabs.Panel>
           </Tabs>
         )}
