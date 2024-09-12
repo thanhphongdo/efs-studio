@@ -202,11 +202,11 @@ export const SlideManagement = (props: {
                             uuid: v4(),
                             contentIndex: 0,
                             shapes,
-                            contents: [...slide.contents],
-                            styles: [...slide.styles],
-                            difficultWords: [...slide.difficultWords],
+                            contents: [...(slide.contents ?? [])],
+                            styles: [...(slide.styles ?? [])],
+                            difficultWords: [...(slide.difficultWords ?? [])],
                             voiceScriptItems: [
-                              ...slide.voiceScriptItems.map((item) => ({
+                              ...(slide.voiceScriptItems ?? []).map((item) => ({
                                 ...item,
                                 voiceId: v4(),
                                 id: shapes.find((s) => s.key === item.key)!
@@ -247,11 +247,11 @@ export const SlideManagement = (props: {
                             uuid: v4(),
                             contentIndex: 0,
                             shapes,
-                            contents: [...slide.contents],
-                            styles: [...slide.styles],
-                            difficultWords: [...slide.difficultWords],
+                            contents: [...(slide.contents ?? [])],
+                            styles: [...(slide.styles ?? [])],
+                            difficultWords: [...(slide.difficultWords ?? [])],
                             voiceScriptItems: [
-                              ...slide.voiceScriptItems.map((item) => ({
+                              ...(slide.voiceScriptItems ?? []).map((item) => ({
                                 ...item,
                                 voiceId: v4(),
                                 id: shapes.find((s) => s.key === item.key)!
