@@ -73,6 +73,7 @@ export default function HomePage() {
           contentIndex: 0,
           shapes: [],
           contents: [],
+          styles: [],
           difficultWords: [],
           voiceScriptItems: [],
           startIndex: 0,

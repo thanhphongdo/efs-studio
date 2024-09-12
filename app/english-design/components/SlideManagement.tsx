@@ -133,6 +133,7 @@ export const SlideManagement = (props: {
                             contentIndex: 0,
                             shapes: [],
                             contents: [],
+                            styles: [],
                             difficultWords: [],
                             voiceScriptItems: [],
                             type: "Long",
@@ -164,6 +165,7 @@ export const SlideManagement = (props: {
                             contentIndex: 0,
                             shapes: [],
                             contents: [],
+                            styles: [],
                             difficultWords: [],
                             voiceScriptItems: [],
                             type: "Long",
@@ -201,6 +203,7 @@ export const SlideManagement = (props: {
                             contentIndex: 0,
                             shapes,
                             contents: [...slide.contents],
+                            styles: [...slide.styles],
                             difficultWords: [...slide.difficultWords],
                             voiceScriptItems: [
                               ...slide.voiceScriptItems.map((item) => ({
@@ -245,6 +248,7 @@ export const SlideManagement = (props: {
                             contentIndex: 0,
                             shapes,
                             contents: [...slide.contents],
+                            styles: [...slide.styles],
                             difficultWords: [...slide.difficultWords],
                             voiceScriptItems: [
                               ...slide.voiceScriptItems.map((item) => ({
