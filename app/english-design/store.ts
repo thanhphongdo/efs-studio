@@ -279,7 +279,7 @@ export type EnglishVideoState = {
   configModalOpened: boolean;
   mainConfigModalOpened: boolean;
   copyConfigModalOpened: boolean;
-  viewContentModalOpened: boolean;
+  viewContentModalOpened: { opened: boolean; isFocusCurrentContent: boolean };
   voiceScriptModalOpened: boolean;
   copyType: "Video" | "Speech";
   scale: number;
@@ -327,8 +327,8 @@ export type EnglishVideoActions = {
   deleteAllShapes: () => void;
   setIsEditting: (value: boolean) => void;
   getContent: (slideUUID: string) => { [key: string]: any };
-  setContentIndex: (index: number) => void;
-  getConvertedDifficultWords: () => {
+  setContentIndex: (slideUUID: string, index: number) => void;
+  getConvertedDifficultWords: (slideUUID: string) => {
     en: Array<string>;
     vi: Array<string>;
   };
@@ -336,7 +336,10 @@ export type EnglishVideoActions = {
   setConfigModalOpened: (value: boolean) => void;
   setCopyConfigModalOpened: (value: boolean) => void;
   setVoiceScriptModalOpened: (value: boolean) => void;
-  setViewContentModalOpened: (value: boolean) => void;
+  setViewContentModalOpened: (
+    opended: boolean,
+    isFocusCurrentContent?: boolean
+  ) => void;
   setCopyType: (value: "Video" | "Speech") => void;
   setMusic: (name: string, volumex: number) => void;
   zoom: (scale: number) => void;
@@ -370,7 +373,7 @@ export const defaultInitState: EnglishVideoState = {
   mainConfigModalOpened: false,
   copyConfigModalOpened: false,
   voiceScriptModalOpened: false,
-  viewContentModalOpened: false,
+  viewContentModalOpened: { opened: false, isFocusCurrentContent: false },
   copyType: "Video",
   scale: 0.5,
   voiceScriptItems: [],
@@ -415,7 +418,10 @@ export const createEnglishVideo = (
           copyConfigModalOpened: false,
           configModalOpened: false,
           voiceScriptModalOpened: false,
-          viewContentModalOpened: false,
+          viewContentModalOpened: {
+            opened: false,
+            isFocusCurrentContent: false,
+          },
         }),
         setAll: (value) => set((state) => ({ ...state, ...value })),
         setVideoTitle: (title) =>
@@ -636,23 +642,28 @@ export const createEnglishVideo = (
           })),
         getContent: (slideUUID) =>
           get().getSlide(slideUUID)!.contents[
-            get().currentSlide()!.contentIndex
+            get().getSlide(slideUUID)!.contentIndex
           ],
-        setContentIndex: (index) =>
+        setContentIndex: (slideUUID, index) =>
           set((state) => ({
             ...state,
             slides: [
               ...state.slides.map((item) => {
+                if (item.uuid == slideUUID) {
+                  return {
+                    ...item,
+                    contentIndex: index,
+                  };
+                }
                 return {
                   ...item,
-                  contentIndex: item.isSelected ? index : item.contentIndex,
                 };
               }),
             ],
           })),
-        getConvertedDifficultWords: () => {
+        getConvertedDifficultWords: (slideUUID) => {
           const difficultWords = uniqBy(
-            get().currentSlide()!.difficultWords,
+            get().getSlide(slideUUID)!.difficultWords,
             "en"
           );
           return {
@@ -668,8 +679,14 @@ export const createEnglishVideo = (
           set((state) => ({ ...state, copyConfigModalOpened: opened })),
         setVoiceScriptModalOpened: (opened) =>
           set((state) => ({ ...state, voiceScriptModalOpened: opened })),
-        setViewContentModalOpened: (opened) =>
-          set((state) => ({ ...state, viewContentModalOpened: opened })),
+        setViewContentModalOpened: (opened, isFocusCurrentContent) =>
+          set((state) => ({
+            ...state,
+            viewContentModalOpened: {
+              opened,
+              isFocusCurrentContent: isFocusCurrentContent ?? false,
+            },
+          })),
         setCopyType: (type) => set((state) => ({ ...state, copyType: type })),
         setMusic: (name, volumex) =>
           set((state) => ({ ...state, music: { name, volumex } })),

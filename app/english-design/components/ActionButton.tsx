@@ -37,6 +37,7 @@ export function ActionButton(props: { isView: boolean }) {
     setVideoType,
     currentSlide,
     getMainSlide,
+    setViewContentModalOpened,
   } = useEnglishVideo((state) => state);
 
   const historyListKey = "history_list";
@@ -116,7 +117,12 @@ export function ActionButton(props: { isView: boolean }) {
           <div className="tw-grid tw-grid-cols-2 tw-gap-2">
             <Button
               disabled={currentSlide()!.contentIndex === 0}
-              onClick={() => setContentIndex(currentSlide()!.contentIndex - 1)}
+              onClick={() =>
+                setContentIndex(
+                  currentSlide()!.uuid,
+                  currentSlide()!.contentIndex - 1
+                )
+              }
             >
               Prev
             </Button>
@@ -125,7 +131,12 @@ export function ActionButton(props: { isView: boolean }) {
                 currentSlide()!.contentIndex ===
                 currentSlide()!.contents.length - 1
               }
-              onClick={() => setContentIndex(currentSlide()!.contentIndex + 1)}
+              onClick={() =>
+                setContentIndex(
+                  currentSlide()!.uuid,
+                  currentSlide()!.contentIndex + 1
+                )
+              }
             >
               Next
             </Button>
@@ -174,10 +185,10 @@ export function ActionButton(props: { isView: boolean }) {
             color="orange"
             disabled={!getActiveShape()}
             onClick={() => {
-              deleteShape(getShapes().find((shape) => shape.isActive)?.uuid);
+              setViewContentModalOpened(true, true);
             }}
           >
-            Delete
+            Edit Content
           </Button>
           <Button color="yellow" onClick={open}>
             Config History

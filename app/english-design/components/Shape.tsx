@@ -205,6 +205,7 @@ export const Shape = (props: {
             >
               {shape.type === "Conversation" && content?.speechs && (
                 <Conversation
+                  slideUUID={props.slideUUID}
                   speechs={content.speechs}
                   shape={shape}
                 ></Conversation>
@@ -257,58 +258,6 @@ export const Shape = (props: {
                     left: -2,
                   }}
                   tabIndex={1}
-                  onKeyDown={(e) => {
-                    e.preventDefault();
-                    switch (e.key) {
-                      case "ArrowUp":
-                        updateShape({
-                          ...shape,
-                          top: shape.top - 2,
-                        });
-                        break;
-                      case "ArrowDown":
-                        updateShape({
-                          ...shape,
-                          top: shape.top + 2,
-                        });
-                        break;
-                      case "ArrowLeft":
-                        updateShape({
-                          ...shape,
-                          left: shape.left - 2,
-                        });
-                        break;
-                      case "ArrowRight":
-                        updateShape({
-                          ...shape,
-                          left: shape.left + 2,
-                        });
-                        break;
-                      case "Backspace":
-                        deleteShape(shape.uuid);
-                        break;
-                      case "d":
-                        if ((e.ctrlKey || e.metaKey) && e.shiftKey) {
-                          deleteShape(shape.uuid);
-                          return;
-                        }
-                        if ((e.ctrlKey || e.metaKey) && !e.shiftKey) {
-                          addShape({
-                            ...shape,
-                            uuid: v4(),
-                            left: shape.left + 20,
-                            top: shape.top + 20,
-                          });
-                          return;
-                        }
-                        break;
-                      default:
-                        break;
-                    }
-                  }}
-                  onKeyUp={(e) => {
-                    e.preventDefault();
-                  }}
                 ></div>
               </>
             )}

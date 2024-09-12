@@ -50,106 +50,104 @@ const VoiceScriptList = () => {
 
   return (
     <>
-      <ScrollArea className="tw-h-full" h={900}>
-        <div className="tw-w-full tw-overflow-auto">
-          {voiceScriptItems?.map((item, index) => (
-            <Draggable
-              key={item?.voiceId}
-              axis="y"
-              onStop={(e, data) => onStop(e, data, index)}
-              position={{ x: 0, y: 0 }}
-            >
-              <div className="tw-bg-gray-950 tw-p-4 tw-mb-2 tw-cursor-move">
-                <div className="tw-col-span-6 tw-font-bold tw-flex tw-justify-between">
-                  <span>Key: {item.key}</span>
-                  <div
-                    className="tw-p-1 tw-rounded-md tw-bg-slate-500 tw-text-white tw-cursor-pointer"
-                    onClick={() => {
-                      item.voices.push({
-                        voice: voices[0].voice,
-                        rate: currentSlide()!.type === "Long" ? "-10%" : "+10%",
-                      });
-                      setVoiceScriptItems([...voiceScriptItems]);
-                    }}
-                  >
-                    <IconPlus></IconPlus>
-                  </div>
+      <div className="tw-w-full tw-overflow-auto">
+        {voiceScriptItems?.map((item, index) => (
+          <Draggable
+            key={item?.voiceId}
+            axis="y"
+            onStop={(e, data) => onStop(e, data, index)}
+            position={{ x: 0, y: 0 }}
+          >
+            <div className="tw-bg-gray-950 tw-p-4 tw-mb-2 tw-cursor-move">
+              <div className="tw-col-span-6 tw-font-bold tw-flex tw-justify-between">
+                <span>Key: {item.key}</span>
+                <div
+                  className="tw-p-1 tw-rounded-md tw-bg-slate-500 tw-text-white tw-cursor-pointer"
+                  onClick={() => {
+                    item.voices.push({
+                      voice: voices[0].voice,
+                      rate: currentSlide()!.type === "Long" ? "-10%" : "+10%",
+                    });
+                    setVoiceScriptItems([...voiceScriptItems]);
+                  }}
+                >
+                  <IconPlus></IconPlus>
                 </div>
-                {item?.voices?.map((voice, index) => (
-                  <>
-                    <div
-                      key={voice.voice}
-                      className="tw-grid tw-grid-cols-6 tw-gap-2 tw-pt-2"
-                    >
-                      <div className="tw-col-span-3 tw-flex tw-gap-2 tw-items-end tw-pr-4">
-                        <TextInput
-                          className="tw-flex-1"
-                          label="Voice"
-                          defaultValue={voice.voice}
-                          rightSection={<IconLayoutList />}
-                          readOnly
-                          onClick={() => {
-                            setSelectVoiceModalOpened(true);
-                            setCurrentVoiceItem(voice);
-                          }}
-                        />
-                        <div
-                          className="tw-p-1 tw-rounded-md tw-bg-slate-500 tw-text-green-600 tw-cursor-pointer tw-mb-[2px]"
-                          onClick={() => {
-                            const audio = new Audio(
-                              `/voices/voice-${voice.voice}.mp3`
-                            );
-                            audio.play();
-                          }}
-                        >
-                          <IconPlayerPlay />
-                        </div>
-                      </div>
-                      <div className="tw-col-span-1">
-                        <TextInput
-                          label="Rate"
-                          defaultValue={voice.rate}
-                          onChange={(e) => {
-                            voice.rate = e.target.value;
-                            setVoiceScriptItems([...voiceScriptItems]);
-                          }}
-                        ></TextInput>
-                      </div>
-                      <div className="tw-col-span-2 tw-flex tw-gap-2 tw-items-end">
-                        <TextInput
-                          className="tw-flex-1"
-                          label="Character"
-                          defaultValue={voice.character}
-                          onChange={(e) => {
-                            voice.character = e.target.value;
-                            setVoiceScriptItems([...voiceScriptItems]);
-                          }}
-                        ></TextInput>
-                        <div
-                          className="tw-p-1 tw-rounded-md tw-bg-slate-500 tw-text-red-600 tw-cursor-pointer tw-mb-[2px]"
-                          onClick={() => {
-                            item.voices = [
-                              ...item.voices.slice(0, index),
-                              ...item.voices.slice(index + 1),
-                            ];
-                            setVoiceScriptItems(
-                              [...voiceScriptItems].filter(
-                                (item) => item.voices.length > 0
-                              )
-                            );
-                          }}
-                        >
-                          <IconTrash></IconTrash>
-                        </div>
+              </div>
+              {item?.voices?.map((voice, index) => (
+                <>
+                  <div
+                    key={voice.voice}
+                    className="tw-grid tw-grid-cols-6 tw-gap-2 tw-pt-2"
+                  >
+                    <div className="tw-col-span-3 tw-flex tw-gap-2 tw-items-end tw-pr-4">
+                      <TextInput
+                        className="tw-flex-1"
+                        label="Voice"
+                        defaultValue={voice.voice}
+                        rightSection={<IconLayoutList />}
+                        readOnly
+                        onClick={() => {
+                          setSelectVoiceModalOpened(true);
+                          setCurrentVoiceItem(voice);
+                        }}
+                      />
+                      <div
+                        className="tw-p-1 tw-rounded-md tw-bg-slate-500 tw-text-green-600 tw-cursor-pointer tw-mb-[2px]"
+                        onClick={() => {
+                          const audio = new Audio(
+                            `/voices/voice-${voice.voice}.mp3`
+                          );
+                          audio.play();
+                        }}
+                      >
+                        <IconPlayerPlay />
                       </div>
                     </div>
-                  </>
-                ))}
-              </div>
-            </Draggable>
-          ))}
-        </div>
-      </ScrollArea>
+                    <div className="tw-col-span-1">
+                      <TextInput
+                        label="Rate"
+                        defaultValue={voice.rate}
+                        onChange={(e) => {
+                          voice.rate = e.target.value;
+                          setVoiceScriptItems([...voiceScriptItems]);
+                        }}
+                      ></TextInput>
+                    </div>
+                    <div className="tw-col-span-2 tw-flex tw-gap-2 tw-items-end">
+                      <TextInput
+                        className="tw-flex-1"
+                        label="Character"
+                        defaultValue={voice.character}
+                        onChange={(e) => {
+                          voice.character = e.target.value;
+                          setVoiceScriptItems([...voiceScriptItems]);
+                        }}
+                      ></TextInput>
+                      <div
+                        className="tw-p-1 tw-rounded-md tw-bg-slate-500 tw-text-red-600 tw-cursor-pointer tw-mb-[2px]"
+                        onClick={() => {
+                          item.voices = [
+                            ...item.voices.slice(0, index),
+                            ...item.voices.slice(index + 1),
+                          ];
+                          setVoiceScriptItems(
+                            [...voiceScriptItems].filter(
+                              (item) => item.voices.length > 0
+                            )
+                          );
+                        }}
+                      >
+                        <IconTrash></IconTrash>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              ))}
+            </div>
+          </Draggable>
+        ))}
+      </div>
       <Modal
         opened={selectVoiceModalOpened}
         onClose={() => setSelectVoiceModalOpened(false)}
@@ -276,7 +274,9 @@ export function SlideVoiceScriptConfig() {
           ))}
       </div>
       <div className="tw-flex tw-flex-col tw-max-h-full tw-relative tw-flex-1">
-        <VoiceScriptList></VoiceScriptList>
+        <ScrollArea className="tw-h-full" h={900}>
+          <VoiceScriptList></VoiceScriptList>
+        </ScrollArea>
       </div>
     </div>
   );
@@ -300,90 +300,6 @@ export function VoiceScriptModal() {
       className="tw-h-full custom-modal"
     >
       <SlideVoiceScriptConfig></SlideVoiceScriptConfig>
-      {/* <div className="tw-h-full tw-flex tw-flex-col tw-pb-40">
-        <div className="tw-flex tw-flex-col tw-max-h-full tw-relative tw-flex-1">
-          <div className="tw-relative tw-overflow-auto tw-h-full">
-            <VoiceScriptList></VoiceScriptList>
-          </div>
-        </div>
-        <div className="tw-grid tw-grid-cols-3 tw-gap-4 tw-justify-end tw-absolute tw-w-full tw-left-0 -tw-bottom-12 tw-px-4">
-          <Button
-            color="yellow"
-            onClick={() => {
-              const scripts: Array<VoiceScriptItem> = shapes
-                .filter((shape) => !!shape.key)
-                .map((shape) => {
-                  const voiceScripts: VoiceScriptItem["voices"] = [];
-                  switch (shape.type) {
-                    case "Normal":
-                    case "Paragraph":
-                      voiceScripts.push({
-                        voice: voices[0].voice,
-                        rate: videoType === "Long" ? "-10%" : "+10%",
-                      });
-                      break;
-                    case "Conversation":
-                      voiceScripts.push({
-                        voice: voices[0].voice,
-                        rate: videoType === "Long" ? "-10%" : "+10%",
-                        character: "Bob",
-                      });
-                      voiceScripts.push({
-                        voice: voices[9].voice,
-                        rate: videoType === "Long" ? "-10%" : "+10%",
-                        character: "Alice",
-                      });
-                      break;
-                  }
-                  return {
-                    voiceId: v4(),
-                    id: shape.uuid,
-                    key: shape.key,
-                    slideUUID: currentSlide()!.uuid,
-                    voices: voiceScripts,
-                  };
-                });
-              // setVoiceScriptItems(scripts);
-              setSlide({
-                ...currentSlide()!,
-                voiceScriptItems: scripts,
-              });
-            }}
-          >
-            Reset Voice Script
-          </Button>
-          {shapes
-            .filter((shape) => !!shape.key)
-            .map((item) => ({
-              id: item.uuid,
-              ...item,
-            }))
-            .map((shape) => (
-              <Button
-                key={shape.key}
-                onClick={() => {
-                  setVoiceScriptItems([
-                    ...voiceScriptItems,
-                    {
-                      voiceId: v4(),
-                      id: shape.uuid,
-                      key: shape.key,
-                      slideUUID: currentSlide()!.uuid,
-                      voices: [
-                        {
-                          voice: voices[0].voice,
-                          rate: "",
-                        },
-                      ],
-                    },
-                  ]);
-                }}
-              >
-                Add [{shape.key}]
-              </Button>
-            ))}
-        </div>
-      </div> */}
     </Modal>
   );
 }

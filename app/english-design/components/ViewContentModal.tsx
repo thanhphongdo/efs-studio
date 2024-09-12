@@ -28,6 +28,7 @@ export function ViewContentModal() {
     setViewContentModalOpened,
     currentSlide,
     setSlide,
+    setContentIndex,
   } = useEnglishVideo((state) => state);
 
   const [keys, setKeys] = useState<Array<string>>([]);
@@ -39,25 +40,109 @@ export function ViewContentModal() {
     }
   }, [currentSlide()!.contents]);
 
+  const [contentEditable, setContentEditable] = useState({
+    index: 0,
+    cIndex: 0,
+  });
+
+  const splitedContent = currentSlide()!.splitedContent ?? 1;
+
   return (
     <Modal
-      opened={viewContentModalOpened}
+      opened={viewContentModalOpened.opened}
       onClose={() => setViewContentModalOpened(false)}
-      title={<Title order={5}>View Content</Title>}
+      title={
+        <Title order={5}>
+          <span>View and Edit Content</span>{" "}
+          {viewContentModalOpened.isFocusCurrentContent && (
+            <span>
+              [{currentSlide()!.contentIndex + 1} /{" "}
+              {currentSlide()!.contents.length}]
+            </span>
+          )}
+        </Title>
+      }
       size={"xl"}
       className="tw-h-full custom-modal"
     >
-      <div className="tw-flex tw-flex-col tw-gap-4 tw-max-h-full tw-relative">
+      <div
+        className="tw-flex tw-flex-col tw-gap-4 tw-max-h-full tw-relative tw-min-h-full"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          e.stopPropagation();
+          if (e.ctrlKey || e.metaKey) {
+            e.preventDefault();
+          }
+          switch (e.key) {
+            case "ArrowLeft":
+              let newPrevIndex =
+                currentSlide()!.contentIndex - (e.shiftKey ? 10 : 1);
+              if (newPrevIndex < 0) {
+                newPrevIndex = 0;
+              }
+              (e.ctrlKey || e.metaKey) &&
+                currentSlide()!.contentIndex > 0 &&
+                setContentIndex(currentSlide()!.uuid, newPrevIndex);
+              break;
+            case "ArrowRight":
+              let newNextIndex =
+                currentSlide()!.contentIndex + (e.shiftKey ? 10 : 1);
+              if (newNextIndex > currentSlide()!.contents.length - 1) {
+                newNextIndex = currentSlide()!.contents.length - 1;
+              }
+              (e.ctrlKey || e.metaKey) &&
+                currentSlide()!.contentIndex <
+                  currentSlide()!.contents.length - 1 &&
+                setContentIndex(currentSlide()!.uuid, newNextIndex);
+              break;
+          }
+        }}
+        onKeyUp={(e) => e.preventDefault()}
+      >
+        {viewContentModalOpened.isFocusCurrentContent && (
+          <div className="tw-flex tw-gap-2">
+            <Button
+              disabled={currentSlide()!.contentIndex === 0}
+              onClick={() => {
+                setContentIndex(
+                  currentSlide()!.uuid,
+                  currentSlide()!.contentIndex - 1
+                );
+              }}
+            >
+              Prev [cmd ←]
+            </Button>
+            <Button
+              disabled={
+                currentSlide()!.contentIndex ===
+                currentSlide()!.contents.length - 1
+              }
+              onClick={() =>
+                setContentIndex(
+                  currentSlide()!.uuid,
+                  currentSlide()!.contentIndex + 1
+                )
+              }
+            >
+              Next [cmd →]
+            </Button>
+          </div>
+        )}
         <div className="tw-flex tw-flex-col tw-gap-2 tw-flex-1 tw-overflow-auto">
           {chunk(
-            currentSlide()!.contents,
-            currentSlide()!.splitedContent ?? 1
+            currentSlide()!.contents.filter((item, index) => {
+              if (!viewContentModalOpened.isFocusCurrentContent) {
+                return true;
+              }
+              return index === currentSlide()!.contentIndex;
+            }),
+            splitedContent
           ).map((cItem, cIndex) => (
             <div
               key={cIndex}
               className="tw-flex tw-flex-col tw-gap-2 tw-p-2 tw-rounded-md tw-bg-slate-600"
             >
-              {(currentSlide()!.splitedContent ?? 1) > 1 && (
+              {splitedContent > 1 && (
                 <div className="tw-flex tw-gap-8">
                   <div className="tw-flex tw-gap-2 tw-items-center">
                     <span className="tw-font-bold">Index:</span>
@@ -95,6 +180,7 @@ export function ViewContentModal() {
               {cItem.map((item, index) => (
                 <div
                   key={item.id}
+                  onClick={() => setContentEditable({ cIndex, index })}
                   className="tw-flex tw-flex-col tw-gap-2 tw-px-4 tw-py-2 tw-rounded tw-border tw-border-gray-200 tw-bg-slate-900 tw-relative"
                 >
                   {Object.keys(item).map((key) => (
@@ -102,14 +188,21 @@ export function ViewContentModal() {
                       <div className="tw-font-bold tw-text-gray-500">
                         {key}:{" "}
                       </div>
+                      {/* contentEditable={
+                          index === contentEditable.index &&
+                          cIndex === contentEditable.cIndex
+                        } */}
                       <div
                         contentEditable
                         className={`tw-px-1 tw-min-w-24 ${
                           !item[key] ? "default-outline" : ""
                         }`}
+                        onClick={(e) => e.stopPropagation()}
                         onBlur={(e: any) => {
                           const currentContents = [...currentSlide()!.contents];
-                          currentContents[index][key] = e.target.innerText;
+                          currentContents[cIndex * splitedContent + index][
+                            key
+                          ] = e.target.innerText;
                           currentSlide()!.contents = currentContents;
                           setSlide(currentSlide()!);
                           // setContents(currentContents);
@@ -126,7 +219,10 @@ export function ViewContentModal() {
                         centered: true,
                         title: "Delete Content",
                         children: "Are you sure you want to delete this item?",
-                        labels: { cancel: `Cancel`, confirm: `Yes, I am sure` },
+                        labels: {
+                          cancel: `Cancel`,
+                          confirm: `Yes, I am sure`,
+                        },
                         confirmProps: { color: "red" },
                         closeOnConfirm: true,
                         closeOnCancel: true,

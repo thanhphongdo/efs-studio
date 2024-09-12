@@ -17,6 +17,7 @@ function replaceKeywords(text: string, keyWords: string[]): string {
 }
 
 export default function Conversation(props: {
+  slideUUID: string;
   speechs: Array<{ character: string; speech: string }>;
   shape?: Shape;
 }) {
@@ -68,7 +69,7 @@ export default function Conversation(props: {
         let prevIndex = -1;
         let hasMargin = false;
         let forceMargin = false;
-        const difficultWords = getConvertedDifficultWords();
+        const difficultWords = getConvertedDifficultWords(props.slideUUID);
         return (
           <div
             key={index}
@@ -82,7 +83,10 @@ export default function Conversation(props: {
             <span className="tw-text-[3.2em] tw-font-extrabold">
               {item.character ? `${item.character}: ` : ""}
             </span>
-            {replaceKeywords(item.speech, getConvertedDifficultWords().en)
+            {replaceKeywords(
+              item.speech,
+              getConvertedDifficultWords(props.slideUUID).en
+            )
               .split(" ")
               .map((word, wIndex) => {
                 const findWord = word

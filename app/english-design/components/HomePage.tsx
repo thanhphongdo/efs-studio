@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ScrollArea } from "@mantine/core";
 import { loadFont } from "../../components/SelectFont";
 import { useSearchParams } from "next/navigation";
@@ -14,6 +14,7 @@ import { VoiceScriptModal } from "./VoiceScriptModal";
 import { ViewContentModal } from "./ViewContentModal";
 import { SlideManagement } from "./SlideManagement";
 import { SetMainConfigModal } from "./SetMainConfigModal";
+import { v4 } from "uuid";
 
 export default function HomePage() {
   const {
@@ -27,12 +28,17 @@ export default function HomePage() {
     setCopyConfigModalOpened,
     currentSlide,
     setSlides,
+    addShape,
+    updateShape,
+    deleteShape,
+    setViewContentModalOpened,
   } = useEnglishVideo((state) => state);
   const params = useSearchParams();
   const [isView, setIsView] = useState<boolean>(
     JSON.parse(params.get("view") || "false")
   );
   const [copyValue, setCopyValue] = useState("");
+  const screenEle = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -44,7 +50,7 @@ export default function HomePage() {
         zoom(isView ? 1 : 0.5);
       }
     }
-    setContentIndex(parseInt(params.get("index") ?? "0"));
+    setContentIndex(currentSlide()!.uuid, parseInt(params.get("index") ?? "0"));
     const fonts: Array<string> = [];
     flatten(slides.map((item) => item.shapes)).forEach((shape) => {
       shape.styles.forEach((item) => {
@@ -82,10 +88,10 @@ export default function HomePage() {
 
   useEffect(() => {
     (window as any).nextContent = function () {
-      setContentIndex(currentSlide()!.contentIndex + 1);
+      setContentIndex(currentSlide()!.uuid, currentSlide()!.contentIndex + 1);
     };
     (window as any).gotoContent = function (contentIndex: number) {
-      setContentIndex(contentIndex);
+      setContentIndex(currentSlide()!.uuid, contentIndex);
     };
   }, [slides]);
 
@@ -110,7 +116,79 @@ export default function HomePage() {
         <CopyConfigModal copyValue={copyValue}></CopyConfigModal>
         <VoiceScriptModal></VoiceScriptModal>
         <ViewContentModal></ViewContentModal>
-        <div className="tw-flex tw-flex-1 tw-w-screen tw-h-screen">
+        <div
+          ref={screenEle}
+          className="tw-flex tw-flex-1 tw-w-screen tw-h-screen focus-visible:!tw-outline-none"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            const shape = currentSlide()!.shapes.find(
+              (item) => item.isActive == true
+            );
+            if (!shape) {
+              return;
+            }
+            switch (e.key) {
+              case "ArrowUp":
+                e.preventDefault();
+                updateShape({
+                  ...shape,
+                  top: shape.top - 2,
+                });
+                break;
+              case "ArrowDown":
+                e.preventDefault();
+                updateShape({
+                  ...shape,
+                  top: shape.top + 2,
+                });
+                break;
+              case "ArrowLeft":
+                e.preventDefault();
+                updateShape({
+                  ...shape,
+                  left: shape.left - 2,
+                });
+                break;
+              case "ArrowRight":
+                e.preventDefault();
+                updateShape({
+                  ...shape,
+                  left: shape.left + 2,
+                });
+                break;
+              case "Backspace":
+                e.preventDefault();
+                deleteShape(shape.uuid);
+                break;
+              case "e":
+                e.preventDefault();
+                setViewContentModalOpened(true, true);
+                break;
+              case "d":
+                e.preventDefault();
+                if ((e.ctrlKey || e.metaKey) && e.shiftKey) {
+                  deleteShape(shape.uuid);
+                  return;
+                }
+                if ((e.ctrlKey || e.metaKey) && !e.shiftKey) {
+                  addShape({
+                    ...shape,
+                    uuid: v4(),
+                    left: shape.left + 20,
+                    top: shape.top + 20,
+                  });
+                  return;
+                }
+                break;
+              default:
+                break;
+            }
+            screenEle.current?.focus();
+          }}
+          onKeyUp={(e) => {
+            e.preventDefault();
+          }}
+        >
           <div
             className={`${
               isView ? "tw-w-full" : "tw-w-[calc(100vw_-_496px)]"
