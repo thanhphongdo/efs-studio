@@ -218,7 +218,7 @@ export type SlidePosition = "Before" | "After" | "Main";
 export type Shape = {
   uuid: string;
   key: string;
-  type: "Normal" | "Conversation" | "Paragraph" | "Hidden";
+  type: "Normal" | "Conversation" | "Image" | "Paragraph" | "Hidden";
   exampleValue?: string;
   top: number;
   left: number;

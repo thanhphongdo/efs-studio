@@ -212,6 +212,18 @@ export const Shape = (props: {
               )}
               {shape.type === "Normal" &&
                 (content?.[shape.key] || shape?.exampleValue || shape.key)}
+              {shape.type === "Image" && (
+                <div
+                  className="tw-w-full tw-h-full tw-text-blue-900 tw-flex tw-items-center tw-justify-center !tw-bg-cover !tw-bg-center"
+                  style={{
+                    background: content?.[shape.key]
+                      ? `url("${content?.[shape.key]}")`
+                      : "rgba(34, 139, 230, 0.5)",
+                  }}
+                >
+                  {content?.[shape.key] ? "" : "NO IMAGE"}
+                </div>
+              )}
             </div>
           )}
         </div>

@@ -105,7 +105,10 @@ export const DesignWidget = () => {
   };
 
   return (
-    <div>
+    <div
+      onKeyUp={(e) => e.stopPropagation()}
+      onKeyDown={(e) => e.stopPropagation()}
+    >
       {getShapes().length > 0 &&
         getShapes().map((shape) => (
           <div className="tw-flex tw-flex-col tw-gap-2" key={shape.uuid}>
@@ -156,6 +159,7 @@ export const DesignWidget = () => {
                           data={[
                             "Normal",
                             "Conversation",
+                            "Image",
                             "Paragraph",
                             "Hidden",
                           ]}
