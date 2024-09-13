@@ -32,6 +32,7 @@ export default function HomePage() {
     updateShape,
     deleteShape,
     setViewContentModalOpened,
+    hasConversation,
   } = useEnglishVideo((state) => state);
   const params = useSearchParams();
   const [isView, setIsView] = useState<boolean>(
@@ -163,7 +164,9 @@ export default function HomePage() {
                 break;
               case "e":
                 e.preventDefault();
-                setViewContentModalOpened(true, true);
+                if (!hasConversation(currentSlide()!.uuid)) {
+                  setViewContentModalOpened(true, true);
+                }
                 break;
               case "d":
                 e.preventDefault();

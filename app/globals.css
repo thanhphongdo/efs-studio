@@ -531,3 +531,206 @@ body {
 .default-outline {
   outline: -webkit-focus-ring-color auto 1px
 }
+
+/* dark styling of the editor */
+div.jsoneditor,
+div.jsoneditor-menu {
+  border-color: #4b4b4b;
+}
+
+div.jsoneditor-menu {
+  background-color: #4b4b4b;
+}
+
+div.jsoneditor-tree,
+div.jsoneditor textarea.jsoneditor-text {
+  background-color: #2e2e2e;
+  color: #c9c9c9;
+}
+
+div.jsoneditor-field,
+div.jsoneditor-value {
+  color: #c9c9c9;
+}
+
+table.jsoneditor-search div.jsoneditor-frame {
+  background: #808080;
+}
+
+tr.jsoneditor-highlight,
+tr.jsoneditor-selected {
+  background-color: #808080;
+}
+
+div.jsoneditor-field[contenteditable=true]:focus,
+div.jsoneditor-field[contenteditable=true]:hover,
+div.jsoneditor-value[contenteditable=true]:focus,
+div.jsoneditor-value[contenteditable=true]:hover,
+div.jsoneditor-field.jsoneditor-highlight,
+div.jsoneditor-value.jsoneditor-highlight {
+  background-color: #808080;
+  border-color: #808080;
+}
+
+div.jsoneditor-field.highlight-active,
+div.jsoneditor-field.highlight-active:focus,
+div.jsoneditor-field.highlight-active:hover,
+div.jsoneditor-value.highlight-active,
+div.jsoneditor-value.highlight-active:focus,
+div.jsoneditor-value.highlight-active:hover {
+  background-color: #b1b1b1;
+  border-color: #b1b1b1;
+}
+
+div.jsoneditor-tree button:focus {
+  background-color: #868686;
+}
+
+/* coloring of JSON in tree mode */
+div.jsoneditor-readonly {
+  color: #acacac;
+}
+
+div.jsoneditor td.jsoneditor-separator {
+  color: #acacac;
+}
+
+div.jsoneditor-value.jsoneditor-string {
+  color: #00ff88;
+}
+
+div.jsoneditor-value.jsoneditor-object,
+div.jsoneditor-value.jsoneditor-array {
+  color: #bababa;
+}
+
+div.jsoneditor-value.jsoneditor-number {
+  color: #ff4040;
+}
+
+div.jsoneditor-value.jsoneditor-boolean {
+  color: #ff8048;
+}
+
+div.jsoneditor-value.jsoneditor-null {
+  color: #49a7fc;
+}
+
+div.jsoneditor-value.jsoneditor-invalid {
+  color: white;
+}
+
+/* Dark theme styles for JSONEditor */
+
+.jsoneditor {
+  background-color: #1e1e1e;
+  /* Màu nền tối */
+  color: #dcdcdc;
+  /* Màu chữ sáng */
+}
+
+.jsoneditor .jsoneditor-tree,
+.jsoneditor .jsoneditor-menu {
+  background-color: #1e1e1e;
+}
+
+.jsoneditor .jsoneditor-tree .jsoneditor-field,
+.jsoneditor .jsoneditor-tree .jsoneditor-value {
+  color: #9cdcfe;
+}
+
+.jsoneditor .jsoneditor-tree .jsoneditor-value {
+  color: #ce9178;
+}
+
+.jsoneditor .jsoneditor-tree .jsoneditor-button {
+  background-color: #2d2d30;
+  color: #dcdcdc;
+}
+
+.jsoneditor .jsoneditor-menu {
+  background-color: #2d2d30;
+}
+
+.jsoneditor .jsoneditor-menu .jsoneditor-button {
+  background-color: #3e3e42;
+  color: #dcdcdc;
+}
+
+.jsoneditor .jsoneditor-tree .jsoneditor-dragarea {
+  background-color: #3e3e42;
+}
+
+
+.jsoneditor {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+}
+
+.jsoneditor-tree {
+  background-color: #1e1e1e;
+}
+
+.jsoneditor-text {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+}
+
+.jsoneditor-field,
+.jsoneditor-value {
+  color: #9cdcfe;
+  background-color: #2d2d30 !important;
+  border-color: #2d2d30 !important;
+}
+
+.jsoneditor-value.jsoneditor-string {
+  color: #ce9178;
+  background-color: #2d2d30 !important;
+  border-color: #2d2d30 !important;
+}
+
+.jsoneditor-value.jsoneditor-number {
+  color: #b5cea8;
+  background-color: #2d2d30 !important;
+  border-color: #2d2d30 !important;
+}
+
+.jsoneditor-value.jsoneditor-boolean {
+  color: #569cd6;
+  background-color: #2d2d30 !important;
+  border-color: #2d2d30 !important;
+}
+
+.jsoneditor-value.jsoneditor-null {
+  color: #569cd6;
+  background-color: #2d2d30 !important;
+  border-color: #2d2d30 !important;
+}
+
+.jsoneditor-selected {
+  background-color: #264f78;
+  background-color: #2d2d30 !important;
+  border-color: #2d2d30 !important;
+}
+
+.jsoneditor-navigation-bar,
+.jsoneditor-frame,
+.jsoneditor-contextmenu .jsoneditor-menu {
+  background-color: #3e3e42 !important;
+  color: #c9c9c9 !important;
+}
+
+.jsoneditor-search input {
+  background-color: #2d2d30 !important;
+  color: #c9c9c9 !important;
+}
+
+.jsoneditor-statusbar {
+  background-color: #2d2d30 !important;
+  color: #c9c9c9 !important;
+}
+
+.jsoneditor-highlight td {
+  background-color: #2d2d30 !important;
+  color: #c9c9c9 !important;
+}

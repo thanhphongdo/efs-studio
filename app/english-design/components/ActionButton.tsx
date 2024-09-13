@@ -38,6 +38,7 @@ export function ActionButton(props: { isView: boolean }) {
     currentSlide,
     getMainSlide,
     setViewContentModalOpened,
+    hasConversation,
   } = useEnglishVideo((state) => state);
 
   const historyListKey = "history_list";
@@ -183,9 +184,10 @@ export function ActionButton(props: { isView: boolean }) {
           </Button>
           <Button
             color="orange"
-            disabled={!getActiveShape()}
+            disabled={hasConversation(currentSlide()!.uuid)}
             onClick={() => {
-              setViewContentModalOpened(true, true);
+              !hasConversation(currentSlide()!.uuid) &&
+                setViewContentModalOpened(true, true);
             }}
           >
             Edit Content

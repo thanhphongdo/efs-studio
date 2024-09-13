@@ -364,6 +364,7 @@ export type EnglishVideoActions = {
   getAfterSlide: () => Array<SlideItem>;
   getMainSlide: () => SlideItem;
   currentSlide: () => SlideItem | undefined;
+  hasConversation: (slideUUID: string) => boolean;
 };
 
 export type EnglishVideo = EnglishVideoState & EnglishVideoActions;
@@ -805,6 +806,10 @@ export const createEnglishVideo = (
         getMainSlide: () =>
           get().slides.find((slide) => slide.position === "Main")!,
         currentSlide: () => get().slides.find((slide) => slide.isSelected),
+        hasConversation: (slideUUID) =>
+          get()
+            .getSlide(slideUUID)!
+            .shapes.findIndex((item) => item.type === "Conversation") >= 0,
       }),
       {
         name: "UpdateVesselScheduleStore",

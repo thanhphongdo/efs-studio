@@ -15,11 +15,11 @@ import { IconScanEye } from "@tabler/icons-react";
 import { SlideManagement } from "./SlideManagement";
 import { SlideVoiceScriptConfig } from "./VoiceScriptModal";
 import { useDebouncedValue } from "@mantine/hooks";
+import JsonEditor from "@/app/components/JsonEditor";
 
 export const SlideContentConfig = memo(() => {
-  const { currentSlide, setSlide, setViewContentModalOpened } = useEnglishVideo(
-    (state) => state
-  );
+  const { currentSlide, setSlide, setViewContentModalOpened, hasConversation } =
+    useEnglishVideo((state) => state);
 
   const [conversation, setConversation] = useState<string>("");
 
@@ -120,17 +120,9 @@ export const SlideContentConfig = memo(() => {
     });
   };
 
-  const hasConversation = () => {
-    return (
-      currentSlide()!.shapes.findIndex(
-        (item) => item.type === "Conversation"
-      ) >= 0
-    );
-  };
-
   return (
-    <div className="tw-flex tw-flex-col tw-flex-1 tw-gap-4 tw-max-h-full tw-relative">
-      <div className="tw-flex tw-flex-col tw-gap-4 tw-flex-1 tw-overflow-auto">
+    <div className="tw-flex tw-flex-col tw-flex-1 tw-gap-4 tw-max-h-full tw-relative tw-h-full">
+      <div className="tw-flex tw-flex-col tw-gap-4 tw-flex-1 tw-overflow-auto tw-h-full">
         <div className="tw-grid tw-grid-cols-3 tw-gap-2">
           <NumberInput
             label="Start Index"
@@ -180,45 +172,33 @@ export const SlideContentConfig = memo(() => {
             }
           />
         </div>
-        {!hasConversation() && (
-          <div className="tw-grid tw-grid-cols-2 tw-gap-4">
+        {!hasConversation(currentSlide()!.uuid) && (
+          <div className="tw-grid tw-grid-cols-2 tw-gap-4 tw-h-full tw-pb-4">
             <div className="tw-w-full tw-relative">
-              <JsonInput
-                label="Contents"
-                rows={36}
-                className="tw-w-full"
-                defaultValue={contents}
+              <JsonEditor
+                value={JSON.parse(contents ?? "[]")}
                 onChange={(value) => {
-                  setContents(value);
+                  setContents(JSON.stringify(value));
                 }}
-              ></JsonInput>
+              ></JsonEditor>
               <div
-                className="tw-absolute tw-top-7 tw-right-2 tw-cursor-pointer tw-p-1"
+                className="tw-absolute tw-bottom-6 tw-right-2 tw-cursor-pointer tw-p-1"
                 onClick={() => setViewContentModalOpened(true)}
               >
                 <IconScanEye />
               </div>
             </div>
             <div className="tw-w-full tw-relative">
-              <JsonInput
-                label="Styles"
-                rows={36}
-                className="tw-w-full"
-                defaultValue={styles}
+              <JsonEditor
+                value={JSON.parse(styles ?? "[]")}
                 onChange={(value) => {
-                  setStyles(value);
+                  setStyles(JSON.stringify(value));
                 }}
-              ></JsonInput>
-              <div
-                className="tw-absolute tw-top-7 tw-right-2 tw-cursor-pointer tw-p-1"
-                onClick={() => setViewContentModalOpened(true)}
-              >
-                <IconScanEye />
-              </div>
+              ></JsonEditor>
             </div>
           </div>
         )}
-        {hasConversation() && (
+        {hasConversation(currentSlide()!.uuid) && (
           <>
             <div className="tw-flex tw-gap-2 tw-items-end">
               <NumberInput
@@ -326,12 +306,15 @@ export function SetConfigModal(props: { copyValue: string }) {
       className="tw-h-full"
     >
       <div className="tw-flex tw-gap-4 tw-w-full tw-h-[calc(100vh_-_76px)]">
-        <div className="tw-w-36 tw-h-full tw-bg-red-300">
+        <div className="tw-w-36 tw-h-full tw-bg-red-300 tw-relative">
           <SlideManagement
             isView={false}
             direcrion="vertical"
             align={{ top: 76 }}
           ></SlideManagement>
+          {!rendered && (
+            <div className="tw-w-full tw-h-full tw-absolute tw-top-0"></div>
+          )}
         </div>
         {rendered && (
           <Tabs
@@ -347,7 +330,7 @@ export function SetConfigModal(props: { copyValue: string }) {
               </Tabs.Tab>
             </Tabs.List>
 
-            <Tabs.Panel value="contents" pt="xs">
+            <Tabs.Panel value="contents" pt="xs" className="tw-h-full">
               <SlideContentConfig />
             </Tabs.Panel>
 
