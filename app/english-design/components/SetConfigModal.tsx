@@ -26,34 +26,10 @@ export const SlideContentConfig = memo(() => {
   const [contents, setContents] = useState(
     JSON.stringify(currentSlide()!.contents, null, 4)
   );
-  const [contentsDebounced] = useDebouncedValue(contents, 200);
 
   const [styles, setStyles] = useState(
     JSON.stringify(currentSlide()!.styles, null, 4)
   );
-  const [stylesDebounced] = useDebouncedValue(styles, 200);
-
-  useEffect(() => {
-    if (contentsDebounced) {
-      try {
-        setSlide({
-          ...currentSlide()!,
-          contents: JSON.parse(contentsDebounced),
-        });
-      } catch (e) {}
-    }
-  }, [contentsDebounced]);
-
-  useEffect(() => {
-    if (stylesDebounced) {
-      try {
-        setSlide({
-          ...currentSlide()!,
-          styles: JSON.parse(stylesDebounced),
-        });
-      } catch (e) {}
-    }
-  }, [stylesDebounced]);
 
   const convertConversation = (conversation: string = "") => {
     function splitCharacters(conversation: string) {
@@ -113,7 +89,6 @@ export const SlideContentConfig = memo(() => {
       characters: splitCharacters(conversation),
       speechs: item,
     }));
-    // setContents(contents);
     setSlide({
       ...currentSlide()!,
       contents,
@@ -178,7 +153,10 @@ export const SlideContentConfig = memo(() => {
               <JsonEditor
                 value={JSON.parse(contents ?? "[]")}
                 onChange={(value) => {
-                  setContents(JSON.stringify(value));
+                  setSlide({
+                    ...currentSlide()!,
+                    contents: value as any,
+                  });
                 }}
               ></JsonEditor>
               <div
@@ -192,7 +170,10 @@ export const SlideContentConfig = memo(() => {
               <JsonEditor
                 value={JSON.parse(styles ?? "[]")}
                 onChange={(value) => {
-                  setStyles(JSON.stringify(value));
+                  setSlide({
+                    ...currentSlide()!,
+                    styles: value as any,
+                  });
                 }}
               ></JsonEditor>
             </div>

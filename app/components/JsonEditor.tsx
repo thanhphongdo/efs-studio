@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import type { JSONEditorOptions } from "jsoneditor";
 import "jsoneditor/dist/jsoneditor.css";
+import { useDebouncedValue } from "@mantine/hooks";
 
 interface JsonEditorProps {
   value: object;
@@ -16,6 +17,13 @@ const JsonEditor: React.FC<JsonEditorProps> = React.memo(
     const jsonEditorInstance = useRef<any>(null);
     const [isClient, setIsClient] = useState(false);
 
+    const [content, setContent] = useState(value);
+    const [contentDebounded] = useDebouncedValue(content, 200);
+
+    useEffect(() => {
+      onChange(contentDebounded);
+    }, [contentDebounded]);
+
     useEffect(() => {
       setIsClient(true);
     }, []);
@@ -24,13 +32,14 @@ const JsonEditor: React.FC<JsonEditorProps> = React.memo(
       if (editorRef.current && isClient) {
         import("jsoneditor").then(({ default: JSONEditor }) => {
           const editor = new JSONEditor(editorRef.current!, {
-            mode: "tree",
+            mode: "text",
             modes: ["text", "tree", "view"],
             onChange: () => {
               if (jsonEditorInstance.current) {
                 try {
                   const updatedJson = jsonEditorInstance.current.get();
-                  onChange(updatedJson);
+                  setContent(updatedJson);
+                  // onChange(updatedJson);
                 } catch (error) {
                   console.error("Error parsing JSON:", error);
                 }
