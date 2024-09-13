@@ -21,6 +21,7 @@ import {
   IconTrash,
 } from "@tabler/icons-react";
 import { openConfirmModal } from "@mantine/modals";
+import JsonEditor from "@/app/components/JsonEditor";
 
 export function ViewContentModal() {
   const {
@@ -47,6 +48,66 @@ export function ViewContentModal() {
 
   const splitedContent = currentSlide()!.splitedContent ?? 1;
 
+  const [chunkedContents, setChunkedContent] = useState<
+    Record<string, any>[][]
+  >([]);
+
+  const [chunkedStyles, setChunkerStyles] = useState<Record<string, any>[][]>(
+    []
+  );
+
+  const [chunkedIndex, setChunkedIndex] = useState<number[][]>([]);
+
+  const updateChunkedContents = () => {
+    setChunkedContent(
+      chunk(
+        currentSlide()!.contents.filter((item, index) => {
+          if (!viewContentModalOpened.isFocusCurrentContent) {
+            return true;
+          }
+          return index === currentSlide()!.contentIndex;
+        }),
+        splitedContent
+      )
+    );
+  };
+
+  const updateChunkedStyles = () => {
+    setChunkerStyles(
+      chunk(
+        currentSlide()!.styles.filter((item, index) => {
+          if (!viewContentModalOpened.isFocusCurrentContent) {
+            return true;
+          }
+          return index === currentSlide()!.contentIndex;
+        }),
+        splitedContent
+      )
+    );
+  };
+
+  const updateChunkedIndex = () => {
+    setChunkedIndex(
+      chunk(
+        currentSlide()!
+          .contents.map((item, index) => index)
+          .filter((item, index) => {
+            if (!viewContentModalOpened.isFocusCurrentContent) {
+              return true;
+            }
+            return index === currentSlide()!.contentIndex;
+          }),
+        splitedContent
+      )
+    );
+  };
+
+  useEffect(() => {
+    updateChunkedContents();
+    updateChunkedStyles();
+    updateChunkedIndex();
+  }, [currentSlide()!.contentIndex, viewContentModalOpened]);
+
   return (
     <Modal
       opened={viewContentModalOpened.opened}
@@ -63,6 +124,7 @@ export function ViewContentModal() {
         </Title>
       }
       size={"xl"}
+      fullScreen
       className="tw-h-full custom-modal"
     >
       <div
@@ -129,15 +191,7 @@ export function ViewContentModal() {
           </div>
         )}
         <div className="tw-flex tw-flex-col tw-gap-2 tw-flex-1 tw-overflow-auto">
-          {chunk(
-            currentSlide()!.contents.filter((item, index) => {
-              if (!viewContentModalOpened.isFocusCurrentContent) {
-                return true;
-              }
-              return index === currentSlide()!.contentIndex;
-            }),
-            splitedContent
-          ).map((cItem, cIndex) => (
+          {chunkedContents.map((cItem, cIndex) => (
             <div
               key={cIndex}
               className="tw-flex tw-flex-col tw-gap-2 tw-p-2 tw-rounded-md tw-bg-slate-600"
@@ -183,34 +237,99 @@ export function ViewContentModal() {
                   onClick={() => setContentEditable({ cIndex, index })}
                   className="tw-flex tw-flex-col tw-gap-2 tw-px-4 tw-py-2 tw-rounded tw-border tw-border-gray-200 tw-bg-slate-900 tw-relative"
                 >
-                  {Object.keys(item).map((key) => (
-                    <div key={key} className="tw-flex tw-gap-2 tw-pr-6">
-                      <div className="tw-font-bold tw-text-gray-500">
-                        {key}:{" "}
-                      </div>
-                      {/* contentEditable={
-                          index === contentEditable.index &&
-                          cIndex === contentEditable.cIndex
-                        } */}
-                      <div
-                        contentEditable
-                        className={`tw-px-1 tw-min-w-24 ${
-                          !item[key] ? "default-outline" : ""
-                        }`}
-                        onClick={(e) => e.stopPropagation()}
-                        onBlur={(e: any) => {
-                          const currentContents = [...currentSlide()!.contents];
-                          currentContents[cIndex * splitedContent + index][
-                            key
-                          ] = e.target.innerText;
-                          currentSlide()!.contents = currentContents;
-                          setSlide(currentSlide()!);
-                          // setContents(currentContents);
-                        }}
-                        dangerouslySetInnerHTML={{ __html: item[key] }}
-                      ></div>
+                  <div className="tw-font-bold">
+                    Index:{" "}
+                    <span className="!tw-text-yellow-300">
+                      {chunkedIndex?.[cIndex]?.[index] + 1}
+                    </span>
+                  </div>
+                  <div className="tw-grid tw-grid-cols-2 tw-gap-2">
+                    <div className="tw-w-full tw-h-full tw-bg-slate-800">
+                      {Object.keys(item).map((key, index) => (
+                        <div key={key} className="tw-flex tw-gap-2 tw-pr-6">
+                          <div className="tw-font-bold tw-text-gray-500">
+                            {key}:{" "}
+                          </div>
+                          <div
+                            contentEditable
+                            className={`tw-px-1 tw-min-w-24 ${
+                              !item[key] ? "default-outline" : ""
+                            }`}
+                            onClick={(e) => e.stopPropagation()}
+                            onKeyDown={(e) => e.stopPropagation()}
+                            onKeyUp={(e) => e.stopPropagation()}
+                            onBlur={(e: any) => {
+                              const currentContents = [
+                                ...currentSlide()!.contents,
+                              ];
+                              currentContents[cIndex * splitedContent + index][
+                                key
+                              ] = e.target.innerText;
+                              currentSlide()!.contents = currentContents;
+                              setSlide(currentSlide()!);
+                            }}
+                            dangerouslySetInnerHTML={{ __html: item[key] }}
+                          ></div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
+                    <div
+                      className="tw-w-full tw-h-full tw-bg-slate-800 tw-p-2"
+                      onKeyUp={(e) => {
+                        e.stopPropagation();
+                      }}
+                      onKeyDown={(e) => {
+                        e.stopPropagation();
+                      }}
+                    >
+                      <div className="tw-w-full tw-h-full">
+                        <JsonEditor
+                          value={
+                            chunkedStyles?.[
+                              cIndex * splitedContent + index
+                            ]?.[0] ?? {}
+                          }
+                          onChange={(value) => {
+                            try {
+                              const currentStyles: Array<any> = [
+                                ...currentSlide()!.styles,
+                              ];
+                              currentStyles[
+                                chunkedIndex[cIndex][
+                                  cIndex * splitedContent + index
+                                ]
+                              ] = value;
+                              currentSlide()!.styles = [...currentStyles];
+                              setSlide(currentSlide()!);
+                            } catch (err) {}
+                          }}
+                        />
+                      </div>
+                      {/* {!!chunkedStyles[
+                        cIndex * splitedContent + index
+                      ]?.[0] && (
+                        <JsonEditor
+                          value={
+                            chunkedStyles[cIndex * splitedContent + index]?.[0]
+                          }
+                          onChange={(value) => {
+                            try {
+                              const currentStyles: Array<any> = [
+                                ...currentSlide()!.styles,
+                              ];
+                              currentStyles[
+                                chunkedIndex[cIndex][
+                                  cIndex * splitedContent + index
+                                ]
+                              ] = value;
+                              currentSlide()!.styles = [...currentStyles];
+                              setSlide(currentSlide()!);
+                            } catch (err) {}
+                          }}
+                        />
+                      )} */}
+                    </div>
+                  </div>
                   <div
                     className="tw-p-1 tw-absolute tw-top-1 tw-right-1 tw-cursor-pointer"
                     onClick={() => {

@@ -21,6 +21,7 @@ export default function HomePage() {
     getAll,
     // contentIndex,
     slides,
+    viewContentModalOpened,
     setContentIndex,
     scale,
     zoom,
@@ -117,7 +118,7 @@ export default function HomePage() {
         <SetConfigModal copyValue={copyValue}></SetConfigModal>
         <CopyConfigModal copyValue={copyValue}></CopyConfigModal>
         <VoiceScriptModal></VoiceScriptModal>
-        <ViewContentModal></ViewContentModal>
+        {viewContentModalOpened.opened && <ViewContentModal></ViewContentModal>}
         <div
           ref={screenEle}
           className="tw-flex tw-flex-1 tw-w-screen tw-h-screen focus-visible:!tw-outline-none"

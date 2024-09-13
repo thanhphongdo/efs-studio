@@ -161,7 +161,7 @@ export const SlideContentConfig = memo(() => {
               ></JsonEditor>
               <div
                 className="tw-absolute tw-bottom-6 tw-right-2 tw-cursor-pointer tw-p-1"
-                onClick={() => setViewContentModalOpened(true)}
+                onClick={() => setViewContentModalOpened(true, false)}
               >
                 <IconScanEye />
               </div>

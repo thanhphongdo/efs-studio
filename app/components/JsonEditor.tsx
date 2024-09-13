@@ -26,7 +26,12 @@ const JsonEditor: React.FC<JsonEditorProps> = React.memo(
 
     useEffect(() => {
       setIsClient(true);
-    }, []);
+      return () => {
+        console.log("Destroyed...");
+        jsonEditorInstance.current?.destroy();
+        jsonEditorInstance.current = null;
+      };
+    }, [value]);
 
     useEffect(() => {
       if (editorRef.current && isClient) {
