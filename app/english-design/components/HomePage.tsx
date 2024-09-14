@@ -22,6 +22,7 @@ export default function HomePage() {
     // contentIndex,
     slides,
     viewContentModalOpened,
+    showDesignWidget,
     setContentIndex,
     scale,
     zoom,
@@ -196,8 +197,11 @@ export default function HomePage() {
         >
           <div
             className={`${
-              isView ? "tw-w-full" : "tw-w-[calc(100vw_-_496px)]"
+              isView ? "!tw-w-full" : "tw-w-[calc(100vw_-_496px)]"
             } tw-h-full tw-flex tw-flex-col`}
+            style={{
+              width: showDesignWidget ? "calc(100vw - 496px)" : "100%",
+            }}
           >
             <ScrollArea type="never" className="tw-w-full tw-h-full tw-flex-1">
               {currentSlide()!.type === "Long" && (
@@ -216,7 +220,7 @@ export default function HomePage() {
             <SlideManagement
               isView={isView}
               direcrion="horizontal"
-              align={{ left: 0, right: 496 }}
+              align={{ left: 0, right: showDesignWidget ? 496 : 0 }}
             ></SlideManagement>
           </div>
           <ActionButton isView={isView}></ActionButton>

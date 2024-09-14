@@ -287,7 +287,7 @@ export function SetConfigModal(props: { copyValue: string }) {
       className="tw-h-full"
     >
       <div className="tw-flex tw-gap-4 tw-w-full tw-h-[calc(100vh_-_76px)]">
-        <div className="tw-w-36 tw-h-full tw-bg-red-300 tw-relative">
+        <div className="tw-w-36 tw-h-full tw-relative">
           <SlideManagement
             isView={false}
             direcrion="vertical"

@@ -2,6 +2,8 @@ import { Button, Modal, ScrollArea, Table, Title } from "@mantine/core";
 import { DesignWidget } from "./DesignWidget";
 import { useEnglishVideo } from "../store-provider";
 import {
+  IconChevronLeft,
+  IconChevronRight,
   IconCrop32,
   IconCrop32Filled,
   IconCropPortrait,
@@ -20,6 +22,7 @@ import { openConfirmModal } from "@mantine/modals";
 export function ActionButton(props: { isView: boolean }) {
   const {
     slides,
+    showDesignWidget,
     getAll,
     addShape,
     getShapes,
@@ -39,6 +42,7 @@ export function ActionButton(props: { isView: boolean }) {
     getMainSlide,
     setViewContentModalOpened,
     hasConversation,
+    setShowDesignWidget,
   } = useEnglishVideo((state) => state);
 
   const historyListKey = "history_list";
@@ -76,172 +80,190 @@ export function ActionButton(props: { isView: boolean }) {
   return (
     <>
       <div
-        className={`tw-w-[496px] tw-p-2 tw-h-full tw-flex tw-flex-col tw-bg-zinc-900 ${
+        className={`tw-h-full tw-flex tw-flex-col tw-bg-zinc-900 tw-relative ${
           props.isView ? "tw-hidden" : ""
         }`}
+        style={{
+          width: showDesignWidget ? "calc(100vw - 496px)" : undefined,
+        }}
       >
-        <div className="tw-grid tw-grid-cols-3 tw-gap-2 tw-p-2">
-          <div className="tw-flex tw-gap-2">
-            <Button
-              className="!tw-p-2 tw-flex-1"
-              color="cyan"
-              onClick={() => {
-                if (currentSlide()!.type === "Long") {
-                  setVideoType(currentSlide()!.uuid, "Short");
-                } else {
-                  setVideoType(currentSlide()!.uuid, "Long");
-                }
-              }}
-            >
-              {currentSlide()!.type === "Long" && (
-                <>
-                  <IconCrop32Filled />
-                  <IconCropPortrait className="tw-opacity-50" />
-                </>
-              )}
-              {currentSlide()!.type === "Short" && (
-                <>
-                  <IconCropPortraitFilled />
-                  <IconCrop32 className="tw-opacity-50" />
-                </>
-              )}
-            </Button>
-            <Button
-              className="!tw-p-2 tw-flex-1"
-              onClick={() => {
-                setConfigModalOpened(true);
-              }}
-            >
-              Config
-            </Button>
-          </div>
-          <div className="tw-grid tw-grid-cols-2 tw-gap-2">
-            <Button
-              disabled={currentSlide()!.contentIndex === 0}
-              onClick={() =>
-                setContentIndex(
-                  currentSlide()!.uuid,
-                  currentSlide()!.contentIndex - 1
-                )
-              }
-            >
-              Prev
-            </Button>
-            <Button
-              disabled={
-                currentSlide()!.contentIndex ===
-                currentSlide()!.contents.length - 1
-              }
-              onClick={() =>
-                setContentIndex(
-                  currentSlide()!.uuid,
-                  currentSlide()!.contentIndex + 1
-                )
-              }
-            >
-              Next
-            </Button>
-          </div>
-          <Button.Group className="tw-w-full tw-flex">
-            <Button variant="default" onClick={() => zoom(scale - 0.1)}>
-              -
-            </Button>
-            <Button
-              variant="default"
-              className="tw-flex-1"
-              onClick={() => zoomStick()}
-            >
-              <IconZoom size={16} />
-            </Button>
-            <Button variant="default" onClick={() => zoom(scale + 0.1)}>
-              +
-            </Button>
-          </Button.Group>
-        </div>
-        <div className="tw-grid tw-grid-cols-3 tw-gap-2 tw-p-2">
-          <Button color="pink" onClick={() => setMainConfigModalOpened(true)}>
-            Master Config
-          </Button>
-          <Button
-            onClick={() => {
-              addShape({
-                uuid: v4(),
-                key: "",
-                exampleValue: "",
-                zIndex: 0,
-                top: -1,
-                left: -1,
-                width: 400,
-                height: 300,
-                isCollapse: true,
-                isFocus: true,
-                styles: [],
-                type: "Normal",
-              });
-            }}
-          >
-            Add Shape ({getShapes().length})
-          </Button>
-          <Button
-            color="orange"
-            disabled={hasConversation(currentSlide()!.uuid)}
-            onClick={() => {
-              !hasConversation(currentSlide()!.uuid) &&
-                setViewContentModalOpened(true, true);
-            }}
-          >
-            Edit Content
-          </Button>
-          <Button color="yellow" onClick={open}>
-            Config History
-          </Button>
-          <Button
-            color="red"
-            disabled={
-              slides.length === 1 && getMainSlide()?.shapes.length === 0
-            }
-            onClick={() => {
-              openConfirmModal({
-                modalId: "reset-config",
-                centered: true,
-                title: "Reset Config",
-                children: "Are you sure you want to reset?",
-                labels: { cancel: `Cancel`, confirm: `Yes, I am sure` },
-                confirmProps: { color: "red" },
-                closeOnConfirm: true,
-                closeOnCancel: true,
-                onConfirm: () => reset(),
-              });
-            }}
-          >
-            Reset Config
-          </Button>
-          <Button
-            color="red"
-            disabled={!getShapes().length}
-            onClick={() => {
-              openConfirmModal({
-                modalId: "delete-all",
-                centered: true,
-                title: "Delete All Shapes",
-                children: "Are you sure you want to delete all shapes?",
-                labels: { cancel: `Cancel`, confirm: `Yes, I am sure` },
-                confirmProps: { color: "red" },
-                closeOnConfirm: true,
-                closeOnCancel: true,
-                onConfirm: () => deleteAllShapes(),
-              });
-            }}
-          >
-            Delete All
-          </Button>
-        </div>
-        <ScrollArea
-          className="tw-flex-1 tw-max-h-[calc(100%_-_104px)]"
-          type="never"
+        <div
+          className="tw-absolute tw-cursor-pointer tw-w-6 tw-h-16 tw-bg-white/20 tw-top-8 -tw-left-6 tw-rounded-l-2xl tw-flex tw-items-center tw-justify-center"
+          onClick={() => setShowDesignWidget(!showDesignWidget)}
         >
-          <DesignWidget></DesignWidget>
-        </ScrollArea>
+          {!showDesignWidget && <IconChevronLeft />}
+          {showDesignWidget && <IconChevronRight />}
+        </div>
+        {showDesignWidget && (
+          <>
+            <div className="tw-grid tw-grid-cols-3 tw-gap-2 tw-p-2">
+              <div className="tw-flex tw-gap-2">
+                <Button
+                  className="!tw-p-2 tw-flex-1"
+                  color="cyan"
+                  onClick={() => {
+                    if (currentSlide()!.type === "Long") {
+                      setVideoType(currentSlide()!.uuid, "Short");
+                    } else {
+                      setVideoType(currentSlide()!.uuid, "Long");
+                    }
+                  }}
+                >
+                  {currentSlide()!.type === "Long" && (
+                    <>
+                      <IconCrop32Filled />
+                      <IconCropPortrait className="tw-opacity-50" />
+                    </>
+                  )}
+                  {currentSlide()!.type === "Short" && (
+                    <>
+                      <IconCropPortraitFilled />
+                      <IconCrop32 className="tw-opacity-50" />
+                    </>
+                  )}
+                </Button>
+                <Button
+                  className="!tw-p-2 tw-flex-1"
+                  onClick={() => {
+                    setConfigModalOpened(true);
+                  }}
+                >
+                  Config
+                </Button>
+              </div>
+              <div className="tw-grid tw-grid-cols-2 tw-gap-2">
+                <Button
+                  disabled={currentSlide()!.contentIndex === 0}
+                  onClick={() =>
+                    setContentIndex(
+                      currentSlide()!.uuid,
+                      currentSlide()!.contentIndex - 1
+                    )
+                  }
+                >
+                  Prev
+                </Button>
+                <Button
+                  disabled={
+                    currentSlide()!.contentIndex ===
+                    currentSlide()!.contents.length - 1
+                  }
+                  onClick={() =>
+                    setContentIndex(
+                      currentSlide()!.uuid,
+                      currentSlide()!.contentIndex + 1
+                    )
+                  }
+                >
+                  Next
+                </Button>
+              </div>
+              <Button.Group className="tw-w-full tw-flex">
+                <Button variant="default" onClick={() => zoom(scale - 0.1)}>
+                  -
+                </Button>
+                <Button
+                  variant="default"
+                  className="tw-flex-1"
+                  onClick={() => zoomStick()}
+                >
+                  <IconZoom size={16} />
+                </Button>
+                <Button variant="default" onClick={() => zoom(scale + 0.1)}>
+                  +
+                </Button>
+              </Button.Group>
+            </div>
+            <div className="tw-grid tw-grid-cols-3 tw-gap-2 tw-p-2">
+              <Button
+                color="pink"
+                onClick={() => setMainConfigModalOpened(true)}
+              >
+                Master Config
+              </Button>
+              <Button
+                onClick={() => {
+                  addShape({
+                    uuid: v4(),
+                    key: "",
+                    exampleValue: "",
+                    zIndex: 0,
+                    top: -1,
+                    left: -1,
+                    width: 400,
+                    height: 300,
+                    isCollapse: true,
+                    isFocus: true,
+                    styles: [],
+                    type: "Normal",
+                  });
+                }}
+              >
+                Add Shape ({getShapes().length})
+              </Button>
+              <Button
+                color="orange"
+                disabled={hasConversation(currentSlide()!.uuid)}
+                onClick={() => {
+                  !hasConversation(currentSlide()!.uuid) &&
+                    setViewContentModalOpened(true, true);
+                }}
+              >
+                Edit Content
+              </Button>
+              <Button color="yellow" onClick={open}>
+                Config History
+              </Button>
+              <Button
+                color="red"
+                disabled={
+                  slides.length === 1 && getMainSlide()?.shapes.length === 0
+                }
+                onClick={() => {
+                  openConfirmModal({
+                    modalId: "reset-config",
+                    centered: true,
+                    title: "Reset Config",
+                    children: "Are you sure you want to reset?",
+                    labels: { cancel: `Cancel`, confirm: `Yes, I am sure` },
+                    confirmProps: { color: "red" },
+                    closeOnConfirm: true,
+                    closeOnCancel: true,
+                    onConfirm: () => reset(),
+                  });
+                }}
+              >
+                Reset Config
+              </Button>
+              <Button
+                color="red"
+                disabled={!getShapes().length}
+                onClick={() => {
+                  openConfirmModal({
+                    modalId: "delete-all",
+                    centered: true,
+                    title: "Delete All Shapes",
+                    children: "Are you sure you want to delete all shapes?",
+                    labels: { cancel: `Cancel`, confirm: `Yes, I am sure` },
+                    confirmProps: { color: "red" },
+                    closeOnConfirm: true,
+                    closeOnCancel: true,
+                    onConfirm: () => deleteAllShapes(),
+                  });
+                }}
+              >
+                Delete All
+              </Button>
+            </div>
+            <ScrollArea
+              className="tw-flex-1 tw-max-h-[calc(100%_-_104px)] tw-pb-2 tw-px-2"
+              type="never"
+            >
+              <DesignWidget></DesignWidget>
+            </ScrollArea>
+          </>
+        )}
+        {/* </div> */}
       </div>
       <Modal
         opened={opened}

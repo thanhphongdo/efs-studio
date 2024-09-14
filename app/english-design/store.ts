@@ -274,6 +274,7 @@ export type SlideItem = {
 };
 
 export type EnglishVideoState = {
+  showDesignWidget: boolean;
   isEditting?: boolean;
   videoTitle?: string;
   endVideoTitle?: string;
@@ -298,6 +299,7 @@ export type EnglishVideoActions = {
   reset: () => void;
   getAll: () => EnglishVideoState;
   setAll: (value: EnglishVideoState) => void;
+  setShowDesignWidget: (value: boolean) => void;
   setVideoTitle: (title: string) => void;
   setEndVideoTitle: (title: string) => void;
   setVideoThumbnail: (thumbnail: string) => void;
@@ -370,6 +372,7 @@ export type EnglishVideoActions = {
 export type EnglishVideo = EnglishVideoState & EnglishVideoActions;
 
 export const defaultInitState: EnglishVideoState = {
+  showDesignWidget: true,
   videoTitle: "",
   videoThumbnail: "",
   endVideoThumbnail: "",
@@ -429,6 +432,8 @@ export const createEnglishVideo = (
           },
         }),
         setAll: (value) => set((state) => ({ ...state, ...value })),
+        setShowDesignWidget: (value) =>
+          set((state) => ({ ...state, showDesignWidget: value })),
         setVideoTitle: (title) =>
           set((state) => ({ ...state, videoTitle: title })),
         setEndVideoTitle: (title) =>
@@ -610,11 +615,24 @@ export const createEnglishVideo = (
               };
             }, {});
           const contentIndex = get().getSlide(slideUUID)!.contentIndex;
+          const customStyles: Record<string, any> =
+            (get().getSlide(slideUUID)?.styles?.[contentIndex] ?? {})[
+              shape?.key!
+            ] ?? {};
+          const customStylesComputed = Object.keys(customStyles).reduce(
+            (style, item) => {
+              return {
+                ...style,
+                [item.replace(/-([a-z])/g, (match, letter) =>
+                  letter.toUpperCase()
+                )]: customStyles[item],
+              };
+            },
+            {}
+          );
           return {
             ...computedStyles,
-            ...((get().getSlide(slideUUID)?.styles?.[contentIndex] ?? {})[
-              shape?.key!
-            ] ?? {}),
+            ...customStylesComputed,
           };
         },
         updateShapeStyles: (uuid, styleName, value) => {

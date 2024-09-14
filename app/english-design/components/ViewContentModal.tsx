@@ -233,7 +233,7 @@ export function ViewContentModal() {
               )}
               {cItem.map((item, index) => (
                 <div
-                  key={item.id}
+                  key={index}
                   onClick={() => setContentEditable({ cIndex, index })}
                   className="tw-flex tw-flex-col tw-gap-2 tw-px-4 tw-py-2 tw-rounded tw-border tw-border-gray-200 tw-bg-slate-900 tw-relative"
                 >
@@ -299,35 +299,16 @@ export function ViewContentModal() {
                                   cIndex * splitedContent + index
                                 ]
                               ] = value;
-                              currentSlide()!.styles = [...currentStyles];
+                              currentSlide()!.styles = [
+                                ...currentStyles.map((item) =>
+                                  item ? item : {}
+                                ),
+                              ];
                               setSlide(currentSlide()!);
                             } catch (err) {}
                           }}
                         />
                       </div>
-                      {/* {!!chunkedStyles[
-                        cIndex * splitedContent + index
-                      ]?.[0] && (
-                        <JsonEditor
-                          value={
-                            chunkedStyles[cIndex * splitedContent + index]?.[0]
-                          }
-                          onChange={(value) => {
-                            try {
-                              const currentStyles: Array<any> = [
-                                ...currentSlide()!.styles,
-                              ];
-                              currentStyles[
-                                chunkedIndex[cIndex][
-                                  cIndex * splitedContent + index
-                                ]
-                              ] = value;
-                              currentSlide()!.styles = [...currentStyles];
-                              setSlide(currentSlide()!);
-                            } catch (err) {}
-                          }}
-                        />
-                      )} */}
                     </div>
                   </div>
                   <div

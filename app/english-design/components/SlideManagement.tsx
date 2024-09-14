@@ -36,8 +36,8 @@ export const SlideManagement = (props: {
   return (
     // tw-w-[calc(100vw_-_496px)] tw-h-36
     <div
-      className={`tw-p-2 tw-bg-slate-600 ${
-        props.direcrion === "horizontal" ? "tw-h-36" : "tw-w-36"
+      className={`tw-p-2 ${
+        props.direcrion === "horizontal" ? "tw-h-36 tw-bg-gray-900" : "tw-w-36"
       } ${props.isView ? "tw-hidden" : ""}`}
       style={{
         width:
