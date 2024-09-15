@@ -321,7 +321,7 @@ export function ActionButton(props: { isView: boolean }) {
                                 })
                               )
                                 .filter((item) => item)
-                                .forEach((font) => {
+                                .forEach((font: string) => {
                                   loadFont(
                                     `https://fonts.googleapis.com/css?family=${font}`
                                   );

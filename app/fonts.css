@@ -573,3 +573,399 @@
 .font-64 {
     font-family: Font64;
 }
+
+@font-face {
+    font-family: "tan-kindred-en";
+    src: url(/fonts/tan-kindred.woff2);
+}
+
+.font-tan-kindred-en {
+    font-family: "tan-kindred-en" !important;
+}
+
+@font-face {
+    font-family: "saira-stencil-one-vn";
+    src: url(/fonts/saira-stencil-one.woff2);
+}
+
+.font-saira-stencil-one-vn {
+    font-family: "saira-stencil-one-vn" !important;
+}
+
+@font-face {
+    font-family: "batangas-en";
+    src: url(/fonts/batangas.woff2);
+}
+
+.font-batangas-en {
+    font-family: "batangas-en" !important;
+}
+
+@font-face {
+    font-family: "josefin-sans-regular-en";
+    src: url(/fonts/josefin-sans-regular.woff2);
+}
+
+.font-josefin-sans-regular-en {
+    font-family: "josefin-sans-regular-en" !important;
+}
+
+@font-face {
+    font-family: "josefin-sans-light-en";
+    src: url(/fonts/josefin-sans-light.woff2);
+}
+
+.font-josefin-sans-light-en {
+    font-family: "josefin-sans-light-en" !important;
+}
+
+@font-face {
+    font-family: "fredoka-one-en";
+    src: url(/fonts/fredoka-one.woff2);
+}
+
+.font-fredoka-one-en {
+    font-family: "fredoka-one-en" !important;
+}
+
+@font-face {
+    font-family: "AyrTropikaIsland-Int-en";
+    src: url(/fonts/AyrTropikaIsland-Int.woff2);
+}
+
+.font-AyrTropikaIsland-Int-en {
+    font-family: "AyrTropikaIsland-Int-en" !important;
+}
+
+@font-face {
+    font-family: "BM-HANNA-en";
+    src: url(/fonts/BM-HANNA.woff2);
+}
+
+.font-BM-HANNA-en {
+    font-family: "BM-HANNA-en" !important;
+}
+
+@font-face {
+    font-family: "Balmy-en";
+    src: url(/fonts/Balmy.woff2);
+}
+
+.font-Balmy-en {
+    font-family: "Balmy-en" !important;
+}
+
+@font-face {
+    font-family: "BalsamiqSans-Regular-en";
+    src: url(/fonts/BalsamiqSans-Regular.woff2);
+}
+
+.font-BalsamiqSans-Regular-en {
+    font-family: "BalsamiqSans-Regular-en" !important;
+}
+
+@font-face {
+    font-family: "Bara-en";
+    src: url(/fonts/Bara.woff2);
+}
+
+.font-Bara-en {
+    font-family: "Bara-en" !important;
+}
+
+@font-face {
+    font-family: "Brightwall-Italic-en";
+    src: url(/fonts/Brightwall-Italic.woff2);
+}
+
+.font-Brightwall-Italic-en {
+    font-family: "Brightwall-Italic-en" !important;
+}
+
+@font-face {
+    font-family: "Brightwall-Regular-en";
+    src: url(/fonts/Brightwall-Regular.woff2);
+}
+
+.font-Brightwall-Regular-en {
+    font-family: "Brightwall-Regular-en" !important;
+}
+
+@font-face {
+    font-family: "Cakerolli-Regular-en";
+    src: url(/fonts/Cakerolli-Regular.woff2);
+}
+
+.font-Cakerolli-Regular-en {
+    font-family: "Cakerolli-Regular-en" !important;
+}
+
+@font-face {
+    font-family: "Canda-Tawa-Regular-en";
+    src: url(/fonts/Canda-Tawa-Regular.woff2);
+}
+
+.font-Canda-Tawa-Regular-en {
+    font-family: "Canda-Tawa-Regular-en" !important;
+}
+
+@font-face {
+    font-family: "Chewy-en";
+    src: url(/fonts/Chewy.woff2);
+}
+
+.font-Chewy-en {
+    font-family: "Chewy-en" !important;
+}
+
+@font-face {
+    font-family: "Genty-Regular-en";
+    src: url(/fonts/Genty-Regular.woff2);
+}
+
+.font-Genty-Regular-en {
+    font-family: "Genty-Regular-en" !important;
+}
+
+@font-face {
+    font-family: "HarlowSolidStd-en";
+    src: url(/fonts/HarlowSolidStd.woff2);
+}
+
+.font-HarlowSolidStd-en {
+    font-family: "HarlowSolidStd-en" !important;
+}
+
+@font-face {
+    font-family: "JosefinSans-LightItalic-en";
+    src: url(/fonts/JosefinSans-LightItalic.woff2);
+}
+
+.font-JosefinSans-LightItalic-en {
+    font-family: "JosefinSans-LightItalic-en" !important;
+}
+
+@font-face {
+    font-family: "JosefinSans-Regular-en";
+    src: url(/fonts/JosefinSans-Regular.woff2);
+}
+
+.font-JosefinSans-Regular-en {
+    font-family: "JosefinSans-Regular-en" !important;
+}
+
+@font-face {
+    font-family: "Jua-Regular-en";
+    src: url(/fonts/Jua-Regular.woff2);
+}
+
+.font-Jua-Regular-en {
+    font-family: "Jua-Regular-en" !important;
+}
+
+@font-face {
+    font-family: "Lazydog-en";
+    src: url(/fonts/Lazydog.woff2);
+}
+
+.font-Lazydog-en {
+    font-family: "Lazydog-en" !important;
+}
+
+@font-face {
+    font-family: "Luckybones-Bold-en";
+    src: url(/fonts/Luckybones-Bold.woff2);
+}
+
+.font-Luckybones-Bold-en {
+    font-family: "Luckybones-Bold-en" !important;
+}
+
+@font-face {
+    font-family: "March-Clean-en";
+    src: url(/fonts/March-Clean.woff2);
+}
+
+.font-March-Clean-en {
+    font-family: "March-Clean-en" !important;
+}
+
+@font-face {
+    font-family: "Marykate-en";
+    src: url(/fonts/Marykate.woff2);
+}
+
+.font-Marykate-en {
+    font-family: "Marykate-en" !important;
+}
+
+@font-face {
+    font-family: "MiCrackerBold-en";
+    src: url(/fonts/MiCrackerBold.woff2);
+}
+
+.font-MiCrackerBold-en {
+    font-family: "MiCrackerBold-en" !important;
+}
+
+@font-face {
+    font-family: "MonterchiSans-Regular-en";
+    src: url(/fonts/MonterchiSans-Regular.woff2);
+}
+
+.font-MonterchiSans-Regular-en {
+    font-family: "MonterchiSans-Regular-en" !important;
+}
+
+@font-face {
+    font-family: "MoreSugar-Regular-en";
+    src: url(/fonts/MoreSugar-Regular.woff2);
+}
+
+.font-MoreSugar-Regular-en {
+    font-family: "MoreSugar-Regular-en" !important;
+}
+
+@font-face {
+    font-family: "MoreSugar-Thin-en";
+    src: url(/fonts/MoreSugar-Thin.woff2);
+}
+
+.font-MoreSugar-Thin-en {
+    font-family: "MoreSugar-Thin-en" !important;
+}
+
+@font-face {
+    font-family: "Noot-en";
+    src: url(/fonts/Noot.woff2);
+}
+
+.font-Noot-en {
+    font-family: "Noot-en" !important;
+}
+
+@font-face {
+    font-family: "Pompiere-Regular-en";
+    src: url(/fonts/Pompiere-Regular.woff2);
+}
+
+.font-Pompiere-Regular-en {
+    font-family: "Pompiere-Regular-en" !important;
+}
+
+@font-face {
+    font-family: "Quando-en";
+    src: url(/fonts/Quando.woff2);
+}
+
+.font-Quando-en {
+    font-family: "Quando-en" !important;
+}
+
+@font-face {
+    font-family: "Quicksand-Light-en";
+    src: url(/fonts/Quicksand-Light.woff2);
+}
+
+.font-Quicksand-Light-en {
+    font-family: "Quicksand-Light-en" !important;
+}
+
+@font-face {
+    font-family: "Quicksand-Regular-en";
+    src: url(/fonts/Quicksand-Regular.woff2);
+}
+
+.font-Quicksand-Regular-en {
+    font-family: "Quicksand-Regular-en" !important;
+}
+
+@font-face {
+    font-family: "Railey-en";
+    src: url(/fonts/Railey.woff2);
+}
+
+.font-Railey-en {
+    font-family: "Railey-en" !important;
+}
+
+@font-face {
+    font-family: "Schoolbell-en";
+    src: url(/fonts/Schoolbell.woff2);
+}
+
+.font-Schoolbell-en {
+    font-family: "Schoolbell-en" !important;
+}
+
+@font-face {
+    font-family: "Sergio-Trendy-Regular-en";
+    src: url(/fonts/Sergio-Trendy-Regular.woff2);
+}
+
+.font-Sergio-Trendy-Regular-en {
+    font-family: "Sergio-Trendy-Regular-en" !important;
+}
+
+@font-face {
+    font-family: "Sigher--en";
+    src: url(/fonts/Sigher-.woff2);
+}
+
+.font-Sigher--en {
+    font-family: "Sigher--en" !important;
+}
+
+@font-face {
+    font-family: "Sniglet-Regular-en";
+    src: url(/fonts/Sniglet-Regular.woff2);
+}
+
+.font-Sniglet-Regular-en {
+    font-family: "Sniglet-Regular-en" !important;
+}
+
+@font-face {
+    font-family: "Stella-en";
+    src: url(/fonts/Stella.woff2);
+}
+
+.font-Stella-en {
+    font-family: "Stella-en" !important;
+}
+
+@font-face {
+    font-family: "SugoProDisplay-BoldItalic-en";
+    src: url(/fonts/SugoProDisplay-BoldItalic.woff2);
+}
+
+.font-SugoProDisplay-BoldItalic-en {
+    font-family: "SugoProDisplay-BoldItalic-en" !important;
+}
+
+@font-face {
+    font-family: "SugoProDisplay-Regular-en";
+    src: url(/fonts/SugoProDisplay-Regular.woff2);
+}
+
+.font-SugoProDisplay-Regular-en {
+    font-family: "SugoProDisplay-Regular-en" !important;
+}
+
+@font-face {
+    font-family: "TabarraProRound-Bold-en";
+    src: url(/fonts/TabarraProRound-Bold.woff2);
+}
+
+.font-TabarraProRound-Bold-en {
+    font-family: "TabarraProRound-Bold-en" !important;
+}
+
+@font-face {
+    font-family: "TabarraProRound-NormalItalic-en";
+    src: url(/fonts/TabarraProRound-NormalItalic.woff2);
+}
+
+.font-TabarraProRound-NormalItalic-en {
+    font-family: "TabarraProRound-NormalItalic-en" !important;
+}

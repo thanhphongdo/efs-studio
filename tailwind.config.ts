@@ -27,6 +27,7 @@ const config: Config = {
     "!tw-text-left",
     "!tw-text-right",
     "!tw-text-center",
+    "!tw-text-justify",
     { pattern: /^\-?!tw-m(\w?)-/ },
     { pattern: /^!tw-p(\w?)-/ },
     { pattern: /^!tw-text-/ },
