@@ -14,7 +14,6 @@ import { memo, useEffect, useState } from "react";
 import { IconScanEye } from "@tabler/icons-react";
 import { SlideManagement } from "./SlideManagement";
 import { SlideVoiceScriptConfig } from "./VoiceScriptModal";
-import { useDebouncedValue } from "@mantine/hooks";
 import JsonEditor from "@/app/components/JsonEditor";
 
 export const SlideContentConfig = memo(() => {
@@ -150,15 +149,20 @@ export const SlideContentConfig = memo(() => {
         {!hasConversation(currentSlide()!.uuid) && (
           <div className="tw-grid tw-grid-cols-2 tw-gap-4 tw-h-full tw-pb-4">
             <div className="tw-w-full tw-relative">
-              <JsonEditor
-                value={JSON.parse(contents ?? "[]")}
-                onChange={(value) => {
-                  setSlide({
-                    ...currentSlide()!,
-                    contents: value as any,
-                  });
-                }}
-              ></JsonEditor>
+              <div className="tw-flex tw-flex-col tw-h-full">
+                <div className="tw-text-sm">Edit Contents</div>
+                <div className="tw-flex-1">
+                  <JsonEditor
+                    value={JSON.parse(contents ?? "[]")}
+                    onChange={(value) => {
+                      setSlide({
+                        ...currentSlide()!,
+                        contents: value as any,
+                      });
+                    }}
+                  ></JsonEditor>
+                </div>
+              </div>
               <div
                 className="tw-absolute tw-bottom-6 tw-right-2 tw-cursor-pointer tw-p-1"
                 onClick={() => setViewContentModalOpened(true, false)}
@@ -167,15 +171,20 @@ export const SlideContentConfig = memo(() => {
               </div>
             </div>
             <div className="tw-w-full tw-relative">
-              <JsonEditor
-                value={JSON.parse(styles ?? "[]")}
-                onChange={(value) => {
-                  setSlide({
-                    ...currentSlide()!,
-                    styles: value as any,
-                  });
-                }}
-              ></JsonEditor>
+              <div className="tw-flex tw-flex-col tw-h-full">
+                <div className="tw-text-sm">Edit Styles</div>
+                <div className="tw-flex-1">
+                  <JsonEditor
+                    value={JSON.parse(styles ?? "[]")}
+                    onChange={(value) => {
+                      setSlide({
+                        ...currentSlide()!,
+                        styles: value as any,
+                      });
+                    }}
+                  ></JsonEditor>
+                </div>
+              </div>
             </div>
           </div>
         )}
@@ -281,7 +290,7 @@ export function SetConfigModal(props: { copyValue: string }) {
     <Modal
       opened={configModalOpened}
       onClose={() => setConfigModalOpened(false)}
-      title={<Title order={5}>Set Config</Title>}
+      title={<Title order={5}>Content Config</Title>}
       size={"xl"}
       fullScreen
       className="tw-h-full"

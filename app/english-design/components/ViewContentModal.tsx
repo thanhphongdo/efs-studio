@@ -245,7 +245,7 @@ export function ViewContentModal() {
                   </div>
                   <div className="tw-grid tw-grid-cols-2 tw-gap-2">
                     <div className="tw-w-full tw-h-full tw-bg-slate-800">
-                      {Object.keys(item).map((key, index) => (
+                      {Object.keys(item).map((key, kIndex) => (
                         <div key={key} className="tw-flex tw-gap-2 tw-pr-6">
                           <div className="tw-font-bold tw-text-gray-500">
                             {key}:{" "}
@@ -262,9 +262,11 @@ export function ViewContentModal() {
                               const currentContents = [
                                 ...currentSlide()!.contents,
                               ];
-                              currentContents[cIndex * splitedContent + index][
-                                key
-                              ] = e.target.innerText;
+                              currentContents[
+                                chunkedIndex[cIndex][
+                                  cIndex * splitedContent + index
+                                ]
+                              ][key] = e.target.innerText;
                               currentSlide()!.contents = currentContents;
                               setSlide(currentSlide()!);
                             }}

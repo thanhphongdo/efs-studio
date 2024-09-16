@@ -285,6 +285,7 @@ export type EnglishVideoState = {
   copyConfigModalOpened: boolean;
   viewContentModalOpened: { opened: boolean; isFocusCurrentContent: boolean };
   voiceScriptModalOpened: boolean;
+  configuationHistoryModalOpened: boolean;
   copyType: "Video" | "Speech";
   scale: number;
   voiceScriptItems: Array<VoiceScriptItem>;
@@ -341,6 +342,7 @@ export type EnglishVideoActions = {
   setConfigModalOpened: (value: boolean) => void;
   setCopyConfigModalOpened: (value: boolean) => void;
   setVoiceScriptModalOpened: (value: boolean) => void;
+  setConfiguationHistoryModalOpened: (value: boolean) => void;
   setViewContentModalOpened: (
     opended: boolean,
     isFocusCurrentContent?: boolean
@@ -380,6 +382,7 @@ export const defaultInitState: EnglishVideoState = {
   mainConfigModalOpened: false,
   copyConfigModalOpened: false,
   voiceScriptModalOpened: false,
+  configuationHistoryModalOpened: false,
   viewContentModalOpened: { opened: false, isFocusCurrentContent: false },
   copyType: "Video",
   scale: 0.5,
@@ -426,6 +429,7 @@ export const createEnglishVideo = (
           copyConfigModalOpened: false,
           configModalOpened: false,
           voiceScriptModalOpened: false,
+          configuationHistoryModalOpened: false,
           viewContentModalOpened: {
             opened: false,
             isFocusCurrentContent: false,
@@ -710,6 +714,11 @@ export const createEnglishVideo = (
           set((state) => ({ ...state, copyConfigModalOpened: opened })),
         setVoiceScriptModalOpened: (opened) =>
           set((state) => ({ ...state, voiceScriptModalOpened: opened })),
+        setConfiguationHistoryModalOpened: (opened) =>
+          set((state) => ({
+            ...state,
+            configuationHistoryModalOpened: opened,
+          })),
         setViewContentModalOpened: (opened, isFocusCurrentContent) =>
           set((state) => ({
             ...state,

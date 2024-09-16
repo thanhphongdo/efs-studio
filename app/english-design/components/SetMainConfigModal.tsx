@@ -35,12 +35,11 @@ export function SetMainConfigModal(props: { copyValue: string }) {
     setMainConfigModalOpened,
     setCopyConfigModalOpened,
     setCopyType,
-    setVoiceScriptModalOpened,
-    setViewContentModalOpened,
     getAll,
     setAll,
     zoom,
     setMusic,
+    setConfiguationHistoryModalOpened,
   } = useEnglishVideo((state) => state);
 
   const hasConversation = () => {
@@ -89,7 +88,7 @@ export function SetMainConfigModal(props: { copyValue: string }) {
     <Modal
       opened={mainConfigModalOpened}
       onClose={() => setMainConfigModalOpened(false)}
-      title={<Title order={5}>Set Main Config</Title>}
+      title={<Title order={5}>Master Config</Title>}
       size={"xl"}
       className="tw-h-full custom-modal"
     >
@@ -219,10 +218,10 @@ export function SetMainConfigModal(props: { copyValue: string }) {
           Import
         </Button>
         <Button
-          color="teal"
-          onClick={() => document.getElementById("fileInput")?.click()}
+          color="yellow"
+          onClick={() => setConfiguationHistoryModalOpened(true)}
         >
-          Save
+          History
         </Button>
         <div className="tw-flex-1"></div>
         <Button
