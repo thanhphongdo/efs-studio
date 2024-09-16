@@ -99,15 +99,33 @@ export const SlideManagement = (props: {
                 ></EnglishShortVideo>
               )}
               <div className="tw-w-full tw-h-full tw-flex tw-gap-1 tw-relative">
-                <div className="tw-h-full tw-flex tw-flex-col tw-justify-start tw-p-2 tw-pr-0 tw-gap-2">
-                  <IconSquareChevronLeft
-                    onClick={() => swapSlides(slideIndex, slideIndex - 1)}
-                    className="tw-bg-[#424242] tw-rounded-[4px] tw-text-slate-200"
-                  />
-                  <IconSquareChevronRight
-                    onClick={() => swapSlides(slideIndex, slideIndex + 1)}
-                    className="tw-bg-[#424242] tw-rounded-[4px] tw-text-slate-200"
-                  />
+                <div className="tw-h-full tw-flex tw-flex-col tw-justify-between tw-p-2 tw-pr-0 tw-gap-2">
+                  <div className="tw-flex tw-flex-col tw-gap-1 tw-flex-1">
+                    <IconSquareChevronLeft
+                      onClick={() =>
+                        slideIndex > 0 && swapSlides(slideIndex, slideIndex - 1)
+                      }
+                      className={`tw-bg-[#424242] tw-rounded-[4px] ${
+                        slideIndex === 0
+                          ? "tw-text-slate-400"
+                          : "tw-text-slate-200"
+                      }`}
+                    />
+                    <IconSquareChevronRight
+                      onClick={() =>
+                        slideIndex < slides.length - 1 &&
+                        swapSlides(slideIndex, slideIndex + 1)
+                      }
+                      className={`tw-bg-[#424242] tw-rounded-[4px] ${
+                        slideIndex === slides.length - 1
+                          ? "tw-text-slate-400"
+                          : "tw-text-slate-200"
+                      }`}
+                    />
+                  </div>
+                  <div className="tw-p-1 tw-bg-slate-300/50 tw-text-slate-800 tw-rounded-md tw-text-xs tw-flex tw-items-center tw-justify-center">
+                    {slideIndex + 1}
+                  </div>
                 </div>
                 <div className="tw-flex-1 tw-h-full tw-flex tw-items-end tw-pb-2 tw-px-1">
                   {slide.uuid === "MAIN" && (
@@ -306,123 +324,6 @@ export const SlideManagement = (props: {
                   )}
                 </div>
               </div>
-              {/* <div className="tw-flex tw-flex-col tw-justify-between tw-p-2 tw-w-full tw-h-full tw-relative">
-                <div className="tw-w-full">
-                  <div className="tw-flex tw-gap-2 tw-flex-col tw-h-full">
-                    <IconSquarePlus
-                      className="tw-bg-[#424242] tw-rounded-[4px] tw-text-slate-200"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        const newSlide: SlideItem = {
-                          uuid: v4(),
-                          contentIndex: 0,
-                          shapes: [],
-                          contents: [],
-                          difficultWords: [],
-                          voiceScriptItems: [],
-                          type: "Long",
-                          position: "Before",
-                          startIndex: 0,
-                          endIndex: null,
-                          splitedContent: null,
-                          maxChars: 500,
-                          isSelected: false,
-                          currentMaxIndex: 0,
-                        };
-                        addSlide(newSlide, {
-                          position: "Before",
-                          relativeSlideId: slide.uuid,
-                        });
-                        selectSlide(newSlide);
-                      }}
-                    />
-                    <IconSquareChevronLeft className="tw-bg-[#424242] tw-rounded-[4px] tw-text-slate-200" />
-                  </div>
-                  {slide.uuid === "MAIN" && (
-                    <div className="tw-flex tw-items-end">
-                      <div className="tw-bg-green-200 tw-px-1 tw-rounded-sm tw-text-[10px] tw-text-green-800 tw-font-bold">
-                        Main Slide
-                      </div>
-                    </div>
-                  )}
-                  <div className="tw-flex tw-gap-2 tw-flex-col tw-h-full">
-                    <IconSquarePlus
-                      className="tw-bg-[#424242] tw-rounded-[4px] tw-text-slate-200"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        const newSlide: SlideItem = {
-                          uuid: v4(),
-                          contentIndex: 0,
-                          shapes: [],
-                          contents: [],
-                          difficultWords: [],
-                          voiceScriptItems: [],
-                          type: "Long",
-                          position: "After",
-                          startIndex: 0,
-                          endIndex: null,
-                          splitedContent: null,
-                          maxChars: 500,
-                          isSelected: false,
-                          currentMaxIndex: 0,
-                        };
-                        addSlide(newSlide, {
-                          position: "After",
-                          relativeSlideId: slide.uuid,
-                        });
-                        selectSlide(newSlide);
-                      }}
-                    />
-                    <IconSquareChevronRight className="tw-bg-[#424242] tw-rounded-[4px] tw-text-slate-200" />
-                  </div>
-                </div>
-                <div className="tw-flex-1 tw-flex tw-items-end tw-w-full">
-                  <IconX
-                    className="tw-bg-[#424242] tw-rounded-[4px] tw-text-slate-200"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      openConfirmModal({
-                        modalId: "delete-slide",
-                        centered: true,
-                        title: "Delete Slide",
-                        children: <div>Do you want to delete this slide?</div>,
-                        labels: { confirm: "Confirm", cancel: "Cancel" },
-                        onConfirm: async () => {
-                          removeSlide(slide.uuid);
-                        },
-                        confirmProps: { color: "red" },
-                        closeOnConfirm: true,
-                        closeOnCancel: true,
-                      });
-                    }}
-                  />
-                  {slide.uuid !== "MAIN" ? (
-                    <IconX
-                      className="tw-bg-[#424242] tw-rounded-[4px] tw-text-slate-200"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openConfirmModal({
-                          modalId: "delete-slide",
-                          centered: true,
-                          title: "Delete Slide",
-                          children: (
-                            <div>Do you want to delete this slide?</div>
-                          ),
-                          labels: { confirm: "Confirm", cancel: "Cancel" },
-                          onConfirm: async () => {
-                            removeSlide(slide.uuid);
-                          },
-                          confirmProps: { color: "red" },
-                          closeOnConfirm: true,
-                          closeOnCancel: true,
-                        });
-                      }}
-                    />
-                  ) : (
-                    <span></span>
-                  )}
-                </div>
-              </div> */}
               {slide.uuid === currentSlide()!.uuid && (
                 <div className="tw-absolute tw-top-0 tw-left-0 tw-w-full tw-h-full tw-border-4 tw-border-solid tw-border-red-500 tw-rounded-lg tw-pointer-events-none"></div>
               )}

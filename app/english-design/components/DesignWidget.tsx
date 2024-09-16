@@ -131,7 +131,7 @@ export const DesignWidget = () => {
             </div>
             <Collapse in={!!shape.isActive}>
               {!!shape.isActive && (
-                <div className="tw-grid tw-grid-cols-2 tw-gap-4">
+                <div className="tw-grid tw-grid-cols-2 tw-gap-2">
                   <div className="tw-w-full tw-flex tw-flex-col tw-gap-2 tw-pt-1 tw-col-span-2">
                     <div className="tw-grid tw-grid-cols-7 tw-gap-2">
                       <div className="tw-col-span-4 tw-flex tw-flex-col tw-gap-2">
@@ -504,7 +504,7 @@ export const DesignWidget = () => {
                           <ColorInput
                             placeholder={style.fullName}
                             swatches={defaultColorPickerSwatches}
-                            format="rgba"
+                            format="hexa"
                             defaultValue={
                               getShapeStyles(shape.uuid)[style.name]
                             }
@@ -530,7 +530,7 @@ export const DesignWidget = () => {
                     <div className="tw-text-sm">Classes</div>
                     <div>
                       <Textarea
-                        minRows={2}
+                        minRows={3}
                         autosize
                         placeholder="Classes"
                         value={getShape(null, shape.uuid)?.classes}

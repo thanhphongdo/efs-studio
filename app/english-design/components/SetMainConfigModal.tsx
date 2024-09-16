@@ -176,7 +176,7 @@ export function SetMainConfigModal(props: { copyValue: string }) {
           ></JsonInput>
         </div>
       </div>
-      <div className="tw-flex tw-gap-4 tw-justify-end tw-absolute tw-w-full tw-left-0 -tw-bottom-12 tw-px-4">
+      <div className="tw-flex tw-gap-2 tw-justify-end tw-absolute tw-w-full tw-left-0 -tw-bottom-12 tw-px-4">
         <Button
           color="orange"
           onClick={async () => {
@@ -217,6 +217,12 @@ export function SetMainConfigModal(props: { copyValue: string }) {
           onClick={() => document.getElementById("fileInput")?.click()}
         >
           Import
+        </Button>
+        <Button
+          color="teal"
+          onClick={() => document.getElementById("fileInput")?.click()}
+        >
+          Save
         </Button>
         <div className="tw-flex-1"></div>
         <Button
