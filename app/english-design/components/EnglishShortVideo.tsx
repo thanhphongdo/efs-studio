@@ -45,9 +45,23 @@ export const EnglishShortVideo = (
         ></Shape>
       ))}
 
-      <span className="tw-absolute tw-right-4 tw-bottom-4 tw-z-[100000000] tw-text-4xl tw-bg-white tw-text-blue-500 tw-rounded-md tw-px-4 tw-font-bold">
-        {currentSlide()!.contentIndex + 1}/{currentSlide()!.contents?.length}
-      </span>
+      {currentSlide()!.uuid === "MAIN" && !currentSlide()!.splitedContent && (
+        <span className="tw-absolute tw-right-4 tw-bottom-4 tw-z-[100000000] tw-text-4xl tw-bg-white tw-text-blue-500 tw-rounded-md tw-px-4 tw-font-bold">
+          {currentSlide()!.contentIndex + 1 + (currentSlide()!.startIndex ?? 0)}
+          /
+          {currentSlide()!.endIndex ??
+            currentSlide()!.contents?.length +
+              (currentSlide()!.startIndex ?? 0)}
+        </span>
+      )}
+      {currentSlide()!.uuid === "MAIN" && !!currentSlide()!.splitedContent && (
+        <span className="tw-absolute tw-right-4 tw-bottom-4 tw-z-[100000000] tw-text-4xl tw-bg-white tw-text-blue-500 tw-rounded-md tw-px-4 tw-font-bold">
+          {currentSlide()!.part ??
+            0 * currentSlide()!.splitedContent! +
+              (currentSlide()!.contentIndex + 1)}
+          /{currentSlide()!.contentTotal ?? 0}
+        </span>
+      )}
     </div>
   );
 };
