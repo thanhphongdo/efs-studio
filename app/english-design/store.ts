@@ -271,6 +271,8 @@ export type SlideItem = {
   isSelected: boolean;
   currentMaxIndex: number;
   currentActiveShape?: string;
+  part: number;
+  contentTotal: number;
 };
 
 export type EnglishVideoState = {
@@ -404,6 +406,8 @@ export const defaultInitState: EnglishVideoState = {
       maxChars: 300,
       isSelected: true,
       currentMaxIndex: 0,
+      part: 1,
+      contentTotal: 1,
     },
   ],
 };

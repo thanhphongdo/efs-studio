@@ -258,7 +258,7 @@ export function ViewContentModal() {
                             onClick={(e) => e.stopPropagation()}
                             onKeyDown={(e) => e.stopPropagation()}
                             onKeyUp={(e) => e.stopPropagation()}
-                            onBlur={(e: any) => {
+                            onBlur={(e) => {
                               const currentContents = [
                                 ...currentSlide()!.contents,
                               ];
