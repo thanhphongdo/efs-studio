@@ -28,6 +28,7 @@ const config: Config = {
     "!tw-text-right",
     "!tw-text-center",
     "!tw-text-justify",
+    "!tw-italic",
     { pattern: /^\-?!tw-m(\w?)-/ },
     { pattern: /^!tw-p(\w?)-/ },
     { pattern: /^!tw-text-/ },

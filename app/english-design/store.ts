@@ -273,6 +273,7 @@ export type SlideItem = {
   currentActiveShape?: string;
   part?: number;
   contentTotal?: number;
+  showIndicator?: boolean;
 };
 
 export type EnglishVideoState = {

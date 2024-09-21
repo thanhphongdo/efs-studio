@@ -97,7 +97,7 @@ export const SlideContentConfig = memo(() => {
   return (
     <div className="tw-flex tw-flex-col tw-flex-1 tw-gap-4 tw-max-h-full tw-relative tw-h-full">
       <div className="tw-flex tw-flex-col tw-gap-4 tw-flex-1 tw-overflow-auto tw-h-full">
-        <div className="tw-grid tw-grid-cols-3 tw-gap-2">
+        <div className="tw-grid tw-grid-cols-4 tw-gap-2">
           <NumberInput
             label="Start Index"
             defaultValue={currentSlide()!.startIndex}
@@ -142,6 +142,16 @@ export const SlideContentConfig = memo(() => {
               setSlide({
                 ...currentSlide()!,
                 splitedContent: value ? parseFloat(value.toString()) : null,
+              })
+            }
+          />
+          <Checkbox
+            label="Show Indicator"
+            defaultChecked={currentSlide()!.showIndicator ?? false}
+            onChange={(e) =>
+              setSlide({
+                ...currentSlide()!,
+                showIndicator: e.currentTarget.checked ? true : false,
               })
             }
           />
