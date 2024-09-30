@@ -1,8 +1,9 @@
-import { Menu, ScrollArea } from "@mantine/core";
+import { Menu, Popover, ScrollArea } from "@mantine/core";
 import { useEnglishVideo } from "../store-provider";
 import {
   IconCopyPlus,
   IconDotsVertical,
+  IconPlus,
   IconSquareChevronLeft,
   IconSquareChevronRight,
   IconSquarePlus,
@@ -13,6 +14,8 @@ import { SlideItem } from "../store";
 import { EnglishLongVideo } from "./EnglishLongVideo";
 import { openConfirmModal } from "@mantine/modals";
 import { EnglishShortVideo } from "./EnglishShortVideo";
+
+const defaultSlideWidth = 128;
 
 export const SlideManagement = (props: {
   isView: boolean;
@@ -31,6 +34,8 @@ export const SlideManagement = (props: {
     removeSlide,
     selectSlide,
     swapSlides,
+    setSlide,
+    updateShape,
   } = useEnglishVideo((state) => state);
 
   return (
@@ -63,270 +68,493 @@ export const SlideManagement = (props: {
           {slides.map((slide, slideIndex) => (
             <div
               key={slide.uuid}
-              className={`tw-h-32 tw-w-32 tw-rounded-lg tw-cursor-pointer tw-relative ${
-                slide.uuid === "MAIN"
-                  ? "tw-bg-green-100/70"
-                  : "tw-bg-yellow-100/50"
-              }`}
               onClick={() => {
                 selectSlide(slide);
               }}
             >
-              {slide.type === "Long" && (
-                <EnglishLongVideo
-                  slideUUID={slide.uuid}
-                  scale={"0.06"}
-                  isView={true}
-                  styles={{
-                    position: "absolute",
-                    left: `-${(1920 * 0.94) / 2 - (128 - 1920 * 0.06) / 2}px`,
-                    top: `-${(1080 * 0.94) / 2 - (128 - 1080 * 0.06) / 2}px`,
-                    pointerEvents: "none",
-                  }}
-                ></EnglishLongVideo>
-              )}
-              {slide.type === "Short" && (
-                <EnglishShortVideo
-                  slideUUID={slide.uuid}
-                  scale={"0.06"}
-                  isView={true}
-                  styles={{
-                    position: "absolute",
-                    left: `-${(1080 * 0.94) / 2 - (128 - 1080 * 0.06) / 2}px`,
-                    top: `-${(1920 * 0.94) / 2 - (128 - 1920 * 0.06) / 2}px`,
-                    pointerEvents: "none",
-                  }}
-                ></EnglishShortVideo>
-              )}
-              <div className="tw-w-full tw-h-full tw-flex tw-gap-1 tw-relative">
-                <div className="tw-h-full tw-flex tw-flex-col tw-justify-between tw-p-2 tw-pr-0 tw-gap-2">
-                  <div className="tw-flex tw-flex-col tw-gap-1 tw-flex-1">
-                    <IconSquareChevronLeft
-                      onClick={() =>
-                        slideIndex > 0 && swapSlides(slideIndex, slideIndex - 1)
-                      }
-                      className={`tw-bg-[#424242] tw-rounded-[4px] ${
-                        slideIndex === 0
-                          ? "tw-text-slate-400"
-                          : "tw-text-slate-200"
-                      }`}
-                    />
-                    <IconSquareChevronRight
-                      onClick={() =>
-                        slideIndex < slides.length - 1 &&
-                        swapSlides(slideIndex, slideIndex + 1)
-                      }
-                      className={`tw-bg-[#424242] tw-rounded-[4px] ${
-                        slideIndex === slides.length - 1
-                          ? "tw-text-slate-400"
-                          : "tw-text-slate-200"
-                      }`}
-                    />
-                  </div>
-                  <div className="tw-p-1 tw-bg-slate-300/50 tw-text-slate-800 tw-rounded-md tw-text-xs tw-flex tw-items-center tw-justify-center">
-                    {slideIndex + 1}
-                  </div>
-                </div>
-                <div className="tw-flex-1 tw-h-full tw-flex tw-items-end tw-pb-2 tw-px-1">
-                  {slide.uuid === "MAIN" && (
-                    <div className="tw-flex tw-items-end">
-                      <div className="tw-bg-green-200 tw-rounded-sm tw-text-[9px] tw-text-green-800 tw-font-bold">
-                        Main Slide
+              <Popover
+                width={Math.min(
+                  32 +
+                    (slide.slideParts.length + 1) * defaultSlideWidth +
+                    slide.slideParts.length * 8,
+                  568
+                )}
+                position={props.direcrion === "horizontal" ? "top" : "right"}
+                withArrow
+                shadow="md"
+              >
+                <Popover.Target>
+                  <div
+                    className={`tw-h-32 tw-w-32 tw-rounded-lg tw-cursor-pointer tw-relative ${
+                      slide.uuid === "MAIN"
+                        ? "tw-bg-green-100/70"
+                        : "tw-bg-yellow-100/50"
+                    }`}
+                  >
+                    {slide.type === "Long" && (
+                      <EnglishLongVideo
+                        slideUUID={slide.uuid}
+                        scale={"0.06"}
+                        isView={true}
+                        styles={{
+                          position: "absolute",
+                          left: `-${
+                            (1920 * 0.94) / 2 -
+                            (defaultSlideWidth - 1920 * 0.06) / 2
+                          }px`,
+                          top: `-${
+                            (1080 * 0.94) / 2 -
+                            (defaultSlideWidth - 1080 * 0.06) / 2
+                          }px`,
+                          pointerEvents: "none",
+                        }}
+                      ></EnglishLongVideo>
+                    )}
+                    {slide.type === "Short" && (
+                      <EnglishShortVideo
+                        slideUUID={slide.uuid}
+                        scale={"0.06"}
+                        isView={true}
+                        styles={{
+                          position: "absolute",
+                          left: `-${
+                            (1080 * 0.94) / 2 -
+                            (defaultSlideWidth - 1080 * 0.06) / 2
+                          }px`,
+                          top: `-${
+                            (1920 * 0.94) / 2 -
+                            (defaultSlideWidth - 1920 * 0.06) / 2
+                          }px`,
+                          pointerEvents: "none",
+                        }}
+                      ></EnglishShortVideo>
+                    )}
+                    <div className="tw-w-full tw-h-full tw-flex tw-gap-1 tw-relative">
+                      <div className="tw-h-full tw-flex tw-flex-col tw-justify-between tw-p-2 tw-pr-0 tw-gap-2">
+                        <div className="tw-flex tw-flex-col tw-gap-1 tw-flex-1">
+                          <IconSquareChevronLeft
+                            onClick={() =>
+                              slideIndex > 0 &&
+                              swapSlides(slideIndex, slideIndex - 1)
+                            }
+                            className={`tw-bg-[#424242] tw-rounded-[4px] ${
+                              slideIndex === 0
+                                ? "tw-text-slate-400"
+                                : "tw-text-slate-200"
+                            }`}
+                          />
+                          <IconSquareChevronRight
+                            onClick={() =>
+                              slideIndex < slides.length - 1 &&
+                              swapSlides(slideIndex, slideIndex + 1)
+                            }
+                            className={`tw-bg-[#424242] tw-rounded-[4px] ${
+                              slideIndex === slides.length - 1
+                                ? "tw-text-slate-400"
+                                : "tw-text-slate-200"
+                            }`}
+                          />
+                        </div>
+                        <div className="tw-p-1 tw-bg-slate-300/50 tw-text-slate-800 tw-rounded-md tw-text-xs tw-flex tw-items-center tw-justify-center">
+                          {slideIndex + 1}
+                        </div>
+                      </div>
+                      <div className="tw-flex-1 tw-h-full tw-flex tw-items-end tw-pb-2 tw-px-1">
+                        {slide.uuid === "MAIN" && (
+                          <div className="tw-flex tw-items-end">
+                            <div className="tw-bg-green-200 tw-rounded-sm tw-text-[9px] tw-text-green-800 tw-font-bold">
+                              Main Slide
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <div className="tw-h-full tw-flex tw-flex-col tw-justify-between tw-p-2 tw-pl-0">
+                        <Menu width={200} shadow="md">
+                          <Menu.Target>
+                            <IconDotsVertical className="tw-bg-[#424242] tw-rounded-[4px] tw-text-slate-200" />
+                          </Menu.Target>
+
+                          <Menu.Dropdown>
+                            <Menu.Item
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                const defaultMainSlideActivePart = v4();
+                                const newSlide: SlideItem = {
+                                  uuid: v4(),
+                                  contentIndex: 0,
+                                  shapes: [],
+                                  contents: [],
+                                  styles: [],
+                                  difficultWords: [],
+                                  voiceScriptItems: [],
+                                  type: "Long",
+                                  position: "Before",
+                                  startIndex: 0,
+                                  endIndex: null,
+                                  splitedContent: null,
+                                  maxChars: 500,
+                                  isSelected: false,
+                                  currentMaxIndex: 0,
+                                  slideParts: [defaultMainSlideActivePart],
+                                  activePart: defaultMainSlideActivePart,
+                                };
+                                addSlide(newSlide, {
+                                  position: "Before",
+                                  relativeSlideId: slide.uuid,
+                                });
+                                selectSlide(newSlide);
+                              }}
+                            >
+                              <div className="tw-flex tw-items-center tw-gap-1">
+                                <IconSquarePlus size={14} />
+                                <span>New Slide Left</span>
+                              </div>
+                            </Menu.Item>
+                            <Menu.Item
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                const defaultMainSlideActivePart = v4();
+                                const newSlide: SlideItem = {
+                                  uuid: v4(),
+                                  contentIndex: 0,
+                                  shapes: [],
+                                  contents: [],
+                                  styles: [],
+                                  difficultWords: [],
+                                  voiceScriptItems: [],
+                                  type: "Long",
+                                  position: "After",
+                                  startIndex: 0,
+                                  endIndex: null,
+                                  splitedContent: null,
+                                  maxChars: 500,
+                                  isSelected: false,
+                                  currentMaxIndex: 0,
+                                  slideParts: [defaultMainSlideActivePart],
+                                  activePart: defaultMainSlideActivePart,
+                                };
+                                addSlide(newSlide, {
+                                  position: "After",
+                                  relativeSlideId: slide.uuid,
+                                });
+                                selectSlide(newSlide);
+                              }}
+                            >
+                              <div className="tw-flex tw-items-center tw-gap-1">
+                                <IconSquarePlus size={14} />
+                                <span>New Slide Right</span>
+                              </div>
+                            </Menu.Item>
+                            <Menu.Item
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                const shapes = [
+                                  ...slide.shapes.map((item) => ({
+                                    ...item,
+                                    uuid: v4(),
+                                  })),
+                                ];
+                                const newSlide: SlideItem = {
+                                  uuid: v4(),
+                                  contentIndex: 0,
+                                  shapes,
+                                  contents: [...(slide.contents ?? [])],
+                                  styles: [...(slide.styles ?? [])],
+                                  difficultWords: [
+                                    ...(slide.difficultWords ?? []),
+                                  ],
+                                  voiceScriptItems: [
+                                    ...(slide.voiceScriptItems ?? []).map(
+                                      (item) => ({
+                                        ...item,
+                                        voiceId: v4(),
+                                        id: shapes.find(
+                                          (s) => s.key === item.key
+                                        )!.uuid,
+                                      })
+                                    ),
+                                  ],
+                                  type: "Long",
+                                  position: "Before",
+                                  startIndex: 0,
+                                  endIndex: null,
+                                  splitedContent: null,
+                                  maxChars: 500,
+                                  isSelected: false,
+                                  currentMaxIndex: 0,
+                                  slideParts: [...slide.slideParts],
+                                  activePart: slide.activePart,
+                                };
+                                addSlide(newSlide, {
+                                  position: "Before",
+                                  relativeSlideId: slide.uuid,
+                                });
+                                selectSlide(newSlide);
+                              }}
+                            >
+                              <div className="tw-flex tw-items-center tw-gap-1">
+                                <IconCopyPlus size={14} />
+                                <span>Duplicate Left</span>
+                              </div>
+                            </Menu.Item>
+                            <Menu.Item
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                const shapes = [
+                                  ...slide.shapes.map((item) => ({
+                                    ...item,
+                                    uuid: v4(),
+                                  })),
+                                ];
+                                const newSlide: SlideItem = {
+                                  uuid: v4(),
+                                  contentIndex: 0,
+                                  shapes,
+                                  contents: [...(slide.contents ?? [])],
+                                  styles: [...(slide.styles ?? [])],
+                                  difficultWords: [
+                                    ...(slide.difficultWords ?? []),
+                                  ],
+                                  voiceScriptItems: [
+                                    ...(slide.voiceScriptItems ?? []).map(
+                                      (item) => ({
+                                        ...item,
+                                        voiceId: v4(),
+                                        id: shapes.find(
+                                          (s) => s.key === item.key
+                                        )!.uuid,
+                                      })
+                                    ),
+                                  ],
+                                  type: "Long",
+                                  position: "After",
+                                  startIndex: 0,
+                                  endIndex: null,
+                                  splitedContent: null,
+                                  maxChars: 500,
+                                  isSelected: false,
+                                  currentMaxIndex: 0,
+                                  slideParts: [...slide.slideParts],
+                                  activePart: slide.activePart,
+                                };
+                                addSlide(newSlide, {
+                                  position: "After",
+                                  relativeSlideId: slide.uuid,
+                                });
+                                selectSlide(newSlide);
+                              }}
+                            >
+                              <div className="tw-flex tw-items-center tw-gap-1">
+                                <IconCopyPlus size={14} />
+                                <span>Duplicate Right</span>
+                              </div>{" "}
+                            </Menu.Item>
+                          </Menu.Dropdown>
+                        </Menu>
+                        {slide.uuid !== "MAIN" && (
+                          <IconX
+                            className="tw-bg-[#424242] tw-rounded-[4px] tw-text-slate-200"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openConfirmModal({
+                                modalId: "delete-slide",
+                                centered: true,
+                                title: "Delete Slide",
+                                children: (
+                                  <div>Do you want to delete this slide?</div>
+                                ),
+                                labels: {
+                                  confirm: "Confirm",
+                                  cancel: "Cancel",
+                                },
+                                onConfirm: async () => {
+                                  removeSlide(slide.uuid);
+                                },
+                                confirmProps: { color: "red" },
+                                closeOnConfirm: true,
+                                closeOnCancel: true,
+                              });
+                            }}
+                          />
+                        )}
                       </div>
                     </div>
-                  )}
-                </div>
-                <div className="tw-h-full tw-flex tw-flex-col tw-justify-between tw-p-2 tw-pl-0">
-                  <Menu width={200} shadow="md">
-                    <Menu.Target>
-                      <IconDotsVertical className="tw-bg-[#424242] tw-rounded-[4px] tw-text-slate-200" />
-                    </Menu.Target>
-
-                    <Menu.Dropdown>
-                      <Menu.Item
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          const newSlide: SlideItem = {
-                            uuid: v4(),
-                            contentIndex: 0,
-                            shapes: [],
-                            contents: [],
-                            styles: [],
-                            difficultWords: [],
-                            voiceScriptItems: [],
-                            type: "Long",
-                            position: "Before",
-                            startIndex: 0,
-                            endIndex: null,
-                            splitedContent: null,
-                            maxChars: 500,
-                            isSelected: false,
-                            currentMaxIndex: 0,
-                          };
-                          addSlide(newSlide, {
-                            position: "Before",
-                            relativeSlideId: slide.uuid,
-                          });
-                          selectSlide(newSlide);
-                        }}
+                    {slide.uuid === currentSlide()!.uuid && (
+                      <div className="tw-absolute tw-top-0 tw-left-0 tw-w-full tw-h-full tw-border-4 tw-border-solid tw-border-red-500 tw-rounded-lg tw-pointer-events-none"></div>
+                    )}
+                  </div>
+                </Popover.Target>
+                <Popover.Dropdown>
+                  <>
+                    <div className="tw-w-full tw-h-32 tw-flex tw-gap-2">
+                      <ScrollArea
+                        w={Math.min(
+                          400,
+                          slide.slideParts.length * (defaultSlideWidth + 8)
+                        )}
+                        scrollbars="x"
+                        type="always"
                       >
-                        <div className="tw-flex tw-items-center tw-gap-1">
-                          <IconSquarePlus size={14} />
-                          <span>New Slide Left</span>
+                        <div className="tw-w-full tw-flex tw-gap-2 ">
+                          {slide.slideParts.map((part, partIndex) => (
+                            <div
+                              className={`tw-h-32 tw-w-32 tw-rounded-lg tw-cursor-pointer tw-relative ${
+                                slide.activePart === part
+                                  ? "tw-bg-red-300/70"
+                                  : "tw-bg-yellow-100/50"
+                              }`}
+                              key={part}
+                              onClick={() => {
+                                setSlide({
+                                  ...slide,
+                                  activePart: part,
+                                });
+                              }}
+                            >
+                              {slide.type === "Long" && (
+                                <EnglishLongVideo
+                                  slideUUID={slide.uuid}
+                                  scale={"0.06"}
+                                  isView={true}
+                                  styles={{
+                                    position: "absolute",
+                                    left: `-${
+                                      (1920 * 0.94) / 2 -
+                                      (128 - 1920 * 0.06) / 2
+                                    }px`,
+                                    top: `-${
+                                      (1080 * 0.94) / 2 -
+                                      (128 - 1080 * 0.06) / 2
+                                    }px`,
+                                    pointerEvents: "none",
+                                  }}
+                                  activeSlidePart={part}
+                                ></EnglishLongVideo>
+                              )}
+                              {slide.type === "Short" && (
+                                <EnglishShortVideo
+                                  slideUUID={slide.uuid}
+                                  scale={"0.06"}
+                                  isView={true}
+                                  styles={{
+                                    position: "absolute",
+                                    left: `-${
+                                      (1080 * 0.94) / 2 -
+                                      (128 - 1080 * 0.06) / 2
+                                    }px`,
+                                    top: `-${
+                                      (1920 * 0.94) / 2 -
+                                      (128 - 1920 * 0.06) / 2
+                                    }px`,
+                                    pointerEvents: "none",
+                                  }}
+                                  activeSlidePart={part}
+                                ></EnglishShortVideo>
+                              )}
+                              <div className="tw-w-full tw-h-full tw-flex tw-gap-1 tw-relative">
+                                <div className="tw-h-full tw-flex tw-flex-col tw-justify-between tw-p-2 tw-pr-0 tw-gap-2">
+                                  <div className="tw-flex tw-flex-col tw-gap-1 tw-flex-1">
+                                    <IconSquareChevronLeft
+                                      onClick={() =>
+                                        slideIndex > 0 &&
+                                        swapSlides(slideIndex, slideIndex - 1)
+                                      }
+                                      className={`tw-bg-[#424242] tw-rounded-[4px] ${
+                                        slideIndex === 0
+                                          ? "tw-text-slate-400"
+                                          : "tw-text-slate-200"
+                                      }`}
+                                    />
+                                  </div>
+                                  <div className="tw-p-1 tw-bg-slate-300/50 tw-text-slate-800 tw-rounded-md tw-text-xs tw-flex tw-items-center tw-justify-center">
+                                    {partIndex + 1}
+                                  </div>
+                                </div>
+                                <div className="tw-flex-1 tw-h-full tw-flex tw-items-end tw-pb-2 tw-px-1">
+                                  {slide.activePart === part && (
+                                    <div className="tw-flex tw-items-end tw-justify-center tw-w-full">
+                                      <div className="tw-bg-green-200 tw-rounded-sm tw-text-[9px] tw-text-green-800 tw-font-bold">
+                                        Active
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                                <div className="tw-h-full tw-flex tw-flex-col tw-justify-between tw-p-2 tw-pl-0">
+                                  <IconSquareChevronRight
+                                    onClick={() =>
+                                      slideIndex < slides.length - 1 &&
+                                      swapSlides(slideIndex, slideIndex + 1)
+                                    }
+                                    className={`tw-bg-[#424242] tw-rounded-[4px] ${
+                                      slideIndex === slides.length - 1
+                                        ? "tw-text-slate-400"
+                                        : "tw-text-slate-200"
+                                    }`}
+                                  />
+                                  <IconX
+                                    className="tw-bg-[#424242] tw-rounded-[4px] tw-text-slate-200"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      openConfirmModal({
+                                        modalId: "delete-part",
+                                        centered: true,
+                                        title: "Delete Slide Part",
+                                        children: (
+                                          <div>
+                                            Do you want to delete this slide
+                                            part?
+                                          </div>
+                                        ),
+                                        labels: {
+                                          confirm: "Confirm",
+                                          cancel: "Cancel",
+                                        },
+                                        onConfirm: async () => {
+                                          setSlide({
+                                            ...slide,
+                                            slideParts: slide.slideParts.filter(
+                                              (item) => item !== part
+                                            ),
+                                          });
+                                          slide.shapes.forEach((shape) => {
+                                            updateShape({
+                                              ...shape,
+                                              slideParts:
+                                                shape.slideParts?.filter(
+                                                  (item) => item !== part
+                                                ),
+                                            });
+                                          });
+                                        },
+                                        confirmProps: { color: "red" },
+                                        closeOnConfirm: true,
+                                        closeOnCancel: true,
+                                      });
+                                    }}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          ))}
                         </div>
-                      </Menu.Item>
-                      <Menu.Item
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          const newSlide: SlideItem = {
-                            uuid: v4(),
-                            contentIndex: 0,
-                            shapes: [],
-                            contents: [],
-                            styles: [],
-                            difficultWords: [],
-                            voiceScriptItems: [],
-                            type: "Long",
-                            position: "After",
-                            startIndex: 0,
-                            endIndex: null,
-                            splitedContent: null,
-                            maxChars: 500,
-                            isSelected: false,
-                            currentMaxIndex: 0,
-                          };
-                          addSlide(newSlide, {
-                            position: "After",
-                            relativeSlideId: slide.uuid,
+                      </ScrollArea>
+                      <div
+                        className="tw-h-32 tw-w-32 tw-rounded-lg tw-cursor-pointer tw-relative tw-border-2 tw-border-dotted tw-border-slate-400 tw-flex tw-items-center tw-justify-center"
+                        onClick={() => {
+                          const partUUID = v4();
+                          setSlide({
+                            ...slide,
+                            slideParts: [...slide.slideParts, partUUID],
+                            activePart: partUUID,
                           });
-                          selectSlide(newSlide);
                         }}
                       >
-                        <div className="tw-flex tw-items-center tw-gap-1">
-                          <IconSquarePlus size={14} />
-                          <span>New Slide Right</span>
-                        </div>
-                      </Menu.Item>
-                      <Menu.Item
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          const shapes = [
-                            ...slide.shapes.map((item) => ({
-                              ...item,
-                              uuid: v4(),
-                            })),
-                          ];
-                          const newSlide: SlideItem = {
-                            uuid: v4(),
-                            contentIndex: 0,
-                            shapes,
-                            contents: [...(slide.contents ?? [])],
-                            styles: [...(slide.styles ?? [])],
-                            difficultWords: [...(slide.difficultWords ?? [])],
-                            voiceScriptItems: [
-                              ...(slide.voiceScriptItems ?? []).map((item) => ({
-                                ...item,
-                                voiceId: v4(),
-                                id: shapes.find((s) => s.key === item.key)!
-                                  .uuid,
-                              })),
-                            ],
-                            type: "Long",
-                            position: "Before",
-                            startIndex: 0,
-                            endIndex: null,
-                            splitedContent: null,
-                            maxChars: 500,
-                            isSelected: false,
-                            currentMaxIndex: 0,
-                          };
-                          addSlide(newSlide, {
-                            position: "Before",
-                            relativeSlideId: slide.uuid,
-                          });
-                          selectSlide(newSlide);
-                        }}
-                      >
-                        <div className="tw-flex tw-items-center tw-gap-1">
-                          <IconCopyPlus size={14} />
-                          <span>Duplicate Left</span>
-                        </div>
-                      </Menu.Item>
-                      <Menu.Item
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          const shapes = [
-                            ...slide.shapes.map((item) => ({
-                              ...item,
-                              uuid: v4(),
-                            })),
-                          ];
-                          const newSlide: SlideItem = {
-                            uuid: v4(),
-                            contentIndex: 0,
-                            shapes,
-                            contents: [...(slide.contents ?? [])],
-                            styles: [...(slide.styles ?? [])],
-                            difficultWords: [...(slide.difficultWords ?? [])],
-                            voiceScriptItems: [
-                              ...(slide.voiceScriptItems ?? []).map((item) => ({
-                                ...item,
-                                voiceId: v4(),
-                                id: shapes.find((s) => s.key === item.key)!
-                                  .uuid,
-                              })),
-                            ],
-                            type: "Long",
-                            position: "After",
-                            startIndex: 0,
-                            endIndex: null,
-                            splitedContent: null,
-                            maxChars: 500,
-                            isSelected: false,
-                            currentMaxIndex: 0,
-                          };
-                          addSlide(newSlide, {
-                            position: "After",
-                            relativeSlideId: slide.uuid,
-                          });
-                          selectSlide(newSlide);
-                        }}
-                      >
-                        <div className="tw-flex tw-items-center tw-gap-1">
-                          <IconCopyPlus size={14} />
-                          <span>Duplicate Right</span>
-                        </div>{" "}
-                      </Menu.Item>
-                    </Menu.Dropdown>
-                  </Menu>
-                  {slide.uuid !== "MAIN" && (
-                    <IconX
-                      className="tw-bg-[#424242] tw-rounded-[4px] tw-text-slate-200"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openConfirmModal({
-                          modalId: "delete-slide",
-                          centered: true,
-                          title: "Delete Slide",
-                          children: (
-                            <div>Do you want to delete this slide?</div>
-                          ),
-                          labels: { confirm: "Confirm", cancel: "Cancel" },
-                          onConfirm: async () => {
-                            removeSlide(slide.uuid);
-                          },
-                          confirmProps: { color: "red" },
-                          closeOnConfirm: true,
-                          closeOnCancel: true,
-                        });
-                      }}
-                    />
-                  )}
-                </div>
-              </div>
-              {slide.uuid === currentSlide()!.uuid && (
-                <div className="tw-absolute tw-top-0 tw-left-0 tw-w-full tw-h-full tw-border-4 tw-border-solid tw-border-red-500 tw-rounded-lg tw-pointer-events-none"></div>
-              )}
+                        <IconPlus size={48} />
+                      </div>
+                    </div>
+                  </>
+                </Popover.Dropdown>
+              </Popover>
             </div>
           ))}
         </div>

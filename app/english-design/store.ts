@@ -234,6 +234,7 @@ export type Shape = {
   isFocus?: boolean;
   isActive?: boolean;
   hidden?: boolean;
+  slideParts: Array<string>;
 };
 
 export type VoiceItem = {
@@ -274,6 +275,8 @@ export type SlideItem = {
   part?: number;
   contentTotal?: number;
   showIndicator?: boolean;
+  slideParts: Array<string>;
+  activePart: string;
 };
 
 export type EnglishVideoState = {
@@ -376,6 +379,8 @@ export type EnglishVideoActions = {
 
 export type EnglishVideo = EnglishVideoState & EnglishVideoActions;
 
+const defaultMainSlideActivePart = v4();
+
 export const defaultInitState: EnglishVideoState = {
   showDesignWidget: true,
   videoTitle: "",
@@ -409,6 +414,8 @@ export const defaultInitState: EnglishVideoState = {
       currentMaxIndex: 0,
       part: 1,
       contentTotal: 1,
+      slideParts: [defaultMainSlideActivePart],
+      activePart: defaultMainSlideActivePart,
     },
   ],
 };

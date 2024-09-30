@@ -68,6 +68,7 @@ export default function HomePage() {
     setConfigModalOpened(false);
     setCopyConfigModalOpened(false);
     if (!slides?.length) {
+      const defaultMainSlideActivePart = v4();
       setSlides([
         {
           uuid: "MAIN",
@@ -85,6 +86,8 @@ export default function HomePage() {
           isSelected: true,
           maxChars: 500,
           currentMaxIndex: 0,
+          slideParts: [defaultMainSlideActivePart],
+          activePart: defaultMainSlideActivePart,
         },
       ]);
     }
@@ -197,10 +200,10 @@ export default function HomePage() {
         >
           <div
             className={`${
-              isView ? "!tw-w-full" : "tw-w-[calc(100vw_-360px)]"
+              isView ? "!tw-w-full" : "tw-w-[calc(100vw_-400px)]"
             } tw-h-full tw-flex tw-flex-col`}
             style={{
-              width: showDesignWidget ? "calc(100vw - 360px)" : "100%",
+              width: showDesignWidget ? "calc(100vw - 400px)" : "100%",
             }}
           >
             <ScrollArea type="never" className="tw-w-full tw-h-full tw-flex-1">
@@ -220,7 +223,7 @@ export default function HomePage() {
             <SlideManagement
               isView={isView}
               direcrion="horizontal"
-              align={{ left: 0, right: showDesignWidget ? 360 : 0 }}
+              align={{ left: 0, right: showDesignWidget ? 400 : 0 }}
             ></SlideManagement>
           </div>
           <ActionButton isView={isView}></ActionButton>

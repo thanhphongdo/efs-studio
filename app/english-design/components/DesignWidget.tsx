@@ -5,6 +5,7 @@ import {
   Collapse,
   ColorInput,
   NumberInput,
+  Popover,
   Select,
   Textarea,
   TextInput,
@@ -35,6 +36,7 @@ import {
   IconLayoutAlignTop,
 } from "@tabler/icons-react";
 import { SelectFont } from "@/app/components/SelectFont";
+import { chunk } from "lodash";
 
 const useGetActiveShape = () => {
   const { currentSlide } = useEnglishVideo((state) => state);
@@ -102,6 +104,11 @@ export const DesignWidget = () => {
     console.log(value);
     if (!isFinite(value)) return getActiveShape().zIndex;
     return value;
+  };
+
+  const checkShapeInSlidePart = (shapeUUID: string, partUUID: string) => {
+    const shape = getShape(currentSlide()!.uuid, shapeUUID);
+    return !shape?.slideParts?.length || shape?.slideParts?.includes(partUUID);
   };
 
   return (
@@ -296,56 +303,113 @@ export const DesignWidget = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="tw-w-full tw-flex tw-flex-col tw-gap-2 tw-pt-1 tw-col-span-2">
-                    <div className="tw-text-sm">Layout</div>
-                    <div className="tw-flex tw-gap-4">
-                      <div>
-                        <Button.Group>
-                          <Button
-                            variant="default"
-                            onClick={() => {
-                              updateShape({
-                                ...shape,
-                                zIndex: maxClosedZIndex() + 1,
-                              });
-                            }}
-                          >
-                            <IconArrowUp />
-                          </Button>
-                          <Button
-                            variant="default"
-                            onClick={() => {
-                              updateShape({
-                                ...shape,
-                                zIndex: minClosedZIndex() - 1,
-                              });
-                            }}
-                          >
-                            <IconArrowDown />
-                          </Button>
-                          <Button
-                            variant="default"
-                            onClick={() => {
-                              updateShape({
-                                ...shape,
-                                zIndex: maxZIndex() + 1,
-                              });
-                            }}
-                          >
-                            <IconArrowBarToUp />
-                          </Button>
-                          <Button
-                            variant="default"
-                            onClick={() => {
-                              updateShape({
-                                ...shape,
-                                zIndex: minZIndex() - 1,
-                              });
-                            }}
-                          >
-                            <IconArrowBarToDown />
-                          </Button>
-                        </Button.Group>
+                  <div className="tw-w-full tw-flex tw-gap-2 tw-pt-1 tw-col-span-2">
+                    <div className="tw-flex tw-flex-col">
+                      <div className="tw-text-sm">Layout</div>
+                      <div className="tw-flex tw-gap-4">
+                        <div>
+                          <Button.Group>
+                            <Button
+                              variant="default"
+                              onClick={() => {
+                                updateShape({
+                                  ...shape,
+                                  zIndex: maxClosedZIndex() + 1,
+                                });
+                              }}
+                            >
+                              <IconArrowUp />
+                            </Button>
+                            <Button
+                              variant="default"
+                              onClick={() => {
+                                updateShape({
+                                  ...shape,
+                                  zIndex: minClosedZIndex() - 1,
+                                });
+                              }}
+                            >
+                              <IconArrowDown />
+                            </Button>
+                            <Button
+                              variant="default"
+                              onClick={() => {
+                                updateShape({
+                                  ...shape,
+                                  zIndex: maxZIndex() + 1,
+                                });
+                              }}
+                            >
+                              <IconArrowBarToUp />
+                            </Button>
+                            <Button
+                              variant="default"
+                              onClick={() => {
+                                updateShape({
+                                  ...shape,
+                                  zIndex: minZIndex() - 1,
+                                });
+                              }}
+                            >
+                              <IconArrowBarToDown />
+                            </Button>
+                          </Button.Group>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="tw-flex-1 tw-flex tw-flex-col">
+                      <div className="tw-text-sm">Slide Parts</div>
+                      <div className="tw-w-full tw-relative tw-z-50">
+                        <Popover
+                          width={154}
+                          position="top"
+                          withArrow
+                          shadow="md"
+                          zIndex={10000000}
+                        >
+                          <Popover.Target>
+                            <Button className="!tw-w-full" color="cyan">
+                              All Parts
+                            </Button>
+                          </Popover.Target>
+                          <Popover.Dropdown style={{ padding: 4 }}>
+                            <div className="tw-grid tw-grid-cols-4 tw-gap-1">
+                              {currentSlide()!.slideParts?.map(
+                                (item, index) => (
+                                  <div
+                                    className={`tw-w-8 tw-h-8 tw-rounded-sm tw-cursor-pointer tw-flex tw-items-center tw-justify-center tw-font-bold ${
+                                      checkShapeInSlidePart(shape.uuid, item)
+                                        ? "tw-bg-red-400 tw-text-slate-200"
+                                        : "tw-bg-slate-400 tw-text-slate-900"
+                                    }`}
+                                    onClick={() => {
+                                      let selectedPart = shape.slideParts;
+                                      if (!selectedPart.length) {
+                                        selectedPart =
+                                          currentSlide()!.slideParts;
+                                      }
+                                      if (
+                                        checkShapeInSlidePart(shape.uuid, item)
+                                      ) {
+                                        selectedPart = selectedPart.filter(
+                                          (pItem) => pItem != item
+                                        );
+                                      } else {
+                                        selectedPart.push(item);
+                                      }
+                                      updateShape({
+                                        ...shape,
+                                        slideParts: [...selectedPart],
+                                      });
+                                    }}
+                                  >
+                                    {index + 1}
+                                  </div>
+                                )
+                              )}
+                            </div>
+                          </Popover.Dropdown>
+                        </Popover>
                       </div>
                     </div>
                   </div>

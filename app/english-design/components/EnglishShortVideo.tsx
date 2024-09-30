@@ -10,6 +10,7 @@ export const EnglishShortVideo = (
     slideUUID?: string;
     isView?: boolean;
     styles?: CSSProperties;
+    activeSlidePart?: string;
   }
 ) => {
   const { clearFocus, currentSlide, getShapes } = useEnglishVideo(
@@ -34,16 +35,24 @@ export const EnglishShortVideo = (
         }
       }}
     >
-      {getShapes(props.slideUUID).map((shape) => (
-        <Shape
-          key={shape.uuid}
-          uuid={shape.uuid}
-          slideUUID={props.slideUUID ?? currentSlide()!.uuid}
-          containerRef={containerRef}
-          scale={parseFloat(props.scale)}
-          isView={props.isView}
-        ></Shape>
-      ))}
+      {getShapes(props.slideUUID)
+        .filter(
+          (shape) =>
+            !shape.slideParts?.length ||
+            shape.slideParts?.includes(
+              props.activeSlidePart ?? currentSlide()!.activePart
+            )
+        )
+        .map((shape) => (
+          <Shape
+            key={shape.uuid}
+            uuid={shape.uuid}
+            slideUUID={props.slideUUID ?? currentSlide()!.uuid}
+            containerRef={containerRef}
+            scale={parseFloat(props.scale)}
+            isView={props.isView}
+          ></Shape>
+        ))}
 
       {currentSlide()!.uuid === "MAIN" &&
         currentSlide()!.showIndicator &&

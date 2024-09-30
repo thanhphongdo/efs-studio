@@ -61,7 +61,7 @@ export function ActionButton(props: { isView: boolean }) {
           props.isView ? "tw-hidden" : ""
         }`}
         style={{
-          width: showDesignWidget ? "calc(100vw - 360px)" : undefined,
+          width: showDesignWidget ? "calc(100vw - 400px)" : undefined,
         }}
       >
         <div
@@ -180,6 +180,7 @@ export function ActionButton(props: { isView: boolean }) {
                       isFocus: true,
                       styles: [],
                       type: "Normal",
+                      slideParts: [],
                     });
                   }}
                 >
