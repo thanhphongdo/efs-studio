@@ -14,6 +14,7 @@ import { SlideItem } from "../store";
 import { EnglishLongVideo } from "./EnglishLongVideo";
 import { openConfirmModal } from "@mantine/modals";
 import { EnglishShortVideo } from "./EnglishShortVideo";
+import { useRef } from "react";
 
 const defaultSlideWidth = 128;
 
@@ -37,6 +38,8 @@ export const SlideManagement = (props: {
     setSlide,
     updateShape,
   } = useEnglishVideo((state) => state);
+
+  const slidePartsRefs = useRef<Array<HTMLDivElement>>([]);
 
   return (
     // tw-w-[calc(100vw_-_496px)] tw-h-36
@@ -82,6 +85,17 @@ export const SlideManagement = (props: {
                 position={props.direcrion === "horizontal" ? "top" : "right"}
                 withArrow
                 shadow="md"
+                onOpen={() => {
+                  setTimeout(() => {
+                    const activeIndex =
+                      currentSlide()!.slideParts.findIndex(
+                        (item) => item === currentSlide()!.activePart
+                      ) ?? 0;
+                    slidePartsRefs.current?.[slideIndex]?.scrollTo({
+                      left: (activeIndex - 1) * (defaultSlideWidth + 8),
+                    });
+                  }, 0);
+                }}
               >
                 <Popover.Target>
                   <div
@@ -169,9 +183,12 @@ export const SlideManagement = (props: {
                         )}
                       </div>
                       <div className="tw-h-full tw-flex tw-flex-col tw-justify-between tw-p-2 tw-pl-0">
-                        <Menu width={200} shadow="md">
+                        <Menu width={200} shadow="md" zIndex={10000}>
                           <Menu.Target>
-                            <IconDotsVertical className="tw-bg-[#424242] tw-rounded-[4px] tw-text-slate-200" />
+                            <IconDotsVertical
+                              className="tw-bg-[#424242] tw-rounded-[4px] tw-text-slate-200"
+                              onClick={(e) => e.stopPropagation()}
+                            />
                           </Menu.Target>
 
                           <Menu.Dropdown>
@@ -186,7 +203,9 @@ export const SlideManagement = (props: {
                                   contents: [],
                                   styles: [],
                                   difficultWords: [],
-                                  voiceScriptItems: [],
+                                  voiceScriptItems: {
+                                    defaultMainSlideActivePart: [],
+                                  },
                                   type: "Long",
                                   position: "Before",
                                   startIndex: 0,
@@ -221,7 +240,9 @@ export const SlideManagement = (props: {
                                   contents: [],
                                   styles: [],
                                   difficultWords: [],
-                                  voiceScriptItems: [],
+                                  voiceScriptItems: {
+                                    defaultMainSlideActivePart: [],
+                                  },
                                   type: "Long",
                                   position: "After",
                                   startIndex: 0,
@@ -254,6 +275,24 @@ export const SlideManagement = (props: {
                                     uuid: v4(),
                                   })),
                                 ];
+                                const voiceScriptItems = {
+                                  ...slide.voiceScriptItems,
+                                };
+                                Object.keys(voiceScriptItems).forEach(
+                                  (partSlideUUID) => {
+                                    voiceScriptItems[partSlideUUID] = [
+                                      ...(
+                                        voiceScriptItems[partSlideUUID] ?? []
+                                      ).map((item) => ({
+                                        ...item,
+                                        voiceId: v4(),
+                                        id: shapes.find(
+                                          (s) => s.key === item.key
+                                        )!.uuid,
+                                      })),
+                                    ];
+                                  }
+                                );
                                 const newSlide: SlideItem = {
                                   uuid: v4(),
                                   contentIndex: 0,
@@ -263,17 +302,7 @@ export const SlideManagement = (props: {
                                   difficultWords: [
                                     ...(slide.difficultWords ?? []),
                                   ],
-                                  voiceScriptItems: [
-                                    ...(slide.voiceScriptItems ?? []).map(
-                                      (item) => ({
-                                        ...item,
-                                        voiceId: v4(),
-                                        id: shapes.find(
-                                          (s) => s.key === item.key
-                                        )!.uuid,
-                                      })
-                                    ),
-                                  ],
+                                  voiceScriptItems,
                                   type: "Long",
                                   position: "Before",
                                   startIndex: 0,
@@ -306,6 +335,24 @@ export const SlideManagement = (props: {
                                     uuid: v4(),
                                   })),
                                 ];
+                                const voiceScriptItems = {
+                                  ...slide.voiceScriptItems,
+                                };
+                                Object.keys(voiceScriptItems).forEach(
+                                  (partSlideUUID) => {
+                                    voiceScriptItems[partSlideUUID] = [
+                                      ...(
+                                        voiceScriptItems[partSlideUUID] ?? []
+                                      ).map((item) => ({
+                                        ...item,
+                                        voiceId: v4(),
+                                        id: shapes.find(
+                                          (s) => s.key === item.key
+                                        )!.uuid,
+                                      })),
+                                    ];
+                                  }
+                                );
                                 const newSlide: SlideItem = {
                                   uuid: v4(),
                                   contentIndex: 0,
@@ -315,17 +362,7 @@ export const SlideManagement = (props: {
                                   difficultWords: [
                                     ...(slide.difficultWords ?? []),
                                   ],
-                                  voiceScriptItems: [
-                                    ...(slide.voiceScriptItems ?? []).map(
-                                      (item) => ({
-                                        ...item,
-                                        voiceId: v4(),
-                                        id: shapes.find(
-                                          (s) => s.key === item.key
-                                        )!.uuid,
-                                      })
-                                    ),
-                                  ],
+                                  voiceScriptItems,
                                   type: "Long",
                                   position: "After",
                                   startIndex: 0,
@@ -388,12 +425,15 @@ export const SlideManagement = (props: {
                   <>
                     <div className="tw-w-full tw-h-32 tw-flex tw-gap-2">
                       <ScrollArea
+                        viewportRef={(el) =>
+                          (slidePartsRefs.current[slideIndex] = el!)
+                        }
                         w={Math.min(
                           400,
                           slide.slideParts.length * (defaultSlideWidth + 8)
                         )}
                         scrollbars="x"
-                        type="always"
+                        type={slide.slideParts.length <= 3 ? "never" : "always"}
                       >
                         <div className="tw-w-full tw-flex tw-gap-2 ">
                           {slide.slideParts.map((part, partIndex) => (
@@ -491,47 +531,38 @@ export const SlideManagement = (props: {
                                         : "tw-text-slate-200"
                                     }`}
                                   />
-                                  <IconX
-                                    className="tw-bg-[#424242] tw-rounded-[4px] tw-text-slate-200"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      openConfirmModal({
-                                        modalId: "delete-part",
-                                        centered: true,
-                                        title: "Delete Slide Part",
-                                        children: (
-                                          <div>
-                                            Do you want to delete this slide
-                                            part?
-                                          </div>
-                                        ),
-                                        labels: {
-                                          confirm: "Confirm",
-                                          cancel: "Cancel",
-                                        },
-                                        onConfirm: async () => {
-                                          setSlide({
-                                            ...slide,
-                                            slideParts: slide.slideParts.filter(
-                                              (item) => item !== part
-                                            ),
+                                  {slide.slideParts?.length > 1 && (
+                                    <IconX
+                                      className="tw-bg-[#424242] tw-rounded-[4px] tw-text-slate-200"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        const newSlidePart =
+                                          slide.slideParts.filter(
+                                            (item) => item !== part
+                                          );
+                                        if (!newSlidePart) {
+                                          return;
+                                        }
+                                        setSlide({
+                                          ...slide,
+                                          slideParts: newSlidePart,
+                                          activePart:
+                                            slide.activePart === part
+                                              ? newSlidePart[0]
+                                              : slide.activePart,
+                                        });
+                                        slide.shapes.forEach((shape) => {
+                                          updateShape({
+                                            ...shape,
+                                            slideParts:
+                                              shape.slideParts?.filter(
+                                                (item) => item !== part
+                                              ),
                                           });
-                                          slide.shapes.forEach((shape) => {
-                                            updateShape({
-                                              ...shape,
-                                              slideParts:
-                                                shape.slideParts?.filter(
-                                                  (item) => item !== part
-                                                ),
-                                            });
-                                          });
-                                        },
-                                        confirmProps: { color: "red" },
-                                        closeOnConfirm: true,
-                                        closeOnCancel: true,
-                                      });
-                                    }}
-                                  />
+                                        });
+                                      }}
+                                    />
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -547,6 +578,15 @@ export const SlideManagement = (props: {
                             slideParts: [...slide.slideParts, partUUID],
                             activePart: partUUID,
                           });
+                          setTimeout(() => {
+                            const activeIndex =
+                              currentSlide()!.slideParts.findIndex(
+                                (item) => item === currentSlide()!.activePart
+                              ) ?? 0;
+                            slidePartsRefs.current?.[slideIndex]?.scrollTo({
+                              left: (activeIndex - 1) * (defaultSlideWidth + 8),
+                            });
+                          }, 0);
                         }}
                       >
                         <IconPlus size={48} />

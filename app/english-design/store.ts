@@ -262,7 +262,9 @@ export type SlideItem = {
     en: string;
     vi: string;
   }>;
-  voiceScriptItems: Array<VoiceScriptItem>;
+  voiceScriptItems: {
+    [slidePartUUID: string]: Array<VoiceScriptItem>;
+  };
   type: VideoType;
   position: SlidePosition;
   startIndex: number;
@@ -403,7 +405,7 @@ export const defaultInitState: EnglishVideoState = {
       contents: [],
       styles: [],
       difficultWords: [],
-      voiceScriptItems: [],
+      voiceScriptItems: { defaultMainSlideActivePart: [] },
       type: "Long",
       position: "Main",
       startIndex: 0,

@@ -79,7 +79,7 @@ export default function HomePage() {
           contents: [],
           styles: [],
           difficultWords: [],
-          voiceScriptItems: [],
+          voiceScriptItems: { defaultMainSlideActivePart: [] },
           startIndex: 0,
           endIndex: null,
           splitedContent: null,

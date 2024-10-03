@@ -377,6 +377,7 @@ export const DesignWidget = () => {
                               {currentSlide()!.slideParts?.map(
                                 (item, index) => (
                                   <div
+                                    key={item}
                                     className={`tw-w-8 tw-h-8 tw-rounded-sm tw-cursor-pointer tw-flex tw-items-center tw-justify-center tw-font-bold ${
                                       checkShapeInSlidePart(shape.uuid, item)
                                         ? "tw-bg-red-400 tw-text-slate-200"
@@ -384,7 +385,7 @@ export const DesignWidget = () => {
                                     }`}
                                     onClick={() => {
                                       let selectedPart = shape.slideParts;
-                                      if (!selectedPart.length) {
+                                      if (!selectedPart?.length) {
                                         selectedPart =
                                           currentSlide()!.slideParts;
                                       }
