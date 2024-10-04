@@ -96,6 +96,7 @@ export const SlideManagement = (props: {
                     });
                   }, 0);
                 }}
+                disabled={props.direcrion === "vertical"}
               >
                 <Popover.Target>
                   <div

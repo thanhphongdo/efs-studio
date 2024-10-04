@@ -30,6 +30,7 @@ export default function HomePage() {
     setCopyConfigModalOpened,
     currentSlide,
     setSlides,
+    setSlide,
     addShape,
     updateShape,
     deleteShape,
@@ -99,6 +100,12 @@ export default function HomePage() {
     };
     (window as any).gotoContent = function (contentIndex: number) {
       setContentIndex(currentSlide()!.uuid, contentIndex);
+    };
+    (window as any).gotoSlidePart = function (slidePartIndex: number) {
+      setSlide({
+        ...currentSlide()!,
+        activePart: currentSlide()!.slideParts[slidePartIndex],
+      });
     };
   }, [slides]);
 
