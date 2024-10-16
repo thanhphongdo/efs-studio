@@ -132,7 +132,7 @@ export default function HomePage() {
         {viewContentModalOpened.opened && <ViewContentModal></ViewContentModal>}
         <div
           ref={screenEle}
-          className="tw-flex tw-flex-1 tw-w-screen tw-h-screen focus-visible:!tw-outline-none"
+          className="tw-flex tw-flex-1 tw-w-screen tw-h-screen focus-visible:!tw-outline-none !tw-bg-transparent"
           tabIndex={0}
           onKeyDown={(e) => {
             const shape = currentSlide()!.shapes.find(
@@ -208,25 +208,46 @@ export default function HomePage() {
           <div
             className={`${
               isView ? "!tw-w-full" : "tw-w-[calc(100vw_-400px)]"
-            } tw-h-full tw-flex tw-flex-col`}
+            } tw-h-full tw-flex tw-flex-col tw-bg-transparent`}
             style={{
               width: showDesignWidget ? "calc(100vw - 400px)" : "100%",
             }}
           >
-            <ScrollArea type="never" className="tw-w-full tw-h-full tw-flex-1">
-              {currentSlide()!.type === "Long" && (
-                <EnglishLongVideo
-                  scale={scale.toString()}
-                  isView={isView}
-                ></EnglishLongVideo>
-              )}
-              {currentSlide()!.type === "Short" && (
-                <EnglishShortVideo
-                  scale={scale.toString()}
-                  isView={isView}
-                ></EnglishShortVideo>
-              )}
-            </ScrollArea>
+            {!isView && (
+              <ScrollArea
+                type="never"
+                className="tw-w-full tw-h-full tw-flex-1 tw-bg-transparent"
+              >
+                {currentSlide()!.type === "Long" && (
+                  <EnglishLongVideo
+                    scale={scale.toString()}
+                    isView={isView}
+                  ></EnglishLongVideo>
+                )}
+                {currentSlide()!.type === "Short" && (
+                  <EnglishShortVideo
+                    scale={scale.toString()}
+                    isView={isView}
+                  ></EnglishShortVideo>
+                )}
+              </ScrollArea>
+            )}
+            {isView && (
+              <>
+                {currentSlide()!.type === "Long" && (
+                  <EnglishLongVideo
+                    scale={scale.toString()}
+                    isView={isView}
+                  ></EnglishLongVideo>
+                )}
+                {currentSlide()!.type === "Short" && (
+                  <EnglishShortVideo
+                    scale={scale.toString()}
+                    isView={isView}
+                  ></EnglishShortVideo>
+                )}
+              </>
+            )}
             <SlideManagement
               isView={isView}
               direcrion="horizontal"

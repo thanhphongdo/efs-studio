@@ -207,7 +207,7 @@ export const SlideManagement = (props: {
                                   voiceScriptItems: {
                                     defaultMainSlideActivePart: [],
                                   },
-                                  type: "Long",
+                                  type: slide.type,
                                   position: "Before",
                                   startIndex: 0,
                                   endIndex: null,
@@ -244,7 +244,7 @@ export const SlideManagement = (props: {
                                   voiceScriptItems: {
                                     defaultMainSlideActivePart: [],
                                   },
-                                  type: "Long",
+                                  type: slide.type,
                                   position: "After",
                                   startIndex: 0,
                                   endIndex: null,
@@ -282,15 +282,16 @@ export const SlideManagement = (props: {
                                 Object.keys(voiceScriptItems).forEach(
                                   (partSlideUUID) => {
                                     voiceScriptItems[partSlideUUID] = [
-                                      ...(
-                                        voiceScriptItems[partSlideUUID] ?? []
-                                      ).map((item) => ({
-                                        ...item,
-                                        voiceId: v4(),
-                                        id: shapes.find(
-                                          (s) => s.key === item.key
-                                        )!.uuid,
-                                      })),
+                                      ...(voiceScriptItems[partSlideUUID] ?? [])
+                                        .map((item) => ({
+                                          ...item,
+                                          voiceId: v4(),
+                                          id:
+                                            shapes.find(
+                                              (s) => s.key === item.key
+                                            )?.uuid ?? "",
+                                        }))
+                                        .filter((item) => !!item),
                                     ];
                                   }
                                 );
@@ -304,7 +305,7 @@ export const SlideManagement = (props: {
                                     ...(slide.difficultWords ?? []),
                                   ],
                                   voiceScriptItems,
-                                  type: "Long",
+                                  type: slide.type,
                                   position: "Before",
                                   startIndex: 0,
                                   endIndex: null,
@@ -342,15 +343,16 @@ export const SlideManagement = (props: {
                                 Object.keys(voiceScriptItems).forEach(
                                   (partSlideUUID) => {
                                     voiceScriptItems[partSlideUUID] = [
-                                      ...(
-                                        voiceScriptItems[partSlideUUID] ?? []
-                                      ).map((item) => ({
-                                        ...item,
-                                        voiceId: v4(),
-                                        id: shapes.find(
-                                          (s) => s.key === item.key
-                                        )!.uuid,
-                                      })),
+                                      ...(voiceScriptItems[partSlideUUID] ?? [])
+                                        .map((item) => ({
+                                          ...item,
+                                          voiceId: v4(),
+                                          id:
+                                            shapes.find(
+                                              (s) => s.key === item.key
+                                            )?.uuid ?? "",
+                                        }))
+                                        .filter((item) => !!item),
                                     ];
                                   }
                                 );
@@ -364,7 +366,7 @@ export const SlideManagement = (props: {
                                     ...(slide.difficultWords ?? []),
                                   ],
                                   voiceScriptItems,
-                                  type: "Long",
+                                  type: slide.type,
                                   position: "After",
                                   startIndex: 0,
                                   endIndex: null,

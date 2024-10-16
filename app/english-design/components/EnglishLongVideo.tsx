@@ -23,7 +23,9 @@ export const EnglishLongVideo = (
     <div
       ref={containerRef}
       id="shape-container"
-      className="tw-relative tw-w-[1920px] tw-h-[1080px] tw-bg-white tw-bg-cover tw-bg-center"
+      className={`tw-relative tw-w-[1920px] tw-h-[1080px]  tw-bg-cover tw-bg-center ${
+        props?.isView ? "tw-bg-transparent" : "tw-bg-white"
+      }`}
       style={{
         ...(props.styles ?? {}),
         transform: `scale(${props.scale})`,

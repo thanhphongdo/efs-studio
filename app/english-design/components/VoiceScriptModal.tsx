@@ -85,6 +85,7 @@ const VoiceScriptList = (props: {
                           voice.voice = value!;
                           changeVoiceScripItems([...getVoiceScriptItems()]);
                         }}
+                        searchable
                       ></Select>
                       <div
                         className="tw-p-1 tw-rounded-md tw-bg-slate-500 tw-text-green-600 tw-cursor-pointer tw-mb-[2px]"
@@ -171,7 +172,7 @@ export function SlideVoiceScriptConfig() {
           ))}
         </div>
       </div>
-      <div className="tw-grid tw-grid-cols-3 sm:tw-grid-cols-4 md:tw-grid-cols-6 lg:tw-grid-cols-10 tw-gap-2 tw-justify-end tw-w-full">
+      <div className="tw-grid tw-grid-cols-3 sm:tw-grid-cols-4 md:tw-grid-cols-5 lg:tw-grid-cols-8 tw-gap-2 tw-justify-end tw-w-full">
         <Button
           className="!tw-p-1"
           color="red"
@@ -213,6 +214,7 @@ export function SlideVoiceScriptConfig() {
             id: item.uuid,
             ...item,
           }))
+          .sort((item1, item2) => item1.key.localeCompare(item2.key))
           .map((shape) => (
             <Button
               key={shape.key}

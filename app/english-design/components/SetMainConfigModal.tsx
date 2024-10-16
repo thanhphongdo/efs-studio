@@ -27,6 +27,7 @@ export function SetMainConfigModal(props: { copyValue: string }) {
     endVideoThumbnail,
     mainConfigModalOpened,
     music,
+    transparent,
     currentSlide,
     setVideoTitle,
     setEndVideoTitle,
@@ -40,6 +41,7 @@ export function SetMainConfigModal(props: { copyValue: string }) {
     zoom,
     setMusic,
     setConfiguationHistoryModalOpened,
+    setTransparent,
   } = useEnglishVideo((state) => state);
 
   const hasConversation = () => {
@@ -106,7 +108,7 @@ export function SetMainConfigModal(props: { copyValue: string }) {
             defaultValue={endVideoTitle}
             onChange={(e) => setEndVideoTitle(e.target.value)}
           ></Textarea>
-          <div className="tw-grid tw-grid-cols-2 tw-gap-2">
+          <div className="tw-grid tw-grid-cols-3 tw-gap-2">
             <div className="tw-relative">
               <Select
                 label="Music"
@@ -128,6 +130,16 @@ export function SetMainConfigModal(props: { copyValue: string }) {
                 onChange={(volumex) =>
                   setMusic(music?.name!, parseFloat(volumex.toString()))
                 }
+              />
+            </div>
+            <div className="tw-relative tw-flex tw-items-center">
+              <Checkbox
+                label="Transparent"
+                className="tw-mt-6 tw-select-none !tw-cursor-pointer"
+                defaultChecked={transparent}
+                onChange={(e) => {
+                  setTransparent(e.currentTarget.checked);
+                }}
               />
             </div>
           </div>

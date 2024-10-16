@@ -302,6 +302,7 @@ export type EnglishVideoState = {
     name: string;
     volumex: number;
   };
+  transparent?: boolean;
 };
 
 export type EnglishVideoActions = {
@@ -377,6 +378,7 @@ export type EnglishVideoActions = {
   getMainSlide: () => SlideItem;
   currentSlide: () => SlideItem | undefined;
   hasConversation: (slideUUID: string) => boolean;
+  setTransparent: (value: boolean) => void;
 };
 
 export type EnglishVideo = EnglishVideoState & EnglishVideoActions;
@@ -648,6 +650,14 @@ export const createEnglishVideo = (
             },
             {}
           );
+          if (
+            shape?.styles.filter(
+              (item) => item.name === "backgroundImage" && !item.value
+            )?.length! >= 1
+          ) {
+            delete (computedStyles as any).backgroundImage;
+            delete (customStylesComputed as any).backgroundImage;
+          }
           return {
             ...computedStyles,
             ...customStylesComputed,
@@ -851,6 +861,8 @@ export const createEnglishVideo = (
           get()
             .getSlide(slideUUID)!
             .shapes.findIndex((item) => item.type === "Conversation") >= 0,
+        setTransparent: (value) =>
+          set((state) => ({ ...state, transparent: value })),
       }),
       {
         name: "UpdateVesselScheduleStore",

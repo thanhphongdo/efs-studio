@@ -187,7 +187,7 @@ export const Shape = (props: {
         <div className="tw-text-[0px] tw-text-center">{shape.uuid}</div>
         <div
           ref={dragItemRef}
-          className={`tw-absolute tw-select-none tw-cursor-grab`}
+          className={`tw-absolute tw-select-none tw-cursor-grab tw-bg-transparent`}
           style={{
             // left: shape.left,
             // top: shape.top,
@@ -220,11 +220,17 @@ export const Shape = (props: {
                 (content?.[shape.key] || shape?.exampleValue || shape.key)}
               {shape.type === "Image" && (
                 <div
-                  className="tw-w-full tw-h-full tw-text-blue-900 tw-flex tw-items-center tw-justify-center !tw-bg-cover !tw-bg-center"
+                  className={`tw-w-full tw-h-full tw-text-blue-900 tw-flex tw-items-center tw-justify-center tw-bg-cover !tw-bg-no-repeat ${
+                    shape.classes || ""
+                  }`}
                   style={{
                     background: content?.[shape.key]
                       ? `url("${content?.[shape.key]}")`
                       : "rgba(34, 139, 230, 0.5)",
+                    borderRadius: shapeStyles.borderRadius,
+                    backgroundPositionX: shapeStyles.backgroundPositionX,
+                    backgroundPositionY: shapeStyles.backgroundPositionY,
+                    backgroundSize: shapeStyles.backgroundSize,
                   }}
                 >
                   {content?.[shape.key] ? "" : "NO IMAGE"}
@@ -235,7 +241,7 @@ export const Shape = (props: {
         </div>
         {!props.isView && (
           <div
-            className={`tw-absolute tw-select-none tw-cursor-grab`}
+            className={`tw-absolute tw-select-none tw-cursor-grab tw-bg-transparent`}
             style={{
               // left: shape.left,
               // top: shape.top,
