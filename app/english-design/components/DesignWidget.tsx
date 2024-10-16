@@ -194,22 +194,40 @@ export const DesignWidget = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="tw-w-full tw-flex tw-flex-col tw-gap-2 tw-pt-1 tw-col-span-2">
-                    <div className="tw-text-sm">Example Value</div>
-                    <div>
-                      <Textarea
-                        autosize
-                        rows={1}
-                        placeholder="Example Value"
-                        value={getShape(null, shape.uuid)?.exampleValue}
-                        defaultValue={getShape(null, shape.uuid)?.exampleValue}
-                        onChange={(event) => {
-                          updateShape({
-                            ...shape,
-                            exampleValue: event.target.value,
-                          });
-                        }}
-                      />
+                  <div className="tw-w-full tw-flex tw-gap-2 tw-pt-1 tw-col-span-2">
+                    <div className="tw-flex tw-flex-col tw-gap-2 tw-flex-1">
+                      <div className="tw-text-sm">Example Value</div>
+                      <div>
+                        <Textarea
+                          autosize
+                          rows={1}
+                          placeholder="Example Value"
+                          value={getShape(null, shape.uuid)?.exampleValue}
+                          defaultValue={
+                            getShape(null, shape.uuid)?.exampleValue
+                          }
+                          onChange={(event) => {
+                            updateShape({
+                              ...shape,
+                              exampleValue: event.target.value,
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div className="tw-flex tw-flex-col tw-gap-2">
+                      <div className="tw-text-sm tw-text-center">DifWds</div>
+                      <div className="tw-w-full tw-h-full tw-flex tw-items-center tw-justify-center">
+                        <Checkbox
+                          defaultChecked={shape.difficultWordMode}
+                          onChange={(e) =>
+                            updateShape({
+                              ...shape,
+                              difficultWordMode: e.currentTarget.checked,
+                            })
+                          }
+                        />
+                      </div>
                     </div>
                   </div>
 

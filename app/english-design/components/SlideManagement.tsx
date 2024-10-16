@@ -204,6 +204,10 @@ export const SlideManagement = (props: {
                                   contents: [],
                                   styles: [],
                                   difficultWords: [],
+                                  difficultWordStyles: {
+                                    fontFamily: "Playpen Sans",
+                                    color: "#78350f",
+                                  },
                                   voiceScriptItems: {
                                     defaultMainSlideActivePart: [],
                                   },
@@ -241,6 +245,10 @@ export const SlideManagement = (props: {
                                   contents: [],
                                   styles: [],
                                   difficultWords: [],
+                                  difficultWordStyles: {
+                                    fontFamily: "Playpen Sans",
+                                    color: "#78350f",
+                                  },
                                   voiceScriptItems: {
                                     defaultMainSlideActivePart: [],
                                   },
@@ -304,6 +312,12 @@ export const SlideManagement = (props: {
                                   difficultWords: [
                                     ...(slide.difficultWords ?? []),
                                   ],
+                                  difficultWordStyles: {
+                                    ...(slide.difficultWordStyles ?? {
+                                      fontFamily: "Playpen Sans",
+                                      color: "#78350f",
+                                    }),
+                                  },
                                   voiceScriptItems,
                                   type: slide.type,
                                   position: "Before",
@@ -365,6 +379,12 @@ export const SlideManagement = (props: {
                                   difficultWords: [
                                     ...(slide.difficultWords ?? []),
                                   ],
+                                  difficultWordStyles: {
+                                    ...(slide.difficultWordStyles ?? {
+                                      fontFamily: "Playpen Sans",
+                                      color: "#78350f",
+                                    }),
+                                  },
                                   voiceScriptItems,
                                   type: slide.type,
                                   position: "After",

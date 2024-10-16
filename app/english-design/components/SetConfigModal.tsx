@@ -1,6 +1,7 @@
 import {
   Button,
   Checkbox,
+  ColorInput,
   JsonInput,
   Modal,
   NumberInput,
@@ -15,6 +16,8 @@ import { IconScanEye } from "@tabler/icons-react";
 import { SlideManagement } from "./SlideManagement";
 import { SlideVoiceScriptConfig } from "./VoiceScriptModal";
 import JsonEditor from "@/app/components/JsonEditor";
+import { loadFont, SelectFont } from "@/app/components/SelectFont";
+import { colors } from "@/app/consts/colors";
 
 export const SlideContentConfig = memo(() => {
   const { currentSlide, setSlide, setViewContentModalOpened, hasConversation } =
@@ -281,7 +284,7 @@ export const SlideContentConfig = memo(() => {
 });
 
 export function SetConfigModal(props: { copyValue: string }) {
-  const { configModalOpened, currentSlide, setConfigModalOpened } =
+  const { configModalOpened, currentSlide, setConfigModalOpened, setSlide } =
     useEnglishVideo((state) => state);
 
   const [rendered, setRendered] = useState(false);
@@ -294,7 +297,9 @@ export function SetConfigModal(props: { copyValue: string }) {
     !rendered && setRendered(true);
   }, [rendered]);
 
-  const [activeTab, setActiveTab] = useState<"contents" | "voices">("contents");
+  const [activeTab, setActiveTab] = useState<
+    "contents" | "voices" | "difficult_words"
+  >("contents");
 
   return (
     <Modal
@@ -328,6 +333,9 @@ export function SetConfigModal(props: { copyValue: string }) {
               <Tabs.Tab value="voices" color="blue">
                 Voice Script Config
               </Tabs.Tab>
+              <Tabs.Tab value="difficult_words" color="blue">
+                Difficult words
+              </Tabs.Tab>
             </Tabs.List>
 
             <Tabs.Panel value="contents" pt="xs" className="tw-h-full">
@@ -336,6 +344,98 @@ export function SetConfigModal(props: { copyValue: string }) {
 
             <Tabs.Panel value="voices" pt="xs" className="tw-h-full">
               {activeTab === "voices" && <SlideVoiceScriptConfig />}
+            </Tabs.Panel>
+            <Tabs.Panel value="difficult_words" pt="xs" className="tw-h-full">
+              {activeTab === "difficult_words" && (
+                <div className="tw-max-h-full tw-relative tw-h-full">
+                  <div className="tw-w-full tw-relative tw-h-full tw-pb-4 tw-flex tw-flex-col tw-gap-2">
+                    <div className="tw-grid tw-grid-cols-4 tw-gap-2">
+                      <div className="tw-flex tw-flex-col tw-gap-2 tw-flex-1">
+                        <div className="tw-text-sm">Font Family:</div>
+                        <div className="tw-flex tw-gap-2">
+                          <SelectFont
+                            type=""
+                            value={
+                              currentSlide()?.difficultWordStyles?.fontFamily
+                            }
+                            onChange={(font) => {
+                              setSlide({
+                                ...currentSlide()!,
+                                difficultWordStyles: {
+                                  ...(currentSlide()?.difficultWordStyles ??
+                                    {}),
+                                  fontFamily: font.value,
+                                },
+                              });
+                              loadFont(
+                                `https://fonts.googleapis.com/css?family=${font.value}`
+                              );
+                            }}
+                          ></SelectFont>
+                        </div>
+                      </div>
+                      <div className="tw-flex tw-flex-col tw-gap-2 tw-flex-1">
+                        <div className="tw-text-sm">Color:</div>
+                        <div className="tw-flex tw-gap-2">
+                          <ColorInput
+                            className="tw-w-full"
+                            format="hex"
+                            swatches={colors}
+                            defaultValue={
+                              currentSlide()?.difficultWordStyles?.color ??
+                              "#78350f"
+                            }
+                            value={
+                              currentSlide()?.difficultWordStyles?.color ??
+                              "#78350f"
+                            }
+                            onChange={(value) => {
+                              setSlide({
+                                ...currentSlide()!,
+                                difficultWordStyles: {
+                                  ...(currentSlide()?.difficultWordStyles ??
+                                    {}),
+                                  color: value,
+                                },
+                              });
+                            }}
+                          />
+                        </div>
+                        {/* <div className="tw-text-xs">Color:</div>
+                    <div className="tw-flex tw-gap-2">
+                      <ColorInput
+                        className="tw-w-full"
+                        format="hex"
+                        swatches={colors}
+                        defaultValue={currentSlide()!.difficultWordStyles!.color}
+                        value={currentSlide()!.difficultWordStyles!.color}
+                        onChange={(value) =>
+                          setStyle({
+                            ...style,
+                            title: { ...style.title, color: value },
+                          })
+                        }
+                      />
+                    </div> */}
+                      </div>
+                    </div>
+                    <div className="tw-flex tw-flex-col tw-h-full tw-flex-1">
+                      <div className="tw-text-sm">Edit Difficult Words</div>
+                      <div className="tw-flex-1">
+                        <JsonEditor
+                          value={currentSlide()?.difficultWords ?? []}
+                          onChange={(value) => {
+                            setSlide({
+                              ...currentSlide()!,
+                              difficultWords: value as any,
+                            });
+                          }}
+                        ></JsonEditor>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </Tabs.Panel>
           </Tabs>
         )}

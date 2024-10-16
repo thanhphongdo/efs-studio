@@ -63,8 +63,11 @@ export default function HomePage() {
         }
       });
     });
+    slides.forEach((slide) =>
+      fonts.push(slide.difficultWordStyles?.fontFamily ?? "")
+    );
     uniq(fonts).forEach((font) => {
-      loadFont(`https://fonts.googleapis.com/css?family=${font}`);
+      !!font && loadFont(`https://fonts.googleapis.com/css?family=${font}`);
     });
     setConfigModalOpened(false);
     setCopyConfigModalOpened(false);
@@ -80,6 +83,10 @@ export default function HomePage() {
           contents: [],
           styles: [],
           difficultWords: [],
+          difficultWordStyles: {
+            fontFamily: "Playpen Sans",
+            color: "#78350f",
+          },
           voiceScriptItems: { defaultMainSlideActivePart: [] },
           startIndex: 0,
           endIndex: null,

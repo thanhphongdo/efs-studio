@@ -235,6 +235,7 @@ export type Shape = {
   isActive?: boolean;
   hidden?: boolean;
   slideParts: Array<string>;
+  difficultWordMode?: boolean;
 };
 
 export type VoiceItem = {
@@ -264,6 +265,10 @@ export type SlideItem = {
   }>;
   voiceScriptItems: {
     [slidePartUUID: string]: Array<VoiceScriptItem>;
+  };
+  difficultWordStyles?: {
+    fontFamily?: string;
+    color?: string;
   };
   type: VideoType;
   position: SlidePosition;
@@ -407,6 +412,10 @@ export const defaultInitState: EnglishVideoState = {
       contents: [],
       styles: [],
       difficultWords: [],
+      difficultWordStyles: {
+        fontFamily: "Playpen Sans",
+        color: "#78350f",
+      },
       voiceScriptItems: { defaultMainSlideActivePart: [] },
       type: "Long",
       position: "Main",
