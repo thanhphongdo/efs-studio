@@ -240,79 +240,82 @@ export const Shape = (props: {
               {shape.type === "Normal" &&
                 !shape.difficultWordMode &&
                 (content?.[shape.key] || shape?.exampleValue || shape.key)}
-              {shape.type === "Normal" && !!shape.difficultWordMode && (
-                <div className="tw-leading-[1.6em]">
-                  {replaceKeywords(
-                    content[shape.key] ?? "",
-                    getConvertedDifficultWords(props.slideUUID).en
-                  )
-                    .split(" ")
-                    .map((word, wIndex) => {
-                      const findWord = word
-                        .replace(/[_\.\,\:\!\?\"\“\”]/g, " ")
-                        .trim()
-                        .toLowerCase();
-                      const index = difficultWords.en.indexOf(findWord);
-                      if (
-                        difficultWords.en
-                          .map((item) => item?.toLowerCase())
-                          .includes(findWord)
-                      ) {
-                        let applyMargin = false;
-                        const wordVn = difficultWords.vi[index];
+              {!!content &&
+                shape.type === "Normal" &&
+                !!shape.difficultWordMode && (
+                  <div className="tw-leading-[1.6em]">
+                    {replaceKeywords(
+                      content?.[shape.key] ?? "",
+                      getConvertedDifficultWords(props.slideUUID).en
+                    )
+                      .split(" ")
+                      .map((word, wIndex) => {
+                        const findWord = word
+                          .replace(/[_\.\,\:\!\?\"\“\”]/g, " ")
+                          .trim()
+                          .toLowerCase();
+                        const index = difficultWords.en.indexOf(findWord);
                         if (
-                          wordVn &&
-                          word &&
-                          wordVn.length >= word.length * 2 - 2
+                          difficultWords.en
+                            .map((item) => item?.toLowerCase())
+                            .includes(findWord)
                         ) {
-                          forceMargin = true;
-                        }
-                        if (wIndex == prevIndex + 1) {
-                          hasMargin = !hasMargin;
-                        } else {
-                          hasMargin = false;
-                        }
-                        if (
-                          hasMargin &&
-                          wordVn &&
-                          word &&
-                          (wordVn.length >= word.length * 2 || forceMargin)
-                        ) {
-                          forceMargin = false;
-                          applyMargin = true;
-                        }
-                        prevIndex = wIndex;
-                        return (
-                          <>
-                            <span className="tw-relative">
-                              <span className="tw-font-bold tw-italic tw-underline tw-inline-block tw-mr-[0.3em]">
-                                {word.replace(/_/g, " ")}{" "}
+                          let applyMargin = false;
+                          const wordVn = difficultWords.vi[index] ?? "";
+                          if (
+                            wordVn &&
+                            word &&
+                            wordVn.length >= word.length * 2 - 2
+                          ) {
+                            forceMargin = true;
+                          }
+                          if (wIndex == prevIndex + 1) {
+                            hasMargin = !hasMargin;
+                          } else {
+                            hasMargin = false;
+                          }
+                          if (
+                            hasMargin &&
+                            wordVn &&
+                            word &&
+                            (wordVn.length >= word.length * 2 || forceMargin)
+                          ) {
+                            forceMargin = false;
+                            applyMargin = true;
+                          }
+                          prevIndex = wIndex;
+                          return (
+                            <>
+                              <span className="tw-relative">
+                                <span className="tw-font-bold tw-italic tw-underline tw-inline-block tw-mr-[0.3em]">
+                                  {word.replace(/_/g, " ")}{" "}
+                                </span>
+                                <div
+                                  className={`tw-absolute !tw-font-bold tw-top-[-1.5em] tw-text-[0.6em] tw-left-[-150%] tw-w-[400%] tw-text-center tw-text-amber-900 ${
+                                    wordVn.length >= word.length * 1.8 - 2
+                                      ? "tw-text-[0.45em] !tw-top-[-1.6em]"
+                                      : ""
+                                  }`}
+                                  //applyMargin ? "!tw-top-[0.4em]" : ""
+                                  style={{
+                                    fontFamily:
+                                      currentSlide()?.difficultWordStyles
+                                        ?.fontFamily,
+                                    color:
+                                      currentSlide()?.difficultWordStyles
+                                        ?.color,
+                                  }}
+                                >
+                                  {difficultWords.vi[index]}
+                                </div>
                               </span>
-                              <div
-                                className={`tw-absolute tw-top-[-1.5em] tw-text-[0.6em] tw-left-[-150%] tw-w-[400%] tw-text-center tw-text-amber-900 ${
-                                  wordVn.length >= word.length * 1.8 - 2
-                                    ? "tw-text-[0.45em] !tw-top-[-2.05em]"
-                                    : ""
-                                }`}
-                                //applyMargin ? "!tw-top-[0.4em]" : ""
-                                style={{
-                                  fontFamily:
-                                    currentSlide()?.difficultWordStyles
-                                      ?.fontFamily,
-                                  color:
-                                    currentSlide()?.difficultWordStyles?.color,
-                                }}
-                              >
-                                {difficultWords.vi[index]}
-                              </div>
-                            </span>
-                          </>
-                        );
-                      }
-                      return <span>{word} </span>;
-                    })}
-                </div>
-              )}
+                            </>
+                          );
+                        }
+                        return <span>{word} </span>;
+                      })}
+                  </div>
+                )}
               {shape.type === "Image" && (
                 <div
                   className={`tw-w-full tw-h-full tw-text-blue-900 tw-flex tw-items-center tw-justify-center tw-bg-cover !tw-bg-no-repeat ${
