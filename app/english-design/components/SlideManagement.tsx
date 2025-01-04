@@ -318,7 +318,9 @@ export const SlideManagement = (props: {
                                       color: "#78350f",
                                     }),
                                   },
-                                  voiceScriptItems,
+                                  voiceScriptItems: {
+                                    ...(voiceScriptItems ?? []),
+                                  },
                                   type: slide.type,
                                   position: "Before",
                                   startIndex: 0,
@@ -385,7 +387,9 @@ export const SlideManagement = (props: {
                                       color: "#78350f",
                                     }),
                                   },
-                                  voiceScriptItems,
+                                  voiceScriptItems: {
+                                    ...(voiceScriptItems ?? []),
+                                  },
                                   type: slide.type,
                                   position: "After",
                                   startIndex: 0,

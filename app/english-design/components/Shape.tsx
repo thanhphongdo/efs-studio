@@ -324,15 +324,15 @@ export const Shape = (props: {
                   style={{
                     background: content?.[shape.key]
                       ? `url("${content?.[shape.key]}")`
+                      : shape?.exampleValue
+                      ? `url("${shape?.exampleValue}")`
                       : "rgba(34, 139, 230, 0.5)",
                     borderRadius: shapeStyles.borderRadius,
                     backgroundPositionX: shapeStyles.backgroundPositionX,
                     backgroundPositionY: shapeStyles.backgroundPositionY,
                     backgroundSize: shapeStyles.backgroundSize,
                   }}
-                >
-                  {content?.[shape.key] ? "" : "NO IMAGE"}
-                </div>
+                ></div>
               )}
             </div>
           )}
